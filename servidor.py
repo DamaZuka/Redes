@@ -61,7 +61,6 @@ def obter_limitador(ip):
 
 
 def rotear_mensagem_grupo(canal, pacote_bytes, socket_origem):
-    """SRC - Camada de Transporte: Roteamento isolado com validação de descritor."""
     with lock_canais:
         if canal in grupos_canais:
             destinatarios = list(grupos_canais[canal])
@@ -86,7 +85,7 @@ def tratar_cliente(conn, addr):
     porta_cliente = addr[1]
     limiter = obter_limitador(ip_cliente)
 
-    # IDENTIFICAÇÃO PURA POR PORTA DE REDE (Como tinhas pedido originalmente)
+    # IDENTIFICAÇÃO PURA POR PORTA DE REDE
     nome_utilizador = f"Anonimo-{porta_cliente}"
 
     try:
@@ -119,12 +118,12 @@ def tratar_cliente(conn, addr):
 
                 ultimo_contacto = time.time()
 
-                # BLOQUEIO ESTRICTO: Se falhar o Rate Limit, o pacote morre aqui e o loop avança para o 'continue'
+                # TRANCADO: Se o balde falhar, avisa o remetente e salta IMEDIATAMENTE para o próximo ciclo do loop
                 if not limiter.consumir():
                     registar_evento_rede("DEFESA_RATE_LIMIT",
                                          f"Inundação bloqueada para o utilizador: {nome_utilizador}")
                     conn.sendall("ERRO: Limite de taxa excedido. Pacote descartado.".encode('utf-8'))
-                    continue
+                    continue  # Corta a execução aqui. O código abaixo nunca é executado para este pacote.
 
                 try:
                     msg = dados.decode('utf-8')
@@ -152,7 +151,6 @@ def tratar_cliente(conn, addr):
 
                     print(f"[{canal_atual}][{nome_utilizador} ({ip_cliente})]: {msg}")
 
-                    # Encaminhamento contendo a tag de identificação dinâmica Anonimo-Porta
                     pacote_saida = f"[{canal_atual}] {nome_utilizador}: {msg}".encode('utf-8')
                     rotear_mensagem_grupo(canal_atual, pacote_saida, conn)
 

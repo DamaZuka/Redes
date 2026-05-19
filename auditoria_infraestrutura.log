@@ -92,3 +92,5 @@
 [2026-05-19 17:29:52.620] [LIMPEZA_RECURSOS] Sockets e buffers libertados com sucesso para o endpoint ('192.168.1.97', 61873)
 [2026-05-19 17:31:08.857] [DESCONEXÃO_VOLUNTÁRIA] O utilizador sara (192.168.1.97) fechou a sessão.
 [2026-05-19 17:31:08.857] [LIMPEZA_RECURSOS] Sockets e buffers libertados com sucesso para o endpoint ('192.168.1.97', 61540)
+[2026-05-19 17:33:30.234] [DESCONEXÃO_VOLUNTÁRIA] O utilizador david (192.168.1.191) fechou a sessão.
+[2026-05-19 17:33:30.235] [LIMPEZA_RECURSOS] Sockets e buffers libertados com sucesso para o endpoint ('192.168.1.191', 62908)

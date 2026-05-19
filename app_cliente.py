@@ -16,7 +16,6 @@ def receber_mensagem_do_servidor(texto):
     chat_area.insert(tk.END, f"{texto}\n")
     chat_area.yview(tk.END)
 
-# Inicialização direta da infraestrutura de rede sem pop-up intermediário
 gestor_rede = ClienteRedeSegura(
     host=HOST,
     port=PORT,
@@ -34,7 +33,6 @@ def acao_enviar():
     msg = entry.get()
     if msg:
         if gestor_rede.enviar_carga(msg):
-            # Adiciona localmente a indicação visual do remetente
             chat_area.insert(tk.END, f"[Tu]: {msg}\n")
             entry.delete(0, tk.END)
         else:
