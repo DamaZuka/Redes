@@ -94,3 +94,222 @@
 [2026-05-19 17:31:08.857] [LIMPEZA_RECURSOS] Sockets e buffers libertados com sucesso para o endpoint ('192.168.1.97', 61540)
 [2026-05-19 17:33:30.234] [DESCONEXÃO_VOLUNTÁRIA] O utilizador david (192.168.1.191) fechou a sessão.
 [2026-05-19 17:33:30.235] [LIMPEZA_RECURSOS] Sockets e buffers libertados com sucesso para o endpoint ('192.168.1.191', 62908)
+[2026-05-19 17:52:21.051] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento autenticado via X.509 de ('192.168.1.191', 62975)
+[2026-05-19 17:52:21.051] [ENTRADA_CANAL] Utilizador Anonimo-62975 (192.168.1.191) entrou na sala 'Geral'
+[2026-05-19 17:52:31.616] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento autenticado via X.509 de ('192.168.1.97', 51001)
+[2026-05-19 17:52:31.616] [ENTRADA_CANAL] Utilizador Anonimo-51001 (192.168.1.97) entrou na sala 'Geral'
+[2026-05-19 17:52:45.773] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento autenticado via X.509 de ('192.168.1.191', 62976)
+[2026-05-19 17:52:45.773] [ENTRADA_CANAL] Utilizador Anonimo-62976 (192.168.1.191) entrou na sala 'Geral'
+[2026-05-19 17:52:56.048] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento autenticado via X.509 de ('192.168.1.191', 62977)
+[2026-05-19 17:52:56.048] [ENTRADA_CANAL] Utilizador Anonimo-62977 (192.168.1.191) entrou na sala 'Geral'
+[2026-05-19 17:53:11.123] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:11.483] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:11.614] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:11.626] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:11.808] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:11.892] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:12.012] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:12.480] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:12.741] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:12.884] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:13.015] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:13.141] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:13.533] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:13.659] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:13.771] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:14.036] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:14.326] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:14.445] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:14.589] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:14.864] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:14.994] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:15.152] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:15.429] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:15.719] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:15.864] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:16.011] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:16.152] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:53:35.510] [SISTEMA_START] Servidor Hub de Alta Disponibilidade TLS 1.3 inicializado.
+[2026-05-19 17:53:53.654] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.191', 62981)
+[2026-05-19 17:53:53.654] [ENTRADA_CANAL] Utilizador Anonimo-62981 (192.168.1.191) entrou na sala 'Geral'
+[2026-05-19 17:53:58.872] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.191', 62982)
+[2026-05-19 17:53:58.872] [ENTRADA_CANAL] Utilizador Anonimo-62982 (192.168.1.191) entrou na sala 'Geral'
+[2026-05-19 17:54:04.309] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.97', 62722)
+[2026-05-19 17:54:04.309] [ENTRADA_CANAL] Utilizador Anonimo-62722 (192.168.1.97) entrou na sala 'Geral'
+[2026-05-19 17:54:24.726] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:24.986] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:25.107] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:25.363] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:25.618] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:25.745] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:25.868] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:26.112] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:26.402] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:26.525] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:26.763] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:26.891] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:27.033] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:27.448] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:27.591] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:27.749] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 17:54:27.877] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-62722
+[2026-05-19 18:04:01.595] [DESCONEXÃO_VOLUNTÁRIA] O utilizador Anonimo-62722 fechou a sessão.
+[2026-05-19 18:04:01.598] [LIMPEZA_RECURSOS] Recursos libertados com sucesso para o utilizador Anonimo-62722
+[2026-05-19 18:04:03.508] [DESCONEXÃO_VOLUNTÁRIA] O utilizador Anonimo-62982 fechou a sessão.
+[2026-05-19 18:04:03.508] [LIMPEZA_RECURSOS] Recursos libertados com sucesso para o utilizador Anonimo-62982
+[2026-05-19 18:04:04.625] [DESCONEXÃO_VOLUNTÁRIA] O utilizador Anonimo-62981 fechou a sessão.
+[2026-05-19 18:04:04.627] [LIMPEZA_RECURSOS] Recursos libertados com sucesso para o utilizador Anonimo-62981
+[2026-05-19 18:04:32.475] [SISTEMA_START] Servidor inicializado.
+[2026-05-19 18:04:37.504] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.97', 64433)
+[2026-05-19 18:04:37.504] [ENTRADA_CANAL] Utilizador Anonimo-64433 entrou na sala 'Geral'
+[2026-05-19 18:04:43.170] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.191', 63008)
+[2026-05-19 18:04:43.170] [ENTRADA_CANAL] Utilizador Anonimo-63008 entrou na sala 'Geral'
+[2026-05-19 18:04:52.507] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:52.522] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:52.650] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:52.758] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:53.155] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:53.275] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:53.408] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:53.792] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:53.921] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:54.049] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:54.463] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:54.600] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:54.727] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:55.152] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:55.294] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:55.422] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:55.856] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:56.001] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:56.148] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:56.533] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:56.677] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:56.816] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:57.244] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:57.390] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:57.508] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:57.669] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:57.819] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:58.103] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:58.345] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:58.557] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:58.769] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:59.106] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:59.224] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:59.456] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:04:59.725] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:00.037] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:00.166] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:00.750] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:01.039] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:01.169] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:01.441] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:01.848] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:01.996] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:02.121] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:02.496] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:02.509] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:02.623] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:02.781] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:03.460] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:03.718] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:03.899] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:04.025] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:04.412] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:04.705] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:04.831] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:05.203] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-64433
+[2026-05-19 18:05:09.466] [DESCONEXÃO_VOLUNTÁRIA] O utilizador Anonimo-64433 saiu.
+[2026-05-19 18:05:09.467] [LIMPEZA_RECURSOS] Recursos libertados para o utilizador Anonimo-64433
+[2026-05-19 18:07:22.501] [SISTEMA_START] Servidor inicializado.
+[2026-05-19 18:07:37.585] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.191', 63019)
+[2026-05-19 18:07:37.585] [ENTRADA_CANAL] Utilizador Anonimo-63019 entrou na sala 'Geral'
+[2026-05-19 18:07:42.585] [ERRO_SESSÃO] Exceção na thread de Anonimo-63019: name 'quantity' is not defined
+[2026-05-19 18:07:42.587] [LIMPEZA_RECURSOS] Recursos libertados para o utilizador Anonimo-63019
+[2026-05-19 18:07:49.902] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.97', 53396)
+[2026-05-19 18:07:49.902] [ENTRADA_CANAL] Utilizador Anonimo-53396 entrou na sala 'Geral'
+[2026-05-19 18:07:54.272] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.191', 63020)
+[2026-05-19 18:07:54.272] [ENTRADA_CANAL] Utilizador Anonimo-63020 entrou na sala 'Geral'
+[2026-05-19 18:07:54.901] [ERRO_SESSÃO] Exceção na thread de Anonimo-53396: name 'quantity' is not defined
+[2026-05-19 18:07:54.901] [LIMPEZA_RECURSOS] Recursos libertados para o utilizador Anonimo-53396
+[2026-05-19 18:07:59.288] [ERRO_SESSÃO] Exceção na thread de Anonimo-63020: name 'quantity' is not defined
+[2026-05-19 18:07:59.289] [LIMPEZA_RECURSOS] Recursos libertados para o utilizador Anonimo-63020
+[2026-05-19 18:09:17.709] [SISTEMA_START] Servidor Hub de Alta Disponibilidade TLS 1.3 inicializado.
+[2026-05-19 18:09:23.072] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.97', 64229)
+[2026-05-19 18:09:23.075] [ENTRADA_CANAL] Utilizador Anonimo-64229 entrou na sala 'Geral'
+[2026-05-19 18:09:26.440] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.191', 63027)
+[2026-05-19 18:09:26.440] [ENTRADA_CANAL] Utilizador Anonimo-63027 entrou na sala 'Geral'
+[2026-05-19 18:09:37.675] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:37.801] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:38.047] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:38.077] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:38.248] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:38.376] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:38.515] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:38.750] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:38.878] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:39.019] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:39.156] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:39.304] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:39.438] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:39.579] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:39.724] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:39.869] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:40.015] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:40.158] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:40.300] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:40.448] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:40.573] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:40.847] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:40.991] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:41.119] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:41.264] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:41.540] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:41.672] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:41.813] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:41.960] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:42.106] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:42.234] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:42.522] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:42.667] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:42.813] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:43.078] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:43.100] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:43.246] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:43.391] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:43.519] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:43.819] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:43.965] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:44.097] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:44.256] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:44.384] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:44.531] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:44.811] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:44.955] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:45.099] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:45.228] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:45.358] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:45.632] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:45.778] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:45.911] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-64229
+[2026-05-19 18:09:46.444] [TIMEOUT_REDE] Forçando encerramento: Anonimo-63027 falhou o Heartbeat.
+[2026-05-19 18:09:46.444] [LIMPEZA_RECURSOS] Recursos libertados para o utilizador Anonimo-63027
+[2026-05-19 18:09:53.082] [TIMEOUT_REDE] Forçando encerramento: Anonimo-64229 falhou o Heartbeat.
+[2026-05-19 18:09:53.083] [LIMPEZA_RECURSOS] Recursos libertados para o utilizador Anonimo-64229
+[2026-05-19 18:14:35.111] [SISTEMA_START] Servidor Hub de Alta Disponibilidade TLS 1.3 inicializado.
+[2026-05-19 18:14:38.674] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.97', 65288)
+[2026-05-19 18:14:38.674] [ENTRADA_CANAL] Utilizador Anonimo-65288 entrou na sala 'Geral'
+[2026-05-19 18:14:45.003] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.191', 63049)
+[2026-05-19 18:14:45.003] [ENTRADA_CANAL] Utilizador Anonimo-63049 entrou na sala 'Geral'
+[2026-05-19 18:14:53.151] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-65288
+[2026-05-19 18:14:53.301] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-65288
+[2026-05-19 18:14:53.428] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-65288
+[2026-05-19 18:14:53.579] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-65288
+[2026-05-19 18:14:53.685] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-65288
+[2026-05-19 18:14:53.695] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-65288
+[2026-05-19 18:14:53.828] [DEFESA_RATE_LIMIT] Inundação bloqueada de forma estrita para: Anonimo-65288
+[2026-05-19 18:15:18.687] [TIMEOUT_REDE] Forçando encerramento: Anonimo-65288 falhou o Heartbeat.
+[2026-05-19 18:15:18.690] [LIMPEZA_RECURSOS] Recursos libertados para o utilizador Anonimo-65288
+[2026-05-19 18:15:20.009] [TIMEOUT_REDE] Forçando encerramento: Anonimo-63049 falhou o Heartbeat.
+[2026-05-19 18:15:20.015] [LIMPEZA_RECURSOS] Recursos libertados para o utilizador Anonimo-63049

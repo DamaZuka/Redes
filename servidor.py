@@ -16,14 +16,13 @@ grupos_canais = {
 }
 lock_canais = threading.Lock()
 
-# --- SUBSISTEMA DE AUDITORIA DE INFRAESTRUTURA (SRC - CP5/CP9) ---
 LOCK_LOG = threading.Lock()
 FICHEIRO_LOG_REDE = "auditoria_infraestrutura.log"
 
 
-def registar_evento_rede(categoria, mensagem):
+def registar_evento_rede(categoria, message):
     agora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
-    linha_log = f"[{agora}] [{categoria}] {mensagem}\n"
+    linha_log = f"[{agora}] [{categoria}] {message}\n"
     with LOCK_LOG:
         with open(FICHEIRO_LOG_REDE, "a", encoding="utf-8") as f:
             f.write(linha_log)
@@ -49,22 +48,21 @@ class RateLimiterTokenBucket:
             return False
 
 
-limitadores_ip = {}
+limitadores_clientes = {}
 lock_limitadores = threading.Lock()
 
 
-def obter_limitador(ip):
+def obter_limitador_cliente(identificador_socket):
     with lock_limitadores:
-        if ip not in limitadores_ip:
-            limitadores_ip[ip] = RateLimiterTokenBucket(capacidade=5, taxa_reposicao=1.0)
-        return limitadores_ip[ip]
+        if identificador_socket not in limitadores_clientes:
+            limitadores_clientes[identificador_socket] = RateLimiterTokenBucket(capacidade=5, taxa_reposicao=2.0)
+        return limitadores_clientes[identificador_socket]
 
 
 def rotear_mensagem_grupo(canal, pacote_bytes, socket_origem):
     with lock_canais:
         if canal in grupos_canais:
             destinatarios = list(grupos_canais[canal])
-
     for cliente_sock in destinatarios:
         if cliente_sock != socket_origem:
             try:
@@ -73,26 +71,29 @@ def rotear_mensagem_grupo(canal, pacote_bytes, socket_origem):
                 pass
 
 
-def desvincular_cliente_de_canais(cliente_sock):
+def desvincular_cliente_de_canais(cliente_sock, identificador_socket):
     with lock_canais:
         for canal in grupos_canais:
             if cliente_sock in grupos_canais[canal]:
                 grupos_canais[canal].remove(cliente_sock)
+    with lock_limitadores:
+        if identificador_socket in limitadores_clientes:
+            del limitadores_clientes[identificador_socket]
 
 
 def tratar_cliente(conn, addr):
     ip_cliente = addr[0]
     porta_cliente = addr[1]
-    limiter = obter_limitador(ip_cliente)
+    id_sessao = (ip_cliente, porta_cliente)
+    limiter = obter_limitador_cliente(id_sessao)
 
-    # IDENTIFICAÇÃO PURA POR PORTA DE REDE
     nome_utilizador = f"Anonimo-{porta_cliente}"
 
     try:
         conn.getpeercert()
         registar_evento_rede("AUTENTICAÇÃO_mTLS", f"Sucesso: Equipamento validado via X.509 de {addr}")
     except Exception as e:
-        registar_evento_rede("ALERTA_MFT", f"Falha na leitura criptográfica de {addr}: {e}")
+        registar_evento_rede("ALERTA_MFT", f"Falha na leitura de {addr}: {e}")
 
     conn.settimeout(TIMEOUT_SOCKET_CONV)
     ultimo_contacto = time.time()
@@ -101,13 +102,16 @@ def tratar_cliente(conn, addr):
         grupos_canais["Geral"].append(conn)
     canal_atual = "Geral"
 
-    registar_evento_rede("ENTRADA_CANAL", f"Utilizador {nome_utilizador} ({ip_cliente}) entrou na sala 'Geral'")
+    registar_evento_rede("ENTRADA_CANAL", f"Utilizador {nome_utilizador} entrou na sala 'Geral'")
+
+    ultimos_envios_locais = []
 
     with conn:
         while True:
             tempo_decorrido = time.time() - ultimo_contacto
             if tempo_decorrido > INTERVALO_HEARTBEAT_LIMITE:
-                registar_evento_rede("TIMEOUT_REDE", f"Forçando encerramento: {nome_utilizador} falhou o Heartbeat.")
+                registar_evento_rede("TIMEOUT_REDE",
+                                     f"Forçando encerramento: {nome_utilizador} falhou o Heartbeat por inatividade.")
                 break
 
             try:
@@ -116,46 +120,52 @@ def tratar_cliente(conn, addr):
                     registar_evento_rede("DESCONEXÃO_VOLUNTÁRIA", f"O utilizador {nome_utilizador} fechou a sessão.")
                     break
 
-                ultimo_contacto = time.time()
+                try:
+                    msg = dados.decode('utf-8')
+                except UnicodeDecodeError:
+                    registar_evento_rede("ANOMALIA_PAYLOAD", f"Erro de decodificação de bytes de {addr}")
+                    continue
 
-                # TRANCADO: Se o balde falhar, avisa o remetente e salta IMEDIATAMENTE para o próximo ciclo do loop
-                if not limiter.consumir():
+                # --- TRATAMENTO CRÍTICO DE HEARTBEAT (SRC - Fase 3) ---
+                # Se for tráfego de controlo (PING), atualiza o contacto e responde PONG imediatamente.
+                # Não consome tokens do Rate Limiter para evitar falsos positivos por inatividade.
+                if msg == "PING":
+                    ultimo_contacto = time.time()
+                    conn.sendall("PONG".encode('utf-8'))
+                    continue
+
+                # --- FILTRO DE INUNDAÇÃO (Apenas para mensagens de texto) ---
+                agora_envio = time.time()
+                ultimos_envios_locais = [t for t in ultimos_envios_locais if agora_envio - t < 1.5]
+                ultimos_envios_locais.append(agora_envio)
+
+                if len(ultimos_envios_locais) > 5 or not limiter.consumir():
                     registar_evento_rede("DEFESA_RATE_LIMIT",
                                          f"Inundação bloqueada para o utilizador: {nome_utilizador}")
                     conn.sendall("ERRO: Limite de taxa excedido. Pacote descartado.".encode('utf-8'))
-                    continue  # Corta a execução aqui. O código abaixo nunca é executado para este pacote.
+                    continue
 
-                try:
-                    msg = dados.decode('utf-8')
+                if msg.startswith("/join "):
+                    alvo = msg.split(" ")[1].strip()
+                    with lock_canais:
+                        if alvo in grupos_canais:
+                            for c in grupos_canais:
+                                if conn in grupos_canais[c]:
+                                    grupos_canais[c].remove(conn)
+                            grupos_canais[alvo].append(conn)
+                            canal_atual = alvo
+                            conn.sendall(f"[SISTEMA]: Entraste na sala {alvo}".encode('utf-8'))
+                            registar_evento_rede("MUDANÇA_CANAL", f"Utilizador '{nome_utilizador}' mudou para '{alvo}'")
+                        else:
+                            conn.sendall("[SISTEMA]: Erro: Canal inexistente.".encode('utf-8'))
+                    continue
 
-                    if msg == "PING":
-                        conn.sendall("PONG".encode('utf-8'))
-                        continue
+                # Atualiza o timestamp de contacto para tráfego aplicacional lícito
+                ultimo_contacto = time.time()
 
-                    if msg.startswith("/join "):
-                        alvo = msg.split(" ")[1].strip()
-                        with lock_canais:
-                            if alvo in grupos_canais:
-                                for c in grupos_canais:
-                                    if conn in grupos_canais[c]:
-                                        grupos_canais[c].remove(conn)
-                                grupos_canais[alvo].append(conn)
-                                canal_anterior = canal_atual
-                                canal_atual = alvo
-                                conn.sendall(f"[SISTEMA]: Entraste na sala {alvo}".encode('utf-8'))
-                                registar_evento_rede("MUDANÇA_CANAL",
-                                                     f"Utilizador '{nome_utilizador}' transitou para '{alvo}'")
-                            else:
-                                conn.sendall("[SISTEMA]: Erro: Canal inexistente.".encode('utf-8'))
-                        continue
-
-                    print(f"[{canal_atual}][{nome_utilizador} ({ip_cliente})]: {msg}")
-
-                    pacote_saida = f"[{canal_atual}] {nome_utilizador}: {msg}".encode('utf-8')
-                    rotear_mensagem_grupo(canal_atual, pacote_saida, conn)
-
-                except UnicodeDecodeError:
-                    registar_evento_rede("ANOMALIA_PAYLOAD", f"Erro de decodificação de bytes de {addr}")
+                print(f"[{canal_atual}][{nome_utilizador} ({ip_cliente})]: {msg}")
+                pacote_saida = f"[{canal_atual}] {nome_utilizador}: {msg}".encode('utf-8')
+                rotear_mensagem_grupo(canal_atual, pacote_saida, conn)
 
             except socket.timeout:
                 continue
@@ -163,8 +173,8 @@ def tratar_cliente(conn, addr):
                 registar_evento_rede("ERRO_SESSÃO", f"Exceção na thread de {nome_utilizador}: {e}")
                 break
 
-    desvincular_cliente_de_canais(conn)
-    registar_evento_rede("LIMPEZA_RECURSOS", f"Recursos libertados com sucesso para o utilizador {nome_utilizador}")
+    desvincular_cliente_de_canais(conn, id_sessao)
+    registar_evento_rede("LIMPEZA_RECURSOS", f"Recursos libertados para o utilizador {nome_utilizador}")
 
 
 def iniciar_servidor():
@@ -180,7 +190,7 @@ def iniciar_servidor():
         bind_socket.bind(('0.0.0.0', 8443))
         bind_socket.listen(10)
 
-        registar_evento_rede("SISTEMA_START", "Servidor Hub de Alta Disponibilidade TLS 1.3 inicializado.")
+        registar_evento_rede("SISTEMA_START", "Servidor inicializado.")
         print("Servidor Hub Multiutilizador (SRC TLS 1.3) ativo na porta 8443...")
 
         while True:
