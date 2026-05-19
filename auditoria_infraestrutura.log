@@ -352,3 +352,9 @@
 [2026-05-19 22:23:35.322] [LIMPEZA_RECURSOS] Recursos libertados para User-58159
 [2026-05-19 22:24:29.748] [DESCONEXÃO_VOLUNTÁRIA] O utilizador User-63702 fechou a sessão.
 [2026-05-19 22:24:29.748] [LIMPEZA_RECURSOS] Recursos libertados para User-63702
+[2026-05-19 22:24:56.789] [SISTEMA_START] Servidor inicializado.
+[2026-05-19 22:25:02.009] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('127.0.0.1', 53059)
+[2026-05-19 22:25:02.009] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-53059 ligado.
+[2026-05-19 22:26:29.469] [DESCONEXÃO_VOLUNTÁRIA] O utilizador Anonimo-53059 fechou a sessão.
+[2026-05-19 22:26:29.471] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-53059
+[2026-05-19 22:27:38.792] [SISTEMA_START] Servidor inicializado.

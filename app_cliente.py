@@ -3,7 +3,7 @@ from tkinter import scrolledtext
 from tkinter import messagebox
 from rede_cliente import ClienteRedeSegura
 
-HOST = '127.0.0.1'
+HOST = '192.168.1.97'
 PORT = 8443
 
 def lidar_com_queda_de_rede():
