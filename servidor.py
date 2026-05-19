@@ -10,12 +10,11 @@ PORT = 8443
 TIMEOUT_SOCKET_CONV = 5.0
 INTERVALO_HEARTBEAT_LIMITE = 15.0
 
-grupos_canais = {
-    "Geral": [],
-    "Privado-SOC": []
-}
-lock_canais = threading.Lock()
+# Gestão de grupos e permissões em memória (Fase 1 e Requisitos)
+grupos_canais = {}  # {"NomeSala": [socket1, socket2]}
+acl_canais = {}  # {"NomeSala": ["Anonimo-12345", "Anonimo-67890"]}
 
+lock_canais = threading.Lock()
 LOCK_LOG = threading.Lock()
 FICHEIRO_LOG_REDE = "auditoria_infraestrutura.log"
 
@@ -63,6 +62,8 @@ def rotear_mensagem_grupo(canal, pacote_bytes, socket_origem):
     with lock_canais:
         if canal in grupos_canais:
             destinatarios = list(grupos_canais[canal])
+        else:
+            return
     for cliente_sock in destinatarios:
         if cliente_sock != socket_origem:
             try:
@@ -71,14 +72,11 @@ def rotear_mensagem_grupo(canal, pacote_bytes, socket_origem):
                 pass
 
 
-def desvincular_cliente_de_canais(cliente_sock, identificador_socket):
+def desvincular_cliente_de_canais(cliente_sock):
     with lock_canais:
-        for canal in grupos_canais:
+        for canal in list(grupos_canais.keys()):
             if cliente_sock in grupos_canais[canal]:
                 grupos_canais[canal].remove(cliente_sock)
-    with lock_limitadores:
-        if identificador_socket in limitadores_clientes:
-            del limitadores_clientes[identificador_socket]
 
 
 def tratar_cliente(conn, addr):
@@ -91,27 +89,30 @@ def tratar_cliente(conn, addr):
 
     try:
         conn.getpeercert()
-        registar_evento_rede("AUTENTICAÇÃO_mTLS", f"Sucesso: Equipamento validado via X.509 de {addr}")
+        registar_evento_rede("AUTENTICAÇÃO_mTLS", f"Sucesso: Equipamento validado de {addr}")
     except Exception as e:
-        registar_evento_rede("ALERTA_MFT", f"Falha na leitura de {addr}: {e}")
+        registar_evento_rede("ALERTA_MFT", f"Falha mTLS de {addr}: {e}")
+        conn.close()
+        return
 
     conn.settimeout(TIMEOUT_SOCKET_CONV)
     ultimo_contacto = time.time()
+    canal_atual = None
 
-    with lock_canais:
-        grupos_canais["Geral"].append(conn)
-    canal_atual = "Geral"
+    # Envia o ID gerado dinamicamente para o cliente atualizar a UI dele
+    try:
+        conn.sendall(f"SET_NAME:{nome_utilizador}".encode('utf-8'))
+    except Exception:
+        conn.close()
+        return
 
-    registar_evento_rede("ENTRADA_CANAL", f"Utilizador {nome_utilizador} entrou na sala 'Geral'")
-
+    registar_evento_rede("CONEXÃO_ESTABELECIDA", f"Utilizador {nome_utilizador} ligado.")
     ultimos_envios_locais = []
 
     with conn:
         while True:
-            tempo_decorrido = time.time() - ultimo_contacto
-            if tempo_decorrido > INTERVALO_HEARTBEAT_LIMITE:
-                registar_evento_rede("TIMEOUT_REDE",
-                                     f"Forçando encerramento: {nome_utilizador} falhou o Heartbeat por inatividade.")
+            if time.time() - ultimo_contacto > INTERVALO_HEARTBEAT_LIMITE:
+                registar_evento_rede("TIMEOUT_REDE", f"Forçando encerramento por inatividade: {nome_utilizador}")
                 break
 
             try:
@@ -121,51 +122,81 @@ def tratar_cliente(conn, addr):
                     break
 
                 try:
-                    msg = dados.decode('utf-8')
+                    msg = dados.decode('utf-8').strip()
                 except UnicodeDecodeError:
                     registar_evento_rede("ANOMALIA_PAYLOAD", f"Erro de decodificação de bytes de {addr}")
                     continue
 
-                # --- TRATAMENTO CRÍTICO DE HEARTBEAT (SRC - Fase 3) ---
-                # Se for tráfego de controlo (PING), atualiza o contacto e responde PONG imediatamente.
-                # Não consome tokens do Rate Limiter para evitar falsos positivos por inatividade.
                 if msg == "PING":
                     ultimo_contacto = time.time()
                     conn.sendall("PONG".encode('utf-8'))
                     continue
 
-                # --- FILTRO DE INUNDAÇÃO (Apenas para mensagens de texto) ---
+                # --- RATE LIMITING ---
                 agora_envio = time.time()
                 ultimos_envios_locais = [t for t in ultimos_envios_locais if agora_envio - t < 1.5]
                 ultimos_envios_locais.append(agora_envio)
 
                 if len(ultimos_envios_locais) > 5 or not limiter.consumir():
-                    registar_evento_rede("DEFESA_RATE_LIMIT",
-                                         f"Inundação bloqueada para o utilizador: {nome_utilizador}")
-                    conn.sendall("ERRO: Limite de taxa excedido. Pacote descartado.".encode('utf-8'))
+                    registar_evento_rede("DEFESA_RATE_LIMIT", f"Inundação bloqueada para: {nome_utilizador}")
+                    conn.sendall("ERRO: Limite de taxa excedido. Pacote descartado.\n".encode('utf-8'))
                     continue
 
-                if msg.startswith("/join "):
-                    alvo = msg.split(" ")[1].strip()
+                # --- COMANDO: CREATE:NomeSala:Amigo1,Amigo2 ---
+                if msg.startswith("CREATE:"):
+                    try:
+                        _, nome_sala, convidados = msg.split(":", 2)
+                        lista_autorizados = [u.strip() for u in convidados.split(",")]
+                        lista_autorizados.append(nome_utilizador)
+
+                        with lock_canais:
+                            if nome_sala not in acl_canais:
+                                acl_canais[nome_sala] = lista_autorizados
+                                grupos_canais[nome_sala] = []
+                                conn.sendall(f"[SISTEMA]: Grupo privado '{nome_sala}' criado.\n".encode('utf-8'))
+                                registar_evento_rede("CRIAR_CANAL",
+                                                     f"Grupo '{nome_sala}' criado por {nome_utilizador} com ACL: {lista_autorizados}")
+                            else:
+                                conn.sendall("[SISTEMA]: Erro: Esse grupo já existe.\n".encode('utf-8'))
+                    except ValueError:
+                        conn.sendall("[SISTEMA]: Erro. Usa: CREATE:NomeSala:Anonimo-X,Anonimo-Y\n".encode('utf-8'))
+                    continue
+
+                # --- COMANDO: JOIN:NomeSala ---
+                if msg.startswith("JOIN:"):
+                    try:
+                        nome_sala = msg.split(":", 1)[1].strip()
+                    except IndexError:
+                        conn.sendall("[SISTEMA]: Erro. Usa: JOIN:NomeSala\n".encode('utf-8'))
+                        continue
+
                     with lock_canais:
-                        if alvo in grupos_canais:
-                            for c in grupos_canais:
-                                if conn in grupos_canais[c]:
-                                    grupos_canais[c].remove(conn)
-                            grupos_canais[alvo].append(conn)
-                            canal_atual = alvo
-                            conn.sendall(f"[SISTEMA]: Entraste na sala {alvo}".encode('utf-8'))
-                            registar_evento_rede("MUDANÇA_CANAL", f"Utilizador '{nome_utilizador}' mudou para '{alvo}'")
+                        if nome_sala in acl_canais:
+                            if nome_utilizador in acl_canais[nome_sala]:
+                                desvincular_cliente_de_canais(conn)
+                                grupos_canais[nome_sala].append(conn)
+                                canal_atual = nome_sala
+                                conn.sendall(f"[SISTEMA]: Entraste no grupo privado '{nome_sala}'.\n".encode('utf-8'))
+                                registar_evento_rede("MUDANÇA_CANAL", f"'{nome_utilizador}' entrou em '{nome_sala}'")
+                            else:
+                                conn.sendall(
+                                    "[SISTEMA]: ERRO: Não tens permissão para entrar neste grupo privado.\n".encode(
+                                        'utf-8'))
+                                registar_evento_rede("VIOLAÇÃO_ACESSO",
+                                                     f"Acesso negado para {nome_utilizador} na sala '{nome_sala}'")
                         else:
-                            conn.sendall("[SISTEMA]: Erro: Canal inexistente.".encode('utf-8'))
+                            conn.sendall("[SISTEMA]: Erro: Esse grupo não existe.\n".encode('utf-8'))
                     continue
 
-                # Atualiza o timestamp de contacto para tráfego aplicacional lícito
-                ultimo_contacto = time.time()
-
-                print(f"[{canal_atual}][{nome_utilizador} ({ip_cliente})]: {msg}")
-                pacote_saida = f"[{canal_atual}] {nome_utilizador}: {msg}".encode('utf-8')
-                rotear_mensagem_grupo(canal_atual, pacote_saida, conn)
+                # Envio normal de mensagens
+                if canal_atual:
+                    ultimo_contacto = time.time()
+                    print(f"[{canal_atual}][{nome_utilizador}]: {msg}")
+                    pacote_saida = f"[{canal_atual}] {nome_utilizador}: {msg}\n".encode('utf-8')
+                    rotear_mensagem_grupo(canal_atual, pacote_saida, conn)
+                else:
+                    conn.sendall(
+                        "[SISTEMA]: Cria ou junta-te a um grupo primeiro usando CREATE: ou JOIN:\n".encode('utf-8'))
 
             except socket.timeout:
                 continue
@@ -173,8 +204,11 @@ def tratar_cliente(conn, addr):
                 registar_evento_rede("ERRO_SESSÃO", f"Exceção na thread de {nome_utilizador}: {e}")
                 break
 
-    desvincular_cliente_de_canais(conn, id_sessao)
-    registar_evento_rede("LIMPEZA_RECURSOS", f"Recursos libertados para o utilizador {nome_utilizador}")
+    desvincular_cliente_de_canais(conn)
+    with lock_limitadores:
+        if id_sessao in limitadores_clientes:
+            del limitadores_clientes[id_sessao]
+    registar_evento_rede("LIMPEZA_RECURSOS", f"Recursos libertados para {nome_utilizador}")
 
 
 def iniciar_servidor():
@@ -191,16 +225,13 @@ def iniciar_servidor():
         bind_socket.listen(10)
 
         registar_evento_rede("SISTEMA_START", "Servidor inicializado.")
-        print("Servidor Hub Multiutilizador (SRC TLS 1.3) ativo na porta 8443...")
+        print("Servidor Hub Multiutilizador (mTLS) ativo na porta 8443...")
 
         while True:
             try:
                 raw_conn, addr = bind_socket.accept()
                 secure_conn = context.wrap_socket(raw_conn, server_side=True)
-
-                cliente_thread = threading.Thread(target=tratar_cliente, args=(secure_conn, addr))
-                cliente_thread.daemon = True
-                cliente_thread.start()
+                threading.Thread(target=tratar_cliente, args=(secure_conn, addr), daemon=True).start()
             except Exception as e:
                 registar_evento_rede("FALHA_HANDSHAKE", f"Tentativa de conexão abortada: {e}")
 

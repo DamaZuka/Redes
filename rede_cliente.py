@@ -5,15 +5,15 @@ import time
 
 
 class ClienteRedeSegura:
-    def __init__(self, host, port, callback_erro=None, callback_mensagem=None):
+    def __init__(self, host, port, callback_erro=None, callback_mensagem=None, callback_nome=None):
         self.host = host
         self.port = port
         self.socket_seguro = None
         self.ligado = False
-        self.thread_heartbeat = None
-        self.thread_escuta = None
         self.callback_erro = callback_erro
         self.callback_mensagem = callback_mensagem
+        self.callback_nome = callback_nome
+        self.meu_nome = "A ligar..."
 
     def estabelecer_conexao(self):
         context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
@@ -38,13 +38,8 @@ class ClienteRedeSegura:
             self.socket_seguro.settimeout(None)
             self.ligado = True
 
-            self.thread_heartbeat = threading.Thread(target=self._executar_heartbeat)
-            self.thread_heartbeat.daemon = True
-            self.thread_heartbeat.start()
-
-            self.thread_escuta = threading.Thread(target=self._escutar_servidor)
-            self.thread_escuta.daemon = True
-            self.thread_escuta.start()
+            threading.Thread(target=self._executar_heartbeat, daemon=True).start()
+            threading.Thread(target=self._escutar_servidor, daemon=True).start()
 
             print("[REDE] Canal de comunicação TLS 1.3 (mTLS) estabelecido.")
             return True
@@ -54,10 +49,9 @@ class ClienteRedeSegura:
             return False
 
     def _executar_heartbeat(self):
-        """SRC - Keep-Alive Frequente: Envia sinal de controlo a cada 2 segundos para trancar a sessão."""
         while self.ligado:
             try:
-                time.sleep(2)  # Reduzido de 5 para 2 segundos para garantir estabilidade absoluta
+                time.sleep(2)
                 if self.socket_seguro and self.ligado:
                     self.socket_seguro.sendall("PING".encode('utf-8'))
             except Exception:
@@ -69,13 +63,19 @@ class ClienteRedeSegura:
             try:
                 dados = self.socket_seguro.recv(1024)
                 if not dados:
-                    print("[REDE] O servidor encerrou a ligação remota.")
                     self._notificar_queda()
                     break
 
                 msg = dados.decode('utf-8')
+
+                # Intercetar identificação dinâmica vinda do servidor
+                if msg.startswith("SET_NAME:"):
+                    self.meu_nome = msg.split(":", 1)[1]
+                    if self.callback_nome:
+                        self.callback_nome(self.meu_nome)
+                    continue
+
                 if msg != "PONG":
-                    print(f"[REDE - Resposta]: {msg}")
                     if self.callback_mensagem:
                         self.callback_mensagem(msg)
             except Exception:
@@ -90,7 +90,6 @@ class ClienteRedeSegura:
                     self.socket_seguro.close()
                 except:
                     pass
-            print("[REDE] Ligação perdida localmente.")
             if self.callback_erro:
                 self.callback_erro()
 
@@ -100,7 +99,6 @@ class ClienteRedeSegura:
                 self.socket_seguro.sendall(mensagem.encode('utf-8'))
                 return True
             except Exception as e:
-                print(f"[ERRO] Falha na transmissão: {e}")
                 self._notificar_queda()
                 return False
         return False

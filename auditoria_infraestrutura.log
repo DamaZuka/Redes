@@ -313,3 +313,42 @@
 [2026-05-19 18:15:18.690] [LIMPEZA_RECURSOS] Recursos libertados para o utilizador Anonimo-65288
 [2026-05-19 18:15:20.009] [TIMEOUT_REDE] Forçando encerramento: Anonimo-63049 falhou o Heartbeat.
 [2026-05-19 18:15:20.015] [LIMPEZA_RECURSOS] Recursos libertados para o utilizador Anonimo-63049
+[2026-05-19 18:17:05.759] [SISTEMA_START] Servidor inicializado.
+[2026-05-19 18:17:10.636] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.97', 57268)
+[2026-05-19 18:17:10.636] [ENTRADA_CANAL] Utilizador Anonimo-57268 entrou na sala 'Geral'
+[2026-05-19 18:20:34.022] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.191', 63076)
+[2026-05-19 18:20:34.022] [ENTRADA_CANAL] Utilizador Anonimo-63076 entrou na sala 'Geral'
+[2026-05-19 18:20:51.342] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-57268
+[2026-05-19 18:20:51.467] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-57268
+[2026-05-19 18:20:51.605] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-57268
+[2026-05-19 18:20:51.722] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-57268
+[2026-05-19 18:20:52.013] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-57268
+[2026-05-19 18:20:52.150] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-57268
+[2026-05-19 18:20:52.279] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-57268
+[2026-05-19 18:20:52.415] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-57268
+[2026-05-19 18:20:52.704] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-57268
+[2026-05-19 18:20:52.855] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-57268
+[2026-05-19 18:20:52.989] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-57268
+[2026-05-19 18:20:53.130] [DEFESA_RATE_LIMIT] Inundação bloqueada para o utilizador: Anonimo-57268
+[2026-05-19 18:22:37.459] [DESCONEXÃO_VOLUNTÁRIA] O utilizador Anonimo-57268 fechou a sessão.
+[2026-05-19 18:22:37.459] [LIMPEZA_RECURSOS] Recursos libertados para o utilizador Anonimo-57268
+[2026-05-19 18:24:06.352] [DESCONEXÃO_VOLUNTÁRIA] O utilizador Anonimo-63076 fechou a sessão.
+[2026-05-19 18:24:06.352] [LIMPEZA_RECURSOS] Recursos libertados para o utilizador Anonimo-63076
+[2026-05-19 21:51:30.382] [SISTEMA_START] Servidor inicializado.
+[2026-05-19 21:51:42.410] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.191', 58089)
+[2026-05-19 21:51:42.410] [ENTRADA_CANAL] Utilizador Anonimo-58089 entrou na sala 'Geral'
+[2026-05-19 21:51:57.045] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.191', 58090)
+[2026-05-19 21:51:57.045] [ENTRADA_CANAL] Utilizador Anonimo-58090 entrou na sala 'Geral'
+[2026-05-19 21:52:18.838] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.97', 57625)
+[2026-05-19 21:52:18.839] [ENTRADA_CANAL] Utilizador Anonimo-57625 entrou na sala 'Geral'
+[2026-05-19 21:52:34.951] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado via X.509 de ('192.168.1.191', 58095)
+[2026-05-19 21:52:34.954] [ENTRADA_CANAL] Utilizador Anonimo-58095 entrou na sala 'Geral'
+[2026-05-19 22:19:27.704] [SISTEMA_START] Servidor inicializado.
+[2026-05-19 22:19:50.640] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 58159)
+[2026-05-19 22:19:50.641] [CONEXÃO_ESTABELECIDA] Utilizador User-58159 ligado.
+[2026-05-19 22:20:02.540] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 63702)
+[2026-05-19 22:20:02.540] [CONEXÃO_ESTABELECIDA] Utilizador User-63702 ligado.
+[2026-05-19 22:23:35.321] [DESCONEXÃO_VOLUNTÁRIA] O utilizador User-58159 fechou a sessão.
+[2026-05-19 22:23:35.322] [LIMPEZA_RECURSOS] Recursos libertados para User-58159
+[2026-05-19 22:24:29.748] [DESCONEXÃO_VOLUNTÁRIA] O utilizador User-63702 fechou a sessão.
+[2026-05-19 22:24:29.748] [LIMPEZA_RECURSOS] Recursos libertados para User-63702
