@@ -1,0 +1,36 @@
+Especificação de Requisitos Técnicos de Segurança em Redes (Focada em SRC)
+Fase 1: Fundações da Infraestrutura, Concorrência e Roteamento Multiponto
+Antes de cifrar ou aplicar regras de resiliência, é mandatório preparar o paradigma cliente-servidor para suportar conexões simultâneas e garantir a segmentação lógica das salas de conversação.
+
+1.1. Separação Arquitetural de Camadas (Design Pattern): Isolamento absoluto no repositório de código entre a lógica de rede pura (manipulação de sockets primitivos), as primitivas de segurança de transporte (SSL/TLS) e o tratamento de comandos lógicos.
+1.2. Processamento Concorrente de I/O (Multithreading/Assincronismo): Implementação de um loop de escuta no socket do servidor que delega cada nova conexão aceite para uma thread ou processo independente, prevenindo o bloqueio do sistema por chamadas síncronas.
+1.3. Tabela Dinâmica de Estados de Conexão (Hub Central): Criação de uma estrutura de dados dinâmica em memória, protegida por trincas de exclusão mútua (Mutex Locks), para armazenar e indexar os descritores de sockets ativos de todos os endpoints.
+1.4. Encaminhamento Lógico de Pacotes (Routing de Redes Virtuais): Desenvolvimento de algoritmos de reencaminhamento no servidor (Hub de Broadcast) capazes de analisar os metadados do pacote recebido e replicar os bytes exclusivamente para os sockets associados ao canal/grupo de destino.
+1.5. Terminação Graciosa de Sockets (Graceful Shutdown): Rotinas de deteção de fecho de canal no cliente que enviam sinais de controlo e garantem a remoção imediata do descritor de socket da tabela ativa do servidor, evitando fugas de memória (resource leaks).
+1.6. Isolamento de Perímetro e Microsegmentação (Zero Trust): Definição lógica da topologia onde o servidor opera numa Sub-rede Desmilitarizada (DMZ) estritamente isolada, restringindo o tráfego lateral (East-West) e expondo apenas a porta TCP específica do serviço.
+
+Fase 2: Blindagem e Autenticação Criptográfica na Camada de Transporte
+Garantia de opacidade total contra escutas ativas na rede (Sniffing) e validação estrita da identidade dos nós de computação interligados.
+
+2.1. Imposição de Protocolo TLS 1.3 Estrito: Configuração nativa do contexto criptográfico do socket configurando os limites de versão mínima e máxima para TLS 1.3, mitigando na totalidade ataques de retrocesso de protocolo (Downgrade Attacks).
+2.2. Garantia de Perfect Forward Secrecy (PFS): Restrição das suites de cifra aceites no handshake do socket para algoritmos de troca de chaves efémeras baseados em curvas elípticas (ECDHE), assegurando que a quebra de uma chave privada não compromete sessões anteriores.
+2.3. Autenticação Mútua Obrigatória (mTLS): Configuração do socket do servidor em modo de verificação explícita de identidade (ssl.CERT_REQUIRED), exigindo que o cliente apresente um certificado digital X.509 antes da conclusão do aperto de mão TCP.
+2.4. Gestão Autónoma da Infraestrutura de Chaves Públicas (PKI local): Implementação de uma Truststore local no servidor e nos clientes para validação mútua contra uma Autoridade de Certificação (CA) de raiz confiável, rejeitando imediatamente certificados autoassinados desconhecidos.
+2.5. Proteção de Resolução de Nomes (DNSSEC): Integração conceptual de assinaturas criptográficas na resolução de nomes do domínio do servidor para anular vetores de ataque baseados em envenenamento de cache (DNS Cache Poisoning) ou falsificação de IP (DNS Spoofing).
+
+Fase 3: Resiliência Ativa e Mitigação de Ataques de Negação de Serviço (DoS)
+Proteção dos recursos finitos do servidor (tabela de sockets, CPU e largura de banda) contra inundações e tentativas de exaustão de ligações.
+
+3.1. Controlo de Fluxo por Algoritmo Rate Limiting (Token Bucket): Acoplamento de um limitador de taxa thread-safe por endereço IP ou certificado na receção de dados do socket, descartando pacotes e libertando a rede quando o limite de débito é ultrapassado.
+3.2. Gestão Estrita de Handshake Timeouts: Configuração de limites temporais rigorosos para a conclusão do aperto de mão criptográfico inicial, prevenindo ataques que tentam prender recursos do servidor deixando sockets abertos a meio do processo.
+3.3. Mecanismo Heartbeat Bidirecional (Keep-Alive): Programação de uma rotina paralela em background encarregue de disparar e validar pacotes de controlo (Ping/Pong) periódicos de baixa latência para aferir a vivacidade do canal.
+3.4. Limpeza Proativa de Conexões Fantasma (Half-Open Sockets): Destruição forçada do socket e libertação dos recursos do sistema operativo pelo servidor sempre que o tempo decorrido desde o último Heartbeat exceder o limiar de tolerância configurado.
+3.5. Escuta Ativa de Quebra de Canal no Cliente: Thread secundária no cliente focada exclusivamente em ler o socket; caso o método de leitura retorne vazio (sinal FIN do servidor), a app deve disparar um evento para congelar a interface (UI) e prevenir transmissões fantasma.
+
+Fase 4: Auditoria de Infraestrutura, Visibilidade e Não-Repúdio de Rede
+Garantia de rastreabilidade forense fidedigna e exportação segura dos registos de segurança de rede.
+
+4.1. Registo de Eventos de Rede Detalhado (Network Logging): Implementação de rotinas de log para auditoria contínua, gravando carimbos de data/hora (Timestamps) com precisão de milissegundos, IPs de origem/destino, portas lógicas e resultados das operações.
+4.2. Registo de Falhas e Anomalias de Segurança: Captura e armazenamento centralizado de eventos críticos como falhas no handshake TLS, certificados inválidos rejeitados no mTLS e violações dos limites de Rate Limiting.
+4.3. Blindagem e Integridade dos Ficheiros de Log: Configuração de permissões estritas ao nível do sistema operativo para os ficheiros de auditoria locais, garantindo que o processo da aplicação apenas possui privilégios de escrita (append-only), bloqueando modificações ou deleções.
+4.4. Transferência Segura de Logs de Auditoria (SFTP): Automatização do envio periódico dos relatórios de rede gerados para um servidor central de logs isolado, recorrendo obrigatoriamente ao protocolo SFTP com autenticação exclusiva por par de chaves públicas.
