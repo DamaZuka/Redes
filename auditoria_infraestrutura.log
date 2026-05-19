@@ -1,0 +1,94 @@
+[2026-05-19 17:24:11.969] [SISTEMA_START] Servidor Hub de Alta Disponibilidade TLS 1.3 inicializado com sucesso.
+[2026-05-19 17:24:29.172] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento autenticado via X.509 de ('192.168.1.97', 54783)
+[2026-05-19 17:24:29.172] [ENTRADA_CANAL] Utilizador Anonimo-54783 (192.168.1.97) entrou na sala 'Geral'
+[2026-05-19 17:24:29.183] [ALTERAÇÃO_IDENTIDADE] O socket ('192.168.1.97', 54783) alterou o nickname de 'Anonimo-54783' para 'sara'
+[2026-05-19 17:24:38.483] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento autenticado via X.509 de ('192.168.1.191', 62908)
+[2026-05-19 17:24:38.483] [ENTRADA_CANAL] Utilizador Anonimo-62908 (192.168.1.191) entrou na sala 'Geral'
+[2026-05-19 17:24:38.486] [ALTERAÇÃO_IDENTIDADE] O socket ('192.168.1.191', 62908) alterou o nickname de 'Anonimo-62908' para 'david'
+[2026-05-19 17:25:41.921] [MUDANÇA_CANAL] Utilizador 'sara' transitou de 'Geral' para 'Privado-SOC'
+[2026-05-19 17:26:18.574] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:19.009] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:19.121] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:19.196] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:19.421] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:19.813] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:19.943] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:20.054] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:20.164] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:20.290] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:20.401] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:20.864] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:20.992] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:21.105] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:21.249] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:21.376] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:21.758] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:21.891] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:22.028] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:22.164] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:22.293] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:22.402] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:22.533] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:22.920] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:23.053] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:23.196] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:23.324] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:23.467] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:23.987] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:24.116] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:24.197] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:24.213] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:24.337] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:24.566] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:24.929] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:25.082] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:25.354] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:25.613] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:26.030] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:26:26.150] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:02.041] [DESCONEXÃO_VOLUNTÁRIA] O utilizador sara (192.168.1.97) fechou a sessão.
+[2026-05-19 17:27:02.041] [LIMPEZA_RECURSOS] Sockets e buffers libertados com sucesso para o endpoint ('192.168.1.97', 54783)
+[2026-05-19 17:27:13.351] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento autenticado via X.509 de ('192.168.1.97', 61540)
+[2026-05-19 17:27:13.353] [ENTRADA_CANAL] Utilizador Anonimo-61540 (192.168.1.97) entrou na sala 'Geral'
+[2026-05-19 17:27:13.353] [ALTERAÇÃO_IDENTIDADE] O socket ('192.168.1.97', 61540) alterou o nickname de 'Anonimo-61540' para 'sara'
+[2026-05-19 17:27:20.432] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:20.561] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:20.928] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:21.195] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:21.323] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:21.444] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:21.564] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:21.968] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:22.098] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:22.243] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:22.500] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:22.630] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:23.036] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:23.169] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:23.352] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:23.452] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:23.601] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:23.887] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:24.037] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:24.178] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:24.322] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:24.467] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:24.603] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:24.902] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:25.047] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:25.191] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:25.337] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:25.498] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:25.626] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:26.014] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:26.158] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:26.307] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:26.593] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:27:26.982] [DEFESA_RATE_LIMIT] Bloqueio de inundação ativa para o IP: 192.168.1.97
+[2026-05-19 17:29:30.924] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento autenticado via X.509 de ('192.168.1.97', 61873)
+[2026-05-19 17:29:30.924] [ENTRADA_CANAL] Utilizador Anonimo-61873 (192.168.1.97) entrou na sala 'Geral'
+[2026-05-19 17:29:30.929] [ALTERAÇÃO_IDENTIDADE] O socket ('192.168.1.97', 61873) alterou o nickname de 'Anonimo-61873' para '@damazuka'
+[2026-05-19 17:29:52.616] [DESCONEXÃO_VOLUNTÁRIA] O utilizador @damazuka (192.168.1.97) fechou a sessão.
+[2026-05-19 17:29:52.620] [LIMPEZA_RECURSOS] Sockets e buffers libertados com sucesso para o endpoint ('192.168.1.97', 61873)
+[2026-05-19 17:31:08.857] [DESCONEXÃO_VOLUNTÁRIA] O utilizador sara (192.168.1.97) fechou a sessão.
+[2026-05-19 17:31:08.857] [LIMPEZA_RECURSOS] Sockets e buffers libertados com sucesso para o endpoint ('192.168.1.97', 61540)
