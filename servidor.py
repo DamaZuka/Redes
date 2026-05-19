@@ -13,7 +13,8 @@ INTERVALO_HEARTBEAT_LIMITE = 15.0
 grupos_canais = {}
 acl_canais = {}
 
-lock_canais = threading.Lock()
+# CORREÇÃO CRÍTICA: RLock em vez de Lock para o servidor não congelar no JOIN
+lock_canais = threading.RLock()
 LOCK_LOG = threading.Lock()
 FICHEIRO_LOG_REDE = "auditoria_infraestrutura.log"
 
@@ -180,6 +181,8 @@ def tratar_cliente(conn, addr):
                 # Envio normal de mensagens
                 if canal_atual:
                     ultimo_contacto = time.time()
+                    # CORREÇÃO: Print para veres as mensagens no terminal do servidor
+                    print(f"[{canal_atual}][{nome_utilizador}]: {msg}")
                     pacote_saida = f"[{canal_atual}] {nome_utilizador}: {msg}\n".encode('utf-8')
                     rotear_mensagem_grupo(canal_atual, pacote_saida, conn)
                 else:

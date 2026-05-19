@@ -373,3 +373,15 @@
 [2026-05-19 22:38:06.262] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 58265)
 [2026-05-19 22:38:06.263] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-58265 ligado.
 [2026-05-19 22:38:33.464] [CRIAR_CANAL] Grupo 'teste' criado por Anonimo-59993 com ACL: ['Anonimo-58265', 'Anonimo-59993']
+[2026-05-19 22:44:11.440] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 53280)
+[2026-05-19 22:44:11.440] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-53280 ligado.
+[2026-05-19 22:44:16.560] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 56783)
+[2026-05-19 22:44:16.561] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-56783 ligado.
+[2026-05-19 22:44:39.756] [CRIAR_CANAL] Grupo 'teste' por Anonimo-56783
+[2026-05-19 22:49:32.507] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 60032)
+[2026-05-19 22:49:32.508] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-60032 ligado.
+[2026-05-19 22:49:46.404] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 56200)
+[2026-05-19 22:49:46.404] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-56200 ligado.
+[2026-05-19 22:50:06.688] [CRIAR_CANAL] Grupo 'teste' por Anonimo-56200
+[2026-05-19 22:50:10.766] [MUDANÇA_CANAL] 'Anonimo-56200' em 'teste'
+[2026-05-19 22:50:17.300] [MUDANÇA_CANAL] 'Anonimo-60032' em 'teste'
