@@ -3,7 +3,6 @@ from tkinter import scrolledtext
 from tkinter import messagebox
 from rede_cliente import ClienteRedeSegura
 
-# REPOSTO O TEU IP REAL DE TESTES
 HOST = '192.168.1.97'
 PORT = 8443
 

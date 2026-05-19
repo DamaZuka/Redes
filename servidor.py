@@ -98,8 +98,9 @@ def tratar_cliente(conn, addr):
     ultimo_contacto = time.time()
     canal_atual = None
 
+    # Envia o nome com uma quebra de linha para o recv do cliente não bloquear
     try:
-        conn.sendall(f"SET_NAME:{nome_utilizador}".encode('utf-8'))
+        conn.sendall(f"SET_NAME:{nome_utilizador}\n".encode('utf-8'))
     except Exception:
         conn.close()
         return
@@ -110,37 +111,35 @@ def tratar_cliente(conn, addr):
     with conn:
         while True:
             if time.time() - ultimo_contacto > INTERVALO_HEARTBEAT_LIMITE:
-                registar_evento_rede("TIMEOUT_REDE", f"Forçando encerramento por inatividade: {nome_utilizador}")
+                registar_evento_rede("TIMEOUT_REDE", f"Forçando encerramento: {nome_utilizador}")
                 break
 
             try:
                 dados = conn.recv(1024)
                 if not dados:
-                    registar_evento_rede("DESCONEXÃO_VOLUNTÁRIA", f"O utilizador {nome_utilizador} fechou a sessão.")
                     break
 
                 try:
                     msg = dados.decode('utf-8').strip()
                 except UnicodeDecodeError:
-                    registar_evento_rede("ANOMALIA_PAYLOAD", f"Erro de decodificação de bytes de {addr}")
                     continue
 
                 if msg == "PING":
                     ultimo_contacto = time.time()
-                    conn.sendall("PONG".encode('utf-8'))
+                    conn.sendall("PONG\n".encode('utf-8'))
                     continue
 
-                # --- GESTÃO DE TRÁFEGO ---
+                # --- RATE LIMITING ---
                 agora_envio = time.time()
                 ultimos_envios_locais = [t for t in ultimos_envios_locais if agora_envio - t < 1.5]
                 ultimos_envios_locais.append(agora_envio)
 
                 if len(ultimos_envios_locais) > 5 or not limiter.consumir():
-                    registar_evento_rede("DEFESA_RATE_LIMIT", f"Inundação bloqueada para: {nome_utilizador}")
-                    conn.sendall("ERRO: Limite de taxa excedido. Pacote descartado.\n".encode('utf-8'))
+                    registar_evento_rede("DEFESA_RATE_LIMIT", f"Inundação de: {nome_utilizador}")
+                    conn.sendall("[SISTEMA]: Limite de taxa excedido. Pacote descartado.\n".encode('utf-8'))
                     continue
 
-                # --- COMANDO: CREATE:NomeSala:Amigo1,Amigo2 ---
+                # --- COMANDO: CREATE ---
                 if msg.startswith("CREATE:"):
                     try:
                         _, nome_sala, convidados = msg.split(":", 2)
@@ -152,21 +151,16 @@ def tratar_cliente(conn, addr):
                                 acl_canais[nome_sala] = lista_autorizados
                                 grupos_canais[nome_sala] = []
                                 conn.sendall(f"[SISTEMA]: Grupo privado '{nome_sala}' criado.\n".encode('utf-8'))
-                                registar_evento_rede("CRIAR_CANAL",
-                                                     f"Grupo '{nome_sala}' criado por {nome_utilizador} com ACL: {lista_autorizados}")
+                                registar_evento_rede("CRIAR_CANAL", f"Grupo '{nome_sala}' por {nome_utilizador}")
                             else:
                                 conn.sendall("[SISTEMA]: Erro: Esse grupo já existe.\n".encode('utf-8'))
                     except ValueError:
-                        conn.sendall("[SISTEMA]: Erro. Usa: CREATE:NomeSala:Anonimo-X,Anonimo-Y\n".encode('utf-8'))
+                        conn.sendall("[SISTEMA]: Erro. Usa: CREATE:NomeSala:User1,User2\n".encode('utf-8'))
                     continue
 
-                # --- COMANDO: JOIN:NomeSala ---
+                # --- COMANDO: JOIN ---
                 if msg.startswith("JOIN:"):
-                    try:
-                        nome_sala = msg.split(":", 1)[1].strip()
-                    except IndexError:
-                        conn.sendall("[SISTEMA]: Erro. Usa: JOIN:NomeSala\n".encode('utf-8'))
-                        continue
+                    nome_sala = msg.split(":", 1)[1].strip()
 
                     with lock_canais:
                         if nome_sala in acl_canais:
@@ -175,13 +169,10 @@ def tratar_cliente(conn, addr):
                                 grupos_canais[nome_sala].append(conn)
                                 canal_atual = nome_sala
                                 conn.sendall(f"[SISTEMA]: Entraste no grupo privado '{nome_sala}'.\n".encode('utf-8'))
-                                registar_evento_rede("MUDANÇA_CANAL", f"'{nome_utilizador}' entrou em '{nome_sala}'")
+                                registar_evento_rede("MUDANÇA_CANAL", f"'{nome_utilizador}' em '{nome_sala}'")
                             else:
-                                conn.sendall(
-                                    "[SISTEMA]: ERRO: Não tens permissão para entrar neste grupo privado.\n".encode(
-                                        'utf-8'))
-                                registar_evento_rede("VIOLAÇÃO_ACESSO",
-                                                     f"Acesso negado para {nome_utilizador} na sala '{nome_sala}'")
+                                conn.sendall("[SISTEMA]: ERRO: Sem permissão para este grupo.\n".encode('utf-8'))
+                                registar_evento_rede("VIOLAÇÃO_ACESSO", f"Negado {nome_utilizador} em '{nome_sala}'")
                         else:
                             conn.sendall("[SISTEMA]: Erro: Esse grupo não existe.\n".encode('utf-8'))
                     continue
@@ -189,23 +180,19 @@ def tratar_cliente(conn, addr):
                 # Envio normal de mensagens
                 if canal_atual:
                     ultimo_contacto = time.time()
-                    print(f"[{canal_atual}][{nome_utilizador}]: {msg}")
                     pacote_saida = f"[{canal_atual}] {nome_utilizador}: {msg}\n".encode('utf-8')
                     rotear_mensagem_grupo(canal_atual, pacote_saida, conn)
                 else:
-                    conn.sendall(
-                        "[SISTEMA]: Cria ou junta-te a um grupo primeiro usando CREATE: ou JOIN:\n".encode('utf-8'))
+                    conn.sendall("[SISTEMA]: Cria ou junta-te a um grupo primeiro.\n".encode('utf-8'))
 
             except socket.timeout:
                 continue
-            except Exception as e:
-                registar_evento_rede("ERRO_SESSÃO", f"Exceção na thread de {nome_utilizador}: {e}")
+            except Exception:
                 break
 
     desvincular_cliente_de_canais(conn)
     with lock_limitadores:
-        if id_sessao in limitadores_clientes:
-            del limitadores_clientes[id_sessao]
+        if id_sessao in limitadores_clientes: del limitadores_clientes[id_sessao]
     registar_evento_rede("LIMPEZA_RECURSOS", f"Recursos libertados para {nome_utilizador}")
 
 
@@ -221,17 +208,15 @@ def iniciar_servidor():
         bind_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         bind_socket.bind(('0.0.0.0', 8443))
         bind_socket.listen(10)
-
-        registar_evento_rede("SISTEMA_START", "Servidor inicializado.")
-        print("Servidor Hub Multiutilizador (mTLS) ativo na porta 8443...")
+        print("Servidor Hub ativo na porta 8443...")
 
         while True:
             try:
                 raw_conn, addr = bind_socket.accept()
                 secure_conn = context.wrap_socket(raw_conn, server_side=True)
                 threading.Thread(target=tratar_cliente, args=(secure_conn, addr), daemon=True).start()
-            except Exception as e:
-                registar_evento_rede("FALHA_HANDSHAKE", f"Tentativa de conexão abortada: {e}")
+            except Exception:
+                pass
 
 
 if __name__ == "__main__":

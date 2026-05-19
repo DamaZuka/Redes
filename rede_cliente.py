@@ -40,8 +40,6 @@ class ClienteRedeSegura:
 
             threading.Thread(target=self._executar_heartbeat, daemon=True).start()
             threading.Thread(target=self._escutar_servidor, daemon=True).start()
-
-            print("[REDE] Canal de comunicação TLS 1.3 (mTLS) estabelecido.")
             return True
         except Exception as e:
             print(f"[ERRO] Falha ao erguer o canal seguro: {e}")
@@ -53,7 +51,7 @@ class ClienteRedeSegura:
             try:
                 time.sleep(2)
                 if self.socket_seguro and self.ligado:
-                    self.socket_seguro.sendall("PING".encode('utf-8'))
+                    self.socket_seguro.sendall("PING\n".encode('utf-8'))
             except Exception:
                 self._notificar_queda()
                 break
@@ -66,17 +64,22 @@ class ClienteRedeSegura:
                     self._notificar_queda()
                     break
 
-                msg = dados.decode('utf-8')
+                # Tratar quebras de linha enviadas pelo servidor
+                linhas = dados.decode('utf-8').split('\n')
+                for linha in list(linhas):
+                    linha = linha.strip()
+                    if not linha:
+                        continue
 
-                if msg.startswith("SET_NAME:"):
-                    self.meu_nome = msg.split(":", 1)[1]
-                    if self.callback_nome:
-                        self.callback_nome(self.meu_nome)
-                    continue
+                    if linha.startswith("SET_NAME:"):
+                        self.meu_nome = linha.split(":", 1)[1]
+                        if self.callback_nome:
+                            self.callback_nome(self.meu_nome)
+                        continue
 
-                if msg != "PONG":
-                    if self.callback_mensagem:
-                        self.callback_mensagem(msg)
+                    if linha != "PONG":
+                        if self.callback_mensagem:
+                            self.callback_mensagem(linha)
             except Exception:
                 self._notificar_queda()
                 break
@@ -85,19 +88,18 @@ class ClienteRedeSegura:
         if self.ligado:
             self.ligado = False
             if self.socket_seguro:
-                try:
-                    self.socket_seguro.close()
-                except:
-                    pass
+                try: self.socket_seguro.close()
+                except: pass
             if self.callback_erro:
                 self.callback_erro()
 
     def enviar_carga(self, mensagem):
         if self.socket_seguro and self.ligado:
             try:
-                self.socket_seguro.sendall(mensagem.encode('utf-8'))
+                # Força o envio com quebra de linha clara
+                self.socket_seguro.sendall(f"{mensagem}\n".encode('utf-8'))
                 return True
-            except Exception as e:
+            except Exception:
                 self._notificar_queda()
                 return False
         return False
@@ -105,7 +107,5 @@ class ClienteRedeSegura:
     def encerrar_conexao(self):
         self.ligado = False
         if self.socket_seguro:
-            try:
-                self.socket_seguro.close()
-            except:
-                pass
+            try: self.socket_seguro.close()
+            except: pass
