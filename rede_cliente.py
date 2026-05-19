@@ -5,14 +5,37 @@ import time
 
 
 class ClienteRedeSegura:
-    def __init__(self, host, port, callback_erro=None):
+    # Adicionámos o parâmetro callback_mensagem para enviar o texto recebido para a UI
+    def __init__(self, host, port, callback_erro=None, callback_mensagem=None):
         self.host = host
         self.port = port
         self.socket_seguro = None
         self.ligado = False
         self.thread_heartbeat = None
         self.thread_escuta = None
-        self.callback_erro = callback_erro  # Função da UI para avisar que caiu
+        self.callback_erro = callback_erro
+        self.callback_mensagem = callback_mensagem  # Função da UI para desenhar o texto
+
+    # ... mantém a função estabelecer_conexao igual ...
+
+    def _escutar_servidor(self):
+        while self.ligado:
+            try:
+                dados = self.socket_seguro.recv(1024)
+                if not dados:
+                    print("[REDE] O servidor encerrou a ligação remota.")
+                    self._notificar_queda()
+                    break
+
+                msg = dados.decode('utf-8')
+                if msg != "PONG":
+                    print(f"[REDE - Resposta]: {msg}")
+                    # Se houver um callback de mensagem configurado, injeta o texto na UI
+                    if self.callback_mensagem:
+                        self.callback_mensagem(msg)
+            except Exception:
+                self._notificar_queda()
+                break
 
     def estabelecer_conexao(self):
         context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
@@ -60,25 +83,6 @@ class ClienteRedeSegura:
                 time.sleep(5)
                 if self.socket_seguro and self.ligado:
                     self.socket_seguro.sendall("PING".encode('utf-8'))
-            except Exception:
-                self._notificar_queda()
-                break
-
-    def _escutar_servidor(self):
-        """Fica constantemente a ler o socket. Se o recv retornar vazio, o servidor fechou!"""
-        while self.ligado:
-            try:
-                # Bloqueia aqui até vir resposta ou fechar
-                dados = self.socket_seguro.recv(1024)
-                if not dados:
-                    # Se receber dados vazios, o servidor cortou a ligação (FIN)
-                    print("[REDE] O servidor encerrou a ligação remota.")
-                    self._notificar_queda()
-                    break
-
-                msg = dados.decode('utf-8')
-                if msg != "PONG":  # Ignora os pongs mecânicos no terminal do chat
-                    print(f"[REDE - Resposta]: {msg}")
             except Exception:
                 self._notificar_queda()
                 break

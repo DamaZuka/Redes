@@ -7,14 +7,23 @@ HOST = '192.168.1.97'
 PORT = 8443
 
 def lidar_com_queda_de_rede():
-    """Esta função corre quando a thread de rede deteta que o servidor nos expulsou."""
-    btn.config(state=tk.DISABLED) # Desativa o botão de enviar
-    entry.config(state=tk.DISABLED) # Bloqueia a caixa de texto
-    chat_area.insert(tk.END, "[SISTEMA] Ligação perdida com o servidor. Envio desativado.\n")
-    messagebox.showerror("Erro de Conexão", "Foste desconectado do servidor seguro (Timeout/Inatividade).")
+    btn.config(state=tk.DISABLED)
+    entry.config(state=tk.DISABLED)
+    chat_area.insert(tk.END, "[SISTEMA] Ligação perdida com o servidor.\n")
+    messagebox.showerror("Erro de Conexão", "Foste desconectado do servidor seguro.")
 
-# Passamos a nossa função de tratamento como callback para a camada de rede
-gestor_rede = ClienteRedeSegura(HOST, PORT, callback_erro=lidar_com_queda_de_rede)
+def receber_mensagem_do_servidor(texto):
+    """Escreve visualmente no chat as mensagens roteadas pelo servidor."""
+    chat_area.insert(tk.END, f"{texto}\n")
+    chat_area.yview(tk.END) # Faz scroll automático para a última mensagem
+
+# Injetamos os dois callbacks na camada de rede
+gestor_rede = ClienteRedeSegura(
+    host=HOST,
+    port=PORT,
+    callback_erro=lidar_com_queda_de_rede,
+    callback_mensagem=receber_mensagem_do_servidor
+)
 
 if gestor_rede.estabelecer_conexao():
     print("Ligação segura estabelecida com sucesso pela camada de rede!")
@@ -24,9 +33,9 @@ else:
 def acao_enviar():
     msg = entry.get()
     if msg:
-        # Tenta enviar. Se a rede já souber que caiu, nem avança
         if gestor_rede.enviar_carga(msg):
-            chat_area.insert(tk.END, f"Tu: {msg}\n")
+            # Adiciona apenas a nossa própria mensagem localmente
+            chat_area.insert(tk.END, f"[Tu]: {msg}\n")
             entry.delete(0, tk.END)
         else:
             chat_area.insert(tk.END, "[SISTEMA] Erro: Não foi possível transmitir o pacote.\n")

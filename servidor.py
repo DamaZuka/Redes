@@ -73,12 +73,26 @@ def desvincular_cliente_de_canais(cliente_sock):
 def tratar_cliente(conn, addr):
     ip_cliente = addr[0]
     limiter = obter_limitador(ip_cliente)
-    print(f"[INFO] Conexão segura estabelecida sob monitorização de resiliência: {addr}")
+
+    # --- SRC (CP4): EXTRAÇÃO DE IDENTIDADE ATRAVÉS DE mTLS ---
+    # Extrai o Common Name (CN) do certificado X.509 apresentado pelo cliente
+    nome_utilizador = f"Anonimo-{addr[1]}"
+    try:
+        certificado = conn.getpeercert()
+        if certificado and 'subject' in certificado:
+            # O subject contém uma lista de tuplos com os dados do proprietário
+            for sub_tuplo in certificado['subject']:
+                for chave, valor in sub_tuplo:
+                    if chave == 'commonName':
+                        nome_utilizador = valor
+    except Exception as e:
+        print(f"[AVISO] Falha ao ler certificado de {addr}: {e}")
+
+    print(f"[INFO] Conexão segura estabelecida. Utilizador Autenticado via mTLS: {nome_utilizador} {addr}")
 
     conn.settimeout(TIMEOUT_SOCKET_CONV)
     ultimo_contacto = time.time()
 
-    # Associa o nó por defeito ao canal "Geral" ao entrar
     with lock_canais:
         grupos_canais["Geral"].append(conn)
     canal_atual = "Geral"
@@ -87,20 +101,20 @@ def tratar_cliente(conn, addr):
         while True:
             tempo_decorrido = time.time() - ultimo_contacto
             if tempo_decorrido > INTERVALO_HEARTBEAT_LIMITE:
-                print(
-                    f"[TIMEOUT] Cliente {addr} excedeu o limite de Heartbeat ({tempo_decorrido:.1f}s). Desconexão forçada.")
+                print(f"[TIMEOUT] {nome_utilizador} excedeu o limite de Heartbeat. Desconexão forçada.")
                 break
 
             try:
                 dados = conn.recv(1024)
                 if not dados:
-                    print(f"[INFO] Cliente {addr} encerrou a sessão de forma limpa.")
+                    print(f"[INFO] {nome_utilizador} encerrou a sessão de forma limpa.")
                     break
 
                 ultimo_contacto = time.time()
 
                 if not limiter.consumir():
-                    print(f"[DEFESA - RATE LIMIT] Tráfego abusivo bloqueado para o IP: {ip_cliente}")
+                    print(
+                        f"[DEFESA - RATE LIMIT] Tráfego abusivo bloqueado para o utilizador: {nome_utilizador} ({ip_cliente})")
                     conn.sendall("ERRO: Limite de taxa excedido. Pacote descartado.".encode('utf-8'))
                     continue
 
@@ -111,7 +125,6 @@ def tratar_cliente(conn, addr):
                         conn.sendall("PONG".encode('utf-8'))
                         continue
 
-                    # Comando de infraestrutura de rede para alternar entre grupos privados
                     if msg.startswith("/join "):
                         alvo = msg.split(" ")[1]
                         with lock_canais:
@@ -124,25 +137,24 @@ def tratar_cliente(conn, addr):
                                 conn.sendall("[SISTEMA]: Erro: Canal inexistente.".encode('utf-8'))
                         continue
 
-                    print(f"[{canal_atual}][Cliente {addr}]: {msg}")
+                    # PRINT NO TERMINAL DO SERVIDOR (Agora mostra claramente de quem vem)
+                    print(f"[{canal_atual}][{nome_utilizador} ({ip_cliente})]: {msg}")
 
-                    # ROTEAMENTO ATIVO (SRC): Propaga a mensagem recebida para os demais nós da sub-rede lógica
-                    pacote_saida = f"[{canal_atual}] {msg}".encode('utf-8')
+                    # ROTEAMENTO ATIVO (SRC): Propaga a mensagem identificando o emissor autenticado
+                    pacote_saida = f"[{canal_atual}] {nome_utilizador}: {msg}".encode('utf-8')
                     rotear_mensagem_grupo(canal_atual, pacote_saida, conn)
 
                 except UnicodeDecodeError:
-                    print(f"[AVISO] Erro na decodificação de payload inválido vindo de {addr}")
+                    print(f"[AVISO] Erro na decodificação de payload inválido vindo de {nome_utilizador}")
 
             except socket.timeout:
                 continue
             except Exception as e:
-                print(f"[ERRO] Falha crítica na sessão {addr}: {e}")
+                print(f"[ERRO] Falha crítica na sessão de {nome_utilizador}: {e}")
                 break
 
-    # Limpeza de recursos remanescentes ao cair
     desvincular_cliente_de_canais(conn)
-    print(f"[INFO] Recursos libertados para a sessão: {addr}")
-
+    print(f"[INFO] Recursos libertados para a sessão de: {nome_utilizador}")
 
 def iniciar_servidor():
     context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
