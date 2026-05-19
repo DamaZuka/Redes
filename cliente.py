@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import scrolledtext
 
 # MUDAR AQUI: mete o IP do PC que está a correr o servidor
-HOST = '192.168.163.1'
+HOST = '192.168.1.97'
 PORT = 8443
 
 # Setup do Socket
