@@ -9,13 +9,15 @@ PORT = 8443
 TIMEOUT_SOCKET_CONV = 5.0
 INTERVALO_HEARTBEAT_LIMITE = 15.0
 
-# --- GESTÃO DE REDE LÓGICA DE GRUPOS (SRC - REQUISITO TEMA 2) ---
-# Tabela de estados em memória para indexar os sockets ativos por sala
 grupos_canais = {
     "Geral": [],
     "Privado-SOC": []
 }
 lock_canais = threading.Lock()
+
+# Tabela para associar o socket do cliente ao nickname escolhido na app
+mapeamento_nomes = {}
+lock_nomes = threading.Lock()
 
 
 class RateLimiterTokenBucket:
@@ -43,15 +45,13 @@ lock_limitadores = threading.Lock()
 
 
 def obter_limitador(ip):
-    with lock_limitadores:
+    with lock_limitadores_ip:
         if ip not in limitadores_ip:
             limitadores_ip[ip] = RateLimiterTokenBucket(capacidade=5, taxa_reposicao=1.0)
         return limitadores_ip[ip]
 
 
-# --- FUNÇÕES DE ENCAMINHAMENTO DE FLUXO DE REDE ---
 def rotear_mensagem_grupo(canal, pacote_bytes, socket_origem):
-    """SRC: Encaminha os bytes recebidos para todos os endpoints do grupo."""
     with lock_canais:
         if canal in grupos_canais:
             for cliente_sock in grupos_canais[canal]:
@@ -62,33 +62,29 @@ def rotear_mensagem_grupo(canal, pacote_bytes, socket_origem):
                         pass
 
 
-def desvincular_cliente_de_canais(cliente_sock):
-    """Garante a limpeza de buffers mortos na tabela de rotas."""
+def desvincular_cliente(cliente_sock):
     with lock_canais:
         for canal in grupos_canais:
             if cliente_sock in grupos_canais[canal]:
                 grupos_canais[canal].remove(cliente_sock)
+    with lock_nomes:
+        if cliente_sock in mapeamento_nomes:
+            del mapeamento_nomes[cliente_sock]
 
 
 def tratar_cliente(conn, addr):
     ip_cliente = addr[0]
     limiter = obter_limitador(ip_cliente)
 
-    # --- SRC (CP4): EXTRAÇÃO DE IDENTIDADE ATRAVÉS DE mTLS ---
-    # Extrai o Common Name (CN) do certificado X.509 apresentado pelo cliente
+    # Identificação base por omissão usando a porta do socket remoto
     nome_utilizador = f"Anonimo-{addr[1]}"
-    try:
-        certificado = conn.getpeercert()
-        if certificado and 'subject' in certificado:
-            # O subject contém uma lista de tuplos com os dados do proprietário
-            for sub_tuplo in certificado['subject']:
-                for chave, valor in sub_tuplo:
-                    if chave == 'commonName':
-                        nome_utilizador = valor
-    except Exception as e:
-        print(f"[AVISO] Falha ao ler certificado de {addr}: {e}")
 
-    print(f"[INFO] Conexão segura estabelecida. Utilizador Autenticado via mTLS: {nome_utilizador} {addr}")
+    # Validação mTLS obrigatória do hardware (Apenas logs de auditoria de rede)
+    try:
+        cert = conn.getpeercert()
+        print(f"[AUDITORIA mTLS] Máquina validada via certificado X.509 de: {addr}")
+    except Exception:
+        pass
 
     conn.settimeout(TIMEOUT_SOCKET_CONV)
     ultimo_contacto = time.time()
@@ -101,21 +97,19 @@ def tratar_cliente(conn, addr):
         while True:
             tempo_decorrido = time.time() - ultimo_contacto
             if tempo_decorrido > INTERVALO_HEARTBEAT_LIMITE:
-                print(f"[TIMEOUT] {nome_utilizador} excedeu o limite de Heartbeat. Desconexão forçada.")
+                print(f"[TIMEOUT] {nome_utilizador} excedeu o limite de Heartbeat. Forçando desconexão.")
                 break
 
             try:
                 dados = conn.recv(1024)
                 if not dados:
-                    print(f"[INFO] {nome_utilizador} encerrou a sessão de forma limpa.")
                     break
 
                 ultimo_contacto = time.time()
 
                 if not limiter.consumir():
-                    print(
-                        f"[DEFESA - RATE LIMIT] Tráfego abusivo bloqueado para o utilizador: {nome_utilizador} ({ip_cliente})")
-                    conn.sendall("ERRO: Limite de taxa excedido. Pacote descartado.".encode('utf-8'))
+                    print(f"[DEFESA - RATE LIMIT] Saturação de tráfego para: {nome_utilizador}")
+                    conn.sendall("ERRO: Limite de taxa excedido.".encode('utf-8'))
                     continue
 
                 try:
@@ -125,36 +119,51 @@ def tratar_cliente(conn, addr):
                         conn.sendall("PONG".encode('utf-8'))
                         continue
 
+                    # Comando interno para registar o nickname dinâmico da app
+                    if msg.startswith("/nick "):
+                        novo_nome = msg.split(" ", 1)[1].strip()
+                        with lock_nomes:
+                            mapeamento_nomes[conn] = novo_nome
+                            nome_utilizador = novo_nome
+                        print(f"[SISTEMA] {addr} registou o nickname: {nome_utilizador}")
+                        continue
+
                     if msg.startswith("/join "):
                         alvo = msg.split(" ")[1]
                         with lock_canais:
                             if alvo in grupos_canais:
-                                desvincular_cliente_de_canais(conn)
-                                grupos_canais[alvo].append(conn)
+                                with lock_canais:
+                                    for c in grupos_canais:
+                                        if conn in grupos_canais[c]: grupos_canais[c].remove(conn)
+                                    grupos_canais[alvo].append(conn)
                                 canal_atual = alvo
                                 conn.sendall(f"[SISTEMA]: Entraste na sala {alvo}".encode('utf-8'))
                             else:
                                 conn.sendall("[SISTEMA]: Erro: Canal inexistente.".encode('utf-8'))
                         continue
 
-                    # PRINT NO TERMINAL DO SERVIDOR (Agora mostra claramente de quem vem)
-                    print(f"[{canal_atual}][{nome_utilizador} ({ip_cliente})]: {msg}")
+                    # Recupera o nickname dinâmico para formatação do tráfego
+                    with lock_nomes:
+                        exibir_nome = mapeamento_nomes.get(conn, nome_utilizador)
 
-                    # ROTEAMENTO ATIVO (SRC): Propaga a mensagem identificando o emissor autenticado
-                    pacote_saida = f"[{canal_atual}] {nome_utilizador}: {msg}".encode('utf-8')
+                    print(f"[{canal_atual}][{exibir_nome} ({ip_cliente})]: {msg}")
+
+                    # Roteamento ativo contendo a tag de identificação dinâmica
+                    pacote_saida = f"[{canal_atual}] {exibir_nome}: {msg}".encode('utf-8')
                     rotear_mensagem_grupo(canal_atual, pacote_saida, conn)
 
                 except UnicodeDecodeError:
-                    print(f"[AVISO] Erro na decodificação de payload inválido vindo de {nome_utilizador}")
+                    print(f"[AVISO] Erro ao decodificar payload de {addr}")
 
             except socket.timeout:
                 continue
             except Exception as e:
-                print(f"[ERRO] Falha crítica na sessão de {nome_utilizador}: {e}")
+                print(f"[ERRO] Falha na sessão de {nome_utilizador}: {e}")
                 break
 
-    desvincular_cliente_de_canais(conn)
+    desvincular_cliente(conn)
     print(f"[INFO] Recursos libertados para a sessão de: {nome_utilizador}")
+
 
 def iniciar_servidor():
     context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
@@ -168,7 +177,7 @@ def iniciar_servidor():
         bind_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         bind_socket.bind(('0.0.0.0', 8443))
         bind_socket.listen(10)
-        print("Servidor de Alta Disponibilidade (mTLS / TLS 1.3) ativo na porta 8443...")
+        print("Servidor Hub Multiutilizador (SRC TLS 1.3) ativo na porta 8443...")
 
         while True:
             try:
@@ -179,7 +188,7 @@ def iniciar_servidor():
                 cliente_thread.daemon = True
                 cliente_thread.start()
             except Exception as e:
-                print(f"[ERRO] Falha ao estabelecer o aperto de mão criptográfico: {e}")
+                print(f"[ERRO] Falha no handshake: {e}")
 
 
 if __name__ == "__main__":
