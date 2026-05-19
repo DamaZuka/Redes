@@ -177,7 +177,25 @@ def tratar_cliente(conn, addr):
                         else:
                             conn.sendall("[SISTEMA]: Erro: Esse grupo não existe.\n".encode('utf-8'))
                     continue
+                if msg.startswith("FILE:"):
+                    try:
+                        _, nome_ficheiro, tamanho = msg.split(":")
+                        tamanho = int(tamanho)
+                        registar_evento_rede("RECEÇÃO_FICHEIRO", f"A receber '{nome_ficheiro}' de {nome_utilizador}")
 
+                        with open(f"recibido_{nome_utilizador}_{nome_ficheiro}", "wb") as f:
+                            recebido = 0
+                            while recebido < tamanho:
+                                dados = conn.recv(min(tamanho - recebido, 4096))
+                                if not dados: break
+                                f.write(dados)
+                                recebido += len(dados)
+
+                        registar_evento_rede("FIM_RECEÇÃO", f"Guardado '{nome_ficheiro}'")
+                        conn.sendall(f"[SISTEMA]: Ficheiro '{nome_ficheiro}' recebido com sucesso.\n".encode('utf-8'))
+                    except Exception as e:
+                        registar_evento_rede("ERRO_FICHEIRO", f"Falha ao receber: {e}")
+                    continue
                 # Envio normal de mensagens
                 if canal_atual:
                     ultimo_contacto = time.time()
@@ -221,6 +239,16 @@ def iniciar_servidor():
             except Exception:
                 pass
 
+def receber_ficheiro(conn, nome_ficheiro, tamanho):
+    registar_evento_rede("RECEÇÃO_FICHEIRO", f"A receber '{nome_ficheiro}' ({tamanho} bytes)")
+    with open(f"recibido_{nome_ficheiro}", "wb") as f:
+        recebido = 0
+        while recebido < tamanho:
+            dados = conn.recv(min(tamanho - recebido, 4096))
+            if not dados: break
+            f.write(dados)
+            recebido += len(dados)
+    registar_evento_rede("FIM_RECEÇÃO", f"Ficheiro '{nome_ficheiro}' guardado com sucesso.")
 
 if __name__ == "__main__":
     iniciar_servidor()

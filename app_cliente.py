@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import messagebox
 from rede_cliente import ClienteRedeSegura
+from tkinter import filedialog
 
 HOST = '192.168.1.97'
 PORT = 8443
@@ -45,6 +46,19 @@ entry.pack(padx=10, pady=5)
 entry.bind("<Return>", lambda event: acao_enviar())
 
 
+
+def acao_enviar_ficheiro():
+    ficheiro = filedialog.askopenfilename()
+    if ficheiro:
+        if gestor_rede.enviar_ficheiro(ficheiro):
+            chat_area.insert(tk.END, f"[SISTEMA] Ficheiro enviado: {ficheiro}\n")
+        else:
+            chat_area.insert(tk.END, "[SISTEMA] Erro ao enviar ficheiro.\n")
+
+# Adiciona o botão na interface:
+btn_file = tk.Button(janela, text="Enviar Ficheiro", command=acao_enviar_ficheiro)
+btn_file.pack(pady=5)
+
 def acao_enviar():
     msg = entry.get().strip()
     if msg:
@@ -69,6 +83,7 @@ if gestor_rede.estabelecer_conexao():
 else:
     print("Erro mTLS.")
     exit()
+
 
 janela.protocol("WM_DELETE_WINDOW", lambda: [gestor_rede.encerrar_conexao(), janela.destroy()])
 janela.mainloop()

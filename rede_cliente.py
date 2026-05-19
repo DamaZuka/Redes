@@ -109,3 +109,22 @@ class ClienteRedeSegura:
         if self.socket_seguro:
             try: self.socket_seguro.close()
             except: pass
+
+    def enviar_ficheiro(self, caminho_ficheiro):
+        import os
+        if not os.path.exists(caminho_ficheiro):
+            return False
+
+        nome_ficheiro = os.path.basename(caminho_ficheiro)
+        tamanho = os.path.getsize(caminho_ficheiro)
+
+        # Avisa o servidor que vai chegar um ficheiro
+        if self.socket_seguro and self.ligado:
+            self.socket_seguro.sendall(f"FILE:{nome_ficheiro}:{tamanho}\n".encode('utf-8'))
+
+            # Envia o conteúdo em blocos de 4KB
+            with open(caminho_ficheiro, "rb") as f:
+                while chunk := f.read(4096):
+                    self.socket_seguro.sendall(chunk)
+            return True
+        return False

@@ -385,3 +385,71 @@
 [2026-05-19 22:50:06.688] [CRIAR_CANAL] Grupo 'teste' por Anonimo-56200
 [2026-05-19 22:50:10.766] [MUDANÇA_CANAL] 'Anonimo-56200' em 'teste'
 [2026-05-19 22:50:17.300] [MUDANÇA_CANAL] 'Anonimo-60032' em 'teste'
+[2026-05-19 22:51:22.136] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 58304)
+[2026-05-19 22:51:22.137] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-58304 ligado.
+[2026-05-19 22:51:31.319] [VIOLAÇÃO_ACESSO] Negado Anonimo-58304 em 'teste'
+[2026-05-19 22:52:32.913] [CRIAR_CANAL] Grupo 'outro' por Anonimo-58304
+[2026-05-19 22:52:37.341] [MUDANÇA_CANAL] 'Anonimo-58304' em 'outro'
+[2026-05-19 22:52:44.915] [MUDANÇA_CANAL] 'Anonimo-56200' em 'outro'
+[2026-05-19 22:53:28.511] [CRIAR_CANAL] Grupo 'migos' por Anonimo-60032
+[2026-05-19 22:53:35.560] [MUDANÇA_CANAL] 'Anonimo-56200' em 'migos'
+[2026-05-19 22:53:41.597] [MUDANÇA_CANAL] 'Anonimo-58304' em 'migos'
+[2026-05-19 22:53:52.500] [MUDANÇA_CANAL] 'Anonimo-60032' em 'migos'
+[2026-05-19 23:00:59.431] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-60032
+[2026-05-19 23:01:00.287] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-56200
+[2026-05-19 23:07:10.099] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 61083)
+[2026-05-19 23:07:10.101] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-61083 ligado.
+[2026-05-19 23:07:20.956] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 58338)
+[2026-05-19 23:07:20.957] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-58338 ligado.
+[2026-05-19 23:07:43.126] [CRIAR_CANAL] Grupo 'jurimbaba' por Anonimo-61083
+[2026-05-19 23:07:53.452] [MUDANÇA_CANAL] 'Anonimo-61083' em 'jurimbaba'
+[2026-05-19 23:08:04.011] [MUDANÇA_CANAL] 'Anonimo-58338' em 'jurimbaba'
+[2026-05-19 23:08:22.804] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-61083
+[2026-05-19 23:08:28.372] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-58338
+[2026-05-19 23:08:33.068] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 54126)
+[2026-05-19 23:08:33.069] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-54126 ligado.
+[2026-05-19 23:08:45.559] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 58344)
+[2026-05-19 23:08:45.560] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-58344 ligado.
+[2026-05-19 23:09:03.080] [CRIAR_CANAL] Grupo 'grupo1' por Anonimo-54126
+[2026-05-19 23:09:08.133] [MUDANÇA_CANAL] 'Anonimo-54126' em 'grupo1'
+[2026-05-19 23:09:17.631] [MUDANÇA_CANAL] 'Anonimo-58344' em 'grupo1'
+[2026-05-19 23:09:38.496] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 58350)
+[2026-05-19 23:09:38.497] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-58350 ligado.
+[2026-05-19 23:09:54.515] [VIOLAÇÃO_ACESSO] Negado Anonimo-58350 em 'grupo1'
+[2026-05-19 23:10:37.573] [CRIAR_CANAL] Grupo 'todos' por Anonimo-58350
+[2026-05-19 23:10:44.302] [MUDANÇA_CANAL] 'Anonimo-58350' em 'todos'
+[2026-05-19 23:10:50.695] [MUDANÇA_CANAL] 'Anonimo-58344' em 'todos'
+[2026-05-19 23:10:55.195] [MUDANÇA_CANAL] 'Anonimo-54126' em 'todos'
+[2026-05-19 23:12:03.215] [MUDANÇA_CANAL] 'Anonimo-54126' em 'grupo1'
+[2026-05-19 23:12:19.798] [MUDANÇA_CANAL] 'Anonimo-58344' em 'grupo1'
+[2026-05-19 23:15:15.606] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 51651)
+[2026-05-19 23:15:15.606] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-51651 ligado.
+[2026-05-19 23:15:24.507] [VIOLAÇÃO_ACESSO] Negado Anonimo-51651 em 'todos'
+[2026-05-19 23:15:48.785] [MUDANÇA_CANAL] 'Anonimo-54126' em 'todos'
+[2026-05-19 23:15:53.828] [MUDANÇA_CANAL] 'Anonimo-58344' em 'todos'
+[2026-05-19 23:16:18.991] [CRIAR_CANAL] Grupo 'conversa' por Anonimo-51651
+[2026-05-19 23:16:22.988] [MUDANÇA_CANAL] 'Anonimo-51651' em 'conversa'
+[2026-05-19 23:16:28.017] [MUDANÇA_CANAL] 'Anonimo-54126' em 'conversa'
+[2026-05-19 23:19:58.891] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-51651
+[2026-05-19 23:20:00.023] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-54126
+[2026-05-19 23:20:02.073] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-58350
+[2026-05-19 23:20:03.057] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-58344
+[2026-05-19 23:20:33.944] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 60368)
+[2026-05-19 23:20:33.944] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-60368 ligado.
+[2026-05-19 23:20:40.542] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 58383)
+[2026-05-19 23:20:40.542] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-58383 ligado.
+[2026-05-19 23:21:12.364] [CRIAR_CANAL] Grupo 'grupo' por Anonimo-60368
+[2026-05-19 23:21:17.642] [MUDANÇA_CANAL] 'Anonimo-60368' em 'grupo'
+[2026-05-19 23:21:21.585] [MUDANÇA_CANAL] 'Anonimo-58383' em 'grupo'
+[2026-05-19 23:21:51.499] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-60368
+[2026-05-19 23:50:27.757] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 49675)
+[2026-05-19 23:50:27.769] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-49675 ligado.
+[2026-05-19 23:50:33.535] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 49676)
+[2026-05-19 23:50:33.535] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-49676 ligado.
+[2026-05-19 23:50:51.738] [CRIAR_CANAL] Grupo 'grupo' por Anonimo-49675
+[2026-05-19 23:50:58.652] [MUDANÇA_CANAL] 'Anonimo-49675' em 'grupo'
+[2026-05-19 23:51:06.794] [MUDANÇA_CANAL] 'Anonimo-49676' em 'grupo'
+[2026-05-19 23:51:18.029] [RECEÇÃO_FICHEIRO] A receber 'PAIA-RelatorioFinalIntermedio_123562.pdf' de Anonimo-49676
+[2026-05-19 23:51:18.039] [FIM_RECEÇÃO] Guardado 'PAIA-RelatorioFinalIntermedio_123562.pdf'
+[2026-05-19 23:51:40.062] [RECEÇÃO_FICHEIRO] A receber 'PAIA-RelatorioFinalIntermedio_123562 (1).pdf' de Anonimo-49675
+[2026-05-19 23:51:40.069] [FIM_RECEÇÃO] Guardado 'PAIA-RelatorioFinalIntermedio_123562 (1).pdf'
