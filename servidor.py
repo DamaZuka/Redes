@@ -9,13 +9,13 @@ PORT = 8443
 TIMEOUT_SOCKET_CONV = 5.0
 INTERVALO_HEARTBEAT_LIMITE = 15.0
 
+# Estrutura de rede síncrona para canais
 grupos_canais = {
     "Geral": [],
     "Privado-SOC": []
 }
 lock_canais = threading.Lock()
 
-# Tabela para associar o socket do cliente ao nickname escolhido na app
 mapeamento_nomes = {}
 lock_nomes = threading.Lock()
 
@@ -45,24 +45,29 @@ lock_limitadores = threading.Lock()
 
 
 def obter_limitador(ip):
-    with lock_limitadores_ip:
+    with lock_limitadores:
         if ip not in limitadores_ip:
             limitadores_ip[ip] = RateLimiterTokenBucket(capacidade=5, taxa_reposicao=1.0)
         return limitadores_ip[ip]
 
 
 def rotear_mensagem_grupo(canal, pacote_bytes, socket_origem):
+    """SRC - Camada de Transporte: Transmite os bytes para os nós do canal."""
     with lock_canais:
         if canal in grupos_canais:
-            for cliente_sock in grupos_canais[canal]:
-                if cliente_sock != socket_origem:
-                    try:
-                        cliente_sock.sendall(pacote_bytes)
-                    except Exception:
-                        pass
+            # Criamos uma cópia local da lista para evitar deadlocks durante o envio
+            destinatarios = list(grupos_canais[canal])
+
+    for cliente_sock in destinatarios:
+        if cliente_sock != socket_origem:
+            try:
+                cliente_sock.sendall(pacote_bytes)
+            except Exception:
+                pass
 
 
-def desvincular_cliente(cliente_sock):
+def desvincular_cliente_de_canais(cliente_sock):
+    """Remove o socket de qualquer estrutura ativa de encaminhamento."""
     with lock_canais:
         for canal in grupos_canais:
             if cliente_sock in grupos_canais[canal]:
@@ -75,20 +80,18 @@ def desvincular_cliente(cliente_sock):
 def tratar_cliente(conn, addr):
     ip_cliente = addr[0]
     limiter = obter_limitador(ip_cliente)
-
-    # Identificação base por omissão usando a porta do socket remoto
     nome_utilizador = f"Anonimo-{addr[1]}"
 
-    # Validação mTLS obrigatória do hardware (Apenas logs de auditoria de rede)
     try:
-        cert = conn.getpeercert()
-        print(f"[AUDITORIA mTLS] Máquina validada via certificado X.509 de: {addr}")
+        conn.getpeercert()
+        print(f"[AUDITORIA mTLS] Ligação validada por infraestrutura X.509 de: {addr}")
     except Exception:
         pass
 
     conn.settimeout(TIMEOUT_SOCKET_CONV)
     ultimo_contacto = time.time()
 
+    # Regista o computador no canal Geral logo à entrada
     with lock_canais:
         grupos_canais["Geral"].append(conn)
     canal_atual = "Geral"
@@ -97,7 +100,7 @@ def tratar_cliente(conn, addr):
         while True:
             tempo_decorrido = time.time() - ultimo_contacto
             if tempo_decorrido > INTERVALO_HEARTBEAT_LIMITE:
-                print(f"[TIMEOUT] {nome_utilizador} excedeu o limite de Heartbeat. Forçando desconexão.")
+                print(f"[TIMEOUT] {nome_utilizador} {addr} excedeu o Heartbeat. Desconexão.")
                 break
 
             try:
@@ -108,7 +111,7 @@ def tratar_cliente(conn, addr):
                 ultimo_contacto = time.time()
 
                 if not limiter.consumir():
-                    print(f"[DEFESA - RATE LIMIT] Saturação de tráfego para: {nome_utilizador}")
+                    print(f"[DEFESA] Rate Limit excedido para: {nome_utilizador}")
                     conn.sendall("ERRO: Limite de taxa excedido.".encode('utf-8'))
                     continue
 
@@ -119,7 +122,7 @@ def tratar_cliente(conn, addr):
                         conn.sendall("PONG".encode('utf-8'))
                         continue
 
-                    # Comando interno para registar o nickname dinâmico da app
+                    # COMANDO /nick: Processa e passa ao próximo ciclo (essencial o 'continue')
                     if msg.startswith("/nick "):
                         novo_nome = msg.split(" ", 1)[1].strip()
                         with lock_nomes:
@@ -128,40 +131,42 @@ def tratar_cliente(conn, addr):
                         print(f"[SISTEMA] {addr} registou o nickname: {nome_utilizador}")
                         continue
 
+                    # COMANDO /join: Trata a transição de canal de forma limpa
                     if msg.startswith("/join "):
-                        alvo = msg.split(" ")[1]
+                        alvo = msg.split(" ")[1].strip()
                         with lock_canais:
                             if alvo in grupos_canais:
-                                with lock_canais:
-                                    for c in grupos_canais:
-                                        if conn in grupos_canais[c]: grupos_canais[c].remove(conn)
-                                    grupos_canais[alvo].append(conn)
+                                # Remove apenas dos canais antigos
+                                for c in grupos_canais:
+                                    if conn in grupos_canais[c]:
+                                        grupos_canais[c].remove(conn)
+                                grupos_canais[alvo].append(conn)
                                 canal_atual = alvo
                                 conn.sendall(f"[SISTEMA]: Entraste na sala {alvo}".encode('utf-8'))
                             else:
                                 conn.sendall("[SISTEMA]: Erro: Canal inexistente.".encode('utf-8'))
                         continue
 
-                    # Recupera o nickname dinâmico para formatação do tráfego
+                    # Se chegou aqui, é tráfego normal de mensagens
                     with lock_nomes:
                         exibir_nome = mapeamento_nomes.get(conn, nome_utilizador)
 
                     print(f"[{canal_atual}][{exibir_nome} ({ip_cliente})]: {msg}")
 
-                    # Roteamento ativo contendo a tag de identificação dinâmica
                     pacote_saida = f"[{canal_atual}] {exibir_nome}: {msg}".encode('utf-8')
                     rotear_mensagem_grupo(canal_atual, pacote_saida, conn)
 
                 except UnicodeDecodeError:
-                    print(f"[AVISO] Erro ao decodificar payload de {addr}")
+                    print(f"[AVISO] Erro de decodificação de payload de {addr}")
 
             except socket.timeout:
                 continue
             except Exception as e:
-                print(f"[ERRO] Falha na sessão de {nome_utilizador}: {e}")
+                print(f"[ERRO] Falha crítica na thread de {nome_utilizador}: {e}")
                 break
 
-    desvincular_cliente(conn)
+    # Limpeza proativa de recursos da sessão morta
+    desvincular_cliente_de_canais(conn)
     print(f"[INFO] Recursos libertados para a sessão de: {nome_utilizador}")
 
 
