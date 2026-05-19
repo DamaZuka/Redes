@@ -10,9 +10,8 @@ PORT = 8443
 TIMEOUT_SOCKET_CONV = 5.0
 INTERVALO_HEARTBEAT_LIMITE = 15.0
 
-# Gestão de grupos e permissões em memória (Fase 1 e Requisitos)
-grupos_canais = {}  # {"NomeSala": [socket1, socket2]}
-acl_canais = {}  # {"NomeSala": ["Anonimo-12345", "Anonimo-67890"]}
+grupos_canais = {}
+acl_canais = {}
 
 lock_canais = threading.Lock()
 LOCK_LOG = threading.Lock()
@@ -99,7 +98,6 @@ def tratar_cliente(conn, addr):
     ultimo_contacto = time.time()
     canal_atual = None
 
-    # Envia o ID gerado dinamicamente para o cliente atualizar a UI dele
     try:
         conn.sendall(f"SET_NAME:{nome_utilizador}".encode('utf-8'))
     except Exception:
@@ -132,7 +130,7 @@ def tratar_cliente(conn, addr):
                     conn.sendall("PONG".encode('utf-8'))
                     continue
 
-                # --- RATE LIMITING ---
+                # --- GESTÃO DE TRÁFEGO ---
                 agora_envio = time.time()
                 ultimos_envios_locais = [t for t in ultimos_envios_locais if agora_envio - t < 1.5]
                 ultimos_envios_locais.append(agora_envio)

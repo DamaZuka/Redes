@@ -68,7 +68,6 @@ class ClienteRedeSegura:
 
                 msg = dados.decode('utf-8')
 
-                # Intercetar identificação dinâmica vinda do servidor
                 if msg.startswith("SET_NAME:"):
                     self.meu_nome = msg.split(":", 1)[1]
                     if self.callback_nome:

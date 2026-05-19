@@ -358,3 +358,12 @@
 [2026-05-19 22:26:29.469] [DESCONEXÃO_VOLUNTÁRIA] O utilizador Anonimo-53059 fechou a sessão.
 [2026-05-19 22:26:29.471] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-53059
 [2026-05-19 22:27:38.792] [SISTEMA_START] Servidor inicializado.
+[2026-05-19 22:30:50.164] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 58241)
+[2026-05-19 22:30:50.165] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-58241 ligado.
+[2026-05-19 22:31:04.100] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 64953)
+[2026-05-19 22:31:04.100] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-64953 ligado.
+[2026-05-19 22:31:22.553] [CRIAR_CANAL] Grupo ' grupo teste' criado por Anonimo-64953 com ACL: ['Anonimo-58241', 'Anonimo-64953']
+[2026-05-19 22:33:31.224] [CRIAR_CANAL] Grupo 'teste' criado por Anonimo-64953 com ACL: ['Anonimo-58241', 'Anonimo-64953']
+[2026-05-19 22:34:35.903] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 54486)
+[2026-05-19 22:34:35.904] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-54486 ligado.
+[2026-05-19 22:34:48.991] [DESCONEXÃO_VOLUNTÁRIA] O utilizador Anonimo-54486 fechou a sessão.
