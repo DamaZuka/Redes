@@ -3,6 +3,7 @@ import ssl
 import threading
 import time
 import datetime
+import os
 
 HOST = '0.0.0.0'
 PORT = 8443
@@ -13,7 +14,7 @@ INTERVALO_HEARTBEAT_LIMITE = 15.0
 grupos_canais = {}
 acl_canais = {}
 
-# CORREÇÃO CRÍTICA: RLock em vez de Lock para o servidor não congelar no JOIN
+# RLock em vez de Lock para o servidor não congelar no JOIN
 lock_canais = threading.RLock()
 LOCK_LOG = threading.Lock()
 FICHEIRO_LOG_REDE = "auditoria_infraestrutura.log"
@@ -177,29 +178,69 @@ def tratar_cliente(conn, addr):
                         else:
                             conn.sendall("[SISTEMA]: Erro: Esse grupo não existe.\n".encode('utf-8'))
                     continue
+
+                # --- COMANDO: FILE (RECEBER DO CLIENTE) ---
                 if msg.startswith("FILE:"):
                     try:
                         _, nome_ficheiro, tamanho = msg.split(":")
                         tamanho = int(tamanho)
-                        registar_evento_rede("RECEÇÃO_FICHEIRO", f"A receber '{nome_ficheiro}' de {nome_utilizador}")
 
-                        with open(f"recibido_{nome_utilizador}_{nome_ficheiro}", "wb") as f:
+                        # Defesa Ativa: Sanitização contra Path Traversal
+                        nome_seguro = os.path.basename(nome_ficheiro)
+                        nome_final_disco = f"recibido_{nome_seguro}"
+
+                        registar_evento_rede("RECEÇÃO_FICHEIRO", f"A receber '{nome_seguro}' de {nome_utilizador}")
+
+                        with open(nome_final_disco, "wb") as f:
                             recebido = 0
                             while recebido < tamanho:
                                 dados = conn.recv(min(tamanho - recebido, 4096))
-                                if not dados: break
+                                if not dados:
+                                    break
                                 f.write(dados)
                                 recebido += len(dados)
 
-                        registar_evento_rede("FIM_RECEÇÃO", f"Guardado '{nome_ficheiro}'")
-                        conn.sendall(f"[SISTEMA]: Ficheiro '{nome_ficheiro}' recebido com sucesso.\n".encode('utf-8'))
+                        registar_evento_rede("FIM_RECEÇÃO", f"Guardado com sucesso: '{nome_seguro}'")
+
+                        if canal_atual:
+                            # Notifica a sala toda com o padrão correto que o teu app_cliente espera intercetar
+                            mensagem_aviso = f"[SISTEMA] Ficheiro recebido: {nome_seguro} (Tamanho: {tamanho} bytes)"
+                            rotear_mensagem_grupo(canal_atual, mensagem_aviso.encode('utf-8'), None)
+
+                        conn.sendall(f"[SISTEMA]: Ficheiro '{nome_seguro}' carregado com sucesso.\n".encode('utf-8'))
                     except Exception as e:
                         registar_evento_rede("ERRO_FICHEIRO", f"Falha ao receber: {e}")
                     continue
+
+                    # --- COMANDO: GET_FILE (CORRIGIDO PARA NÃO CAIR A REDE) ---
+                if msg.startswith("GET_FILE:"):
+                    try:
+                        import base64
+                        nome_ficheiro = msg.split(":", 1)[1].strip()
+                        nome_seguro = os.path.basename(nome_ficheiro)
+                        caminho_ficheiro = f"recibido_{nome_seguro}"
+
+                        if os.path.exists(caminho_ficheiro):
+                            with open(caminho_ficheiro, "rb") as f:
+                                conteudo_binario = f.read()
+
+                            # Converte os bytes puros para uma string de texto Base64
+                            conteudo_b64 = base64.b64encode(conteudo_binario).decode('utf-8')
+
+                            # Envia tudo numa linha estruturada segura para a thread do cliente
+                            conn.sendall(f"FILE_DATA:{nome_seguro}:{conteudo_b64}\n".encode('utf-8'))
+                            registar_evento_rede("DOWNLOAD_CONCLUÍDO",
+                                                 f"Enviado '{nome_seguro}' em B64 para {nome_utilizador}")
+                        else:
+                            conn.sendall("[SISTEMA]: Erro: Ficheiro não encontrado no servidor.\n".encode('utf-8'))
+                    except Exception as e:
+                        registar_evento_rede("ERRO_DOWNLOAD",
+                                             f"Falha ao processar download de {nome_utilizador}: {e}")
+                    continue
+
                 # Envio normal de mensagens
                 if canal_atual:
                     ultimo_contacto = time.time()
-                    # CORREÇÃO: Print para veres as mensagens no terminal do servidor
                     print(f"[{canal_atual}][{nome_utilizador}]: {msg}")
                     pacote_saida = f"[{canal_atual}] {nome_utilizador}: {msg}\n".encode('utf-8')
                     rotear_mensagem_grupo(canal_atual, pacote_saida, conn)
@@ -213,7 +254,8 @@ def tratar_cliente(conn, addr):
 
     desvincular_cliente_de_canais(conn)
     with lock_limitadores:
-        if id_sessao in limitadores_clientes: del limitadores_clientes[id_sessao]
+        if id_sessao in limitadores_clientes:
+            del limitadores_clientes[id_sessao]
     registar_evento_rede("LIMPEZA_RECURSOS", f"Recursos libertados para {nome_utilizador}")
 
 
@@ -239,16 +281,6 @@ def iniciar_servidor():
             except Exception:
                 pass
 
-def receber_ficheiro(conn, nome_ficheiro, tamanho):
-    registar_evento_rede("RECEÇÃO_FICHEIRO", f"A receber '{nome_ficheiro}' ({tamanho} bytes)")
-    with open(f"recibido_{nome_ficheiro}", "wb") as f:
-        recebido = 0
-        while recebido < tamanho:
-            dados = conn.recv(min(tamanho - recebido, 4096))
-            if not dados: break
-            f.write(dados)
-            recebido += len(dados)
-    registar_evento_rede("FIM_RECEÇÃO", f"Ficheiro '{nome_ficheiro}' guardado com sucesso.")
 
 if __name__ == "__main__":
     iniciar_servidor()

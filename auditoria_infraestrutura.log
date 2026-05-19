@@ -453,3 +453,110 @@
 [2026-05-19 23:51:18.039] [FIM_RECEÇÃO] Guardado 'PAIA-RelatorioFinalIntermedio_123562.pdf'
 [2026-05-19 23:51:40.062] [RECEÇÃO_FICHEIRO] A receber 'PAIA-RelatorioFinalIntermedio_123562 (1).pdf' de Anonimo-49675
 [2026-05-19 23:51:40.069] [FIM_RECEÇÃO] Guardado 'PAIA-RelatorioFinalIntermedio_123562 (1).pdf'
+[2026-05-19 23:52:58.998] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 58459)
+[2026-05-19 23:52:58.998] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-58459 ligado.
+[2026-05-19 23:53:22.097] [CRIAR_CANAL] Grupo 'todos' por Anonimo-49676
+[2026-05-19 23:53:26.713] [MUDANÇA_CANAL] 'Anonimo-49676' em 'todos'
+[2026-05-19 23:53:33.701] [MUDANÇA_CANAL] 'Anonimo-49675' em 'todos'
+[2026-05-19 23:53:45.909] [MUDANÇA_CANAL] 'Anonimo-58459' em 'todos'
+[2026-05-19 23:53:56.565] [RECEÇÃO_FICHEIRO] A receber 'CV - Sara - Maio2026.jpg' de Anonimo-49675
+[2026-05-19 23:53:56.568] [FIM_RECEÇÃO] Guardado 'CV - Sara - Maio2026.jpg'
+[2026-05-20 00:06:49.028] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 63494)
+[2026-05-20 00:06:49.028] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-63494 ligado.
+[2026-05-20 00:06:57.272] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 65366)
+[2026-05-20 00:06:57.273] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-65366 ligado.
+[2026-05-20 00:07:08.094] [CRIAR_CANAL] Grupo 'A' por Anonimo-63494
+[2026-05-20 00:07:11.628] [MUDANÇA_CANAL] 'Anonimo-63494' em 'A'
+[2026-05-20 00:07:16.373] [MUDANÇA_CANAL] 'Anonimo-65366' em 'A'
+[2026-05-20 00:07:23.046] [RECEÇÃO_FICHEIRO] A receber 'PAIA-RelatorioFinalIntermedio_123562.pdf' de Anonimo-65366
+[2026-05-20 00:07:23.053] [FIM_RECEÇÃO] Guardado 'PAIA-RelatorioFinalIntermedio_123562.pdf'
+[2026-05-20 00:16:23.605] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-63494
+[2026-05-20 00:16:25.562] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-65366
+[2026-05-20 00:16:44.633] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 63705)
+[2026-05-20 00:16:44.633] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-63705 ligado.
+[2026-05-20 00:16:55.160] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 55580)
+[2026-05-20 00:16:55.160] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-55580 ligado.
+[2026-05-20 00:17:08.980] [CRIAR_CANAL] Grupo 'A' por Anonimo-63705
+[2026-05-20 00:17:11.709] [MUDANÇA_CANAL] 'Anonimo-63705' em 'A'
+[2026-05-20 00:17:16.376] [MUDANÇA_CANAL] 'Anonimo-55580' em 'A'
+[2026-05-20 00:17:23.402] [RECEÇÃO_FICHEIRO] A receber 'PAIA-RelatorioFinalIntermedio_123562 (1).pdf' de Anonimo-55580
+[2026-05-20 00:17:23.402] [FIM_RECEÇÃO] Guardado com sucesso: 'PAIA-RelatorioFinalIntermedio_123562 (1).pdf'
+[2026-05-20 00:19:05.246] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-55580
+[2026-05-20 00:19:17.990] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 53773)
+[2026-05-20 00:19:17.990] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-53773 ligado.
+[2026-05-20 00:19:22.386] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 53774)
+[2026-05-20 00:19:22.401] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-53774 ligado.
+[2026-05-20 00:19:45.521] [CRIAR_CANAL] Grupo 'A' por Anonimo-53774
+[2026-05-20 00:19:48.420] [MUDANÇA_CANAL] 'Anonimo-53774' em 'A'
+[2026-05-20 00:19:52.853] [VIOLAÇÃO_ACESSO] Negado Anonimo-53773 em 'A'
+[2026-05-20 00:20:33.560] [CRIAR_CANAL] Grupo 'B' por Anonimo-53774
+[2026-05-20 00:20:36.393] [MUDANÇA_CANAL] 'Anonimo-53774' em 'B'
+[2026-05-20 00:20:42.690] [MUDANÇA_CANAL] 'Anonimo-53773' em 'B'
+[2026-05-20 00:20:51.856] [RECEÇÃO_FICHEIRO] A receber 'PAIA-RelatorioFinalIntermedio_123562 (1).pdf' de Anonimo-53774
+[2026-05-20 00:20:51.872] [FIM_RECEÇÃO] Guardado com sucesso: 'PAIA-RelatorioFinalIntermedio_123562 (1).pdf'
+[2026-05-20 00:21:05.084] [RECEÇÃO_FICHEIRO] A receber 'grafico_comparativo_modelos.png' de Anonimo-53774
+[2026-05-20 00:21:05.085] [FIM_RECEÇÃO] Guardado com sucesso: 'grafico_comparativo_modelos.png'
+[2026-05-20 00:21:07.494] [DOWNLOAD_CONCLUÍDO] Enviado 'grafico_comparativo_modelos.png' para Anonimo-53773
+[2026-05-20 00:21:07.759] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-53773
+[2026-05-20 00:21:27.954] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-53774
+[2026-05-20 00:22:15.194] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 53980)
+[2026-05-20 00:22:15.194] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-53980 ligado.
+[2026-05-20 00:22:25.585] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 58425)
+[2026-05-20 00:22:25.585] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-58425 ligado.
+[2026-05-20 00:22:38.327] [CRIAR_CANAL] Grupo 'FAH' por Anonimo-53980
+[2026-05-20 00:22:43.005] [MUDANÇA_CANAL] 'Anonimo-53980' em 'FAH'
+[2026-05-20 00:22:49.318] [MUDANÇA_CANAL] 'Anonimo-58425' em 'FAH'
+[2026-05-20 00:22:56.527] [RECEÇÃO_FICHEIRO] A receber 'CV - Sara - Maio2026.jpg' de Anonimo-53980
+[2026-05-20 00:22:56.531] [FIM_RECEÇÃO] Guardado com sucesso: 'CV - Sara - Maio2026.jpg'
+[2026-05-20 00:22:59.680] [ERRO_DOWNLOAD] Falha ao processar download de Anonimo-58425: EOF occurred in violation of protocol (_ssl.c:2427)
+[2026-05-20 00:22:59.680] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-58425
+[2026-05-20 00:23:15.758] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-53980
+[2026-05-20 00:26:27.164] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 54654)
+[2026-05-20 00:26:27.164] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-54654 ligado.
+[2026-05-20 00:26:32.734] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 54655)
+[2026-05-20 00:26:32.734] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-54655 ligado.
+[2026-05-20 00:26:53.062] [CRIAR_CANAL] Grupo 'FAH' por Anonimo-54654
+[2026-05-20 00:27:01.688] [MUDANÇA_CANAL] 'Anonimo-54654' em 'FAH'
+[2026-05-20 00:27:08.117] [MUDANÇA_CANAL] 'Anonimo-54655' em 'FAH'
+[2026-05-20 00:27:19.485] [RECEÇÃO_FICHEIRO] A receber 'CV - Sara Pereira - Maio26.pdf' de Anonimo-54654
+[2026-05-20 00:27:19.488] [FIM_RECEÇÃO] Guardado com sucesso: 'CV - Sara Pereira - Maio26.pdf'
+[2026-05-20 00:27:24.512] [DOWNLOAD_CONCLUÍDO] Enviado 'CV - Sara Pereira - Maio26.pdf' em B64 para Anonimo-54655
+[2026-05-20 00:31:34.829] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-54654
+[2026-05-20 00:31:35.377] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-54655
+[2026-05-20 00:31:46.410] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 49675)
+[2026-05-20 00:31:46.412] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-49675 ligado.
+[2026-05-20 00:31:50.927] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 49677)
+[2026-05-20 00:31:50.927] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-49677 ligado.
+[2026-05-20 00:32:04.054] [CRIAR_CANAL] Grupo 'FAH' por Anonimo-49675
+[2026-05-20 00:32:07.322] [MUDANÇA_CANAL] 'Anonimo-49675' em 'FAH'
+[2026-05-20 00:32:19.354] [MUDANÇA_CANAL] 'Anonimo-49677' em 'FAH'
+[2026-05-20 00:32:28.572] [RECEÇÃO_FICHEIRO] A receber 'Entregável 1 (5).pdf' de Anonimo-49677
+[2026-05-20 00:32:28.577] [FIM_RECEÇÃO] Guardado com sucesso: 'Entregável 1 (5).pdf'
+[2026-05-20 00:32:36.580] [ERRO_DOWNLOAD] Falha ao processar download de Anonimo-49675: The write operation timed out
+[2026-05-20 00:32:45.914] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-49675
+[2026-05-20 00:38:59.065] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-49677
+[2026-05-20 00:39:15.421] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 65307)
+[2026-05-20 00:39:15.422] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-65307 ligado.
+[2026-05-20 00:39:20.295] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 63213)
+[2026-05-20 00:39:20.296] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-63213 ligado.
+[2026-05-20 00:39:45.055] [CRIAR_CANAL] Grupo 'FAH' por Anonimo-63213
+[2026-05-20 00:39:50.079] [MUDANÇA_CANAL] 'Anonimo-63213' em 'FAH'
+[2026-05-20 00:39:54.225] [MUDANÇA_CANAL] 'Anonimo-65307' em 'FAH'
+[2026-05-20 00:40:01.759] [RECEÇÃO_FICHEIRO] A receber 'Entregável 1 (5)_2.pdf' de Anonimo-65307
+[2026-05-20 00:40:01.760] [FIM_RECEÇÃO] Guardado com sucesso: 'Entregável 1 (5)_2.pdf'
+[2026-05-20 00:40:04.271] [DOWNLOAD_CONCLUÍDO] Enviado 'Entregável 1 (5)_2.pdf' em B64 para Anonimo-63213
+[2026-05-20 00:40:20.299] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-63213
+[2026-05-20 00:40:21.899] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-65307
+[2026-05-20 00:40:56.124] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 50549)
+[2026-05-20 00:40:56.125] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50549 ligado.
+[2026-05-20 00:41:01.355] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 50550)
+[2026-05-20 00:41:01.356] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50550 ligado.
+[2026-05-20 00:41:14.594] [CRIAR_CANAL] Grupo 'FAH' por Anonimo-50550
+[2026-05-20 00:41:22.869] [MUDANÇA_CANAL] 'Anonimo-50550' em 'FAH'
+[2026-05-20 00:41:27.696] [MUDANÇA_CANAL] 'Anonimo-50549' em 'FAH'
+[2026-05-20 00:41:34.697] [RECEÇÃO_FICHEIRO] A receber 'grafico_comparativo_modelos.png' de Anonimo-50549
+[2026-05-20 00:41:34.699] [FIM_RECEÇÃO] Guardado com sucesso: 'grafico_comparativo_modelos.png'
+[2026-05-20 00:41:36.496] [DOWNLOAD_CONCLUÍDO] Enviado 'grafico_comparativo_modelos.png' em B64 para Anonimo-50550
+[2026-05-20 00:42:05.229] [RECEÇÃO_FICHEIRO] A receber 'Entregável 1 (5)_2.pdf' de Anonimo-50549
+[2026-05-20 00:42:05.230] [FIM_RECEÇÃO] Guardado com sucesso: 'Entregável 1 (5)_2.pdf'
+[2026-05-20 00:42:07.402] [DOWNLOAD_CONCLUÍDO] Enviado 'Entregável 1 (5)_2.pdf' em B64 para Anonimo-50550
