@@ -57,17 +57,25 @@ class ClienteRedeSegura:
                 break
 
     def _escutar_servidor(self):
+        buffer_dados = ""
         while self.ligado:
             try:
-                dados = self.socket_seguro.recv(1024)
+                # Aumentamos o chunk de leitura para 8192 para ser mais eficiente
+                dados = self.socket_seguro.recv(8192)
                 if not dados:
                     self._notificar_queda()
                     break
 
-                # Tratar quebras de linha enviadas pelo servidor
-                linhas = dados.decode('utf-8').split('\n')
-                for linha in list(linhas):
+                # Junta os bytes acabados de chegar ao nosso buffer acumulado
+                # O errors='ignore' previne crashes se o TCP cortar um acento a meio
+                buffer_dados += dados.decode('utf-8', errors='ignore')
+
+                # Só processa quando tiver a certeza que encontrou o fim da mensagem (\n)
+                while '\n' in buffer_dados:
+                    # Tira a primeira linha completa do buffer e deixa o resto lá para a próxima
+                    linha, buffer_dados = buffer_dados.split('\n', 1)
                     linha = linha.strip()
+
                     if not linha:
                         continue
 
@@ -80,7 +88,7 @@ class ClienteRedeSegura:
                     if linha != "PONG":
                         if self.callback_mensagem:
                             self.callback_mensagem(linha)
-            except Exception:
+            except Exception as e:
                 self._notificar_queda()
                 break
 
