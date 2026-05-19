@@ -560,3 +560,17 @@
 [2026-05-20 00:42:05.229] [RECEÇÃO_FICHEIRO] A receber 'Entregável 1 (5)_2.pdf' de Anonimo-50549
 [2026-05-20 00:42:05.230] [FIM_RECEÇÃO] Guardado com sucesso: 'Entregável 1 (5)_2.pdf'
 [2026-05-20 00:42:07.402] [DOWNLOAD_CONCLUÍDO] Enviado 'Entregável 1 (5)_2.pdf' em B64 para Anonimo-50550
+[2026-05-20 00:44:09.818] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 58666)
+[2026-05-20 00:44:09.822] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-58666 ligado.
+[2026-05-20 00:44:23.166] [CRIAR_CANAL] Grupo 'TODOS' por Anonimo-50549
+[2026-05-20 00:44:32.268] [MUDANÇA_CANAL] 'Anonimo-50549' em 'TODOS'
+[2026-05-20 00:44:35.999] [MUDANÇA_CANAL] 'Anonimo-50550' em 'TODOS'
+[2026-05-20 00:44:42.218] [MUDANÇA_CANAL] 'Anonimo-58666' em 'TODOS'
+[2026-05-20 00:44:55.542] [RECEÇÃO_FICHEIRO] A receber 'Edital PRR Mais Digital - Mobilidade (Heidelberg - Alemanha).pdf' de Anonimo-50549
+[2026-05-20 00:44:55.549] [FIM_RECEÇÃO] Guardado com sucesso: 'Edital PRR Mais Digital - Mobilidade (Heidelberg - Alemanha).pdf'
+[2026-05-20 00:45:01.462] [DOWNLOAD_CONCLUÍDO] Enviado 'Edital PRR Mais Digital - Mobilidade (Heidelberg - Alemanha).pdf' em B64 para Anonimo-58666
+[2026-05-20 00:45:43.595] [DOWNLOAD_CONCLUÍDO] Enviado 'Edital PRR Mais Digital - Mobilidade (Heidelberg - Alemanha).pdf' em B64 para Anonimo-58666
+[2026-05-20 00:46:28.294] [TIMEOUT_REDE] Forçando encerramento: Anonimo-58666
+[2026-05-20 00:46:28.297] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-58666
+[2026-05-20 00:52:08.082] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-50549
+[2026-05-20 00:52:08.743] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-50550

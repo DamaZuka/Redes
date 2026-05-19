@@ -24,34 +24,43 @@ import shutil
 
 
 def receber_mensagem_do_servidor(texto):
+    # 1. INTERCETA O DOWNLOAD DIRETO PARA A RAM
     if texto.startswith("FILE_DATA:"):
-        try:
-            _, nome_ficheiro, conteudo_b64 = texto.split(":", 2)
-            dados_binarios = base64.b64decode(conteudo_b64)
 
-            # CRÍTICO: Gravar num ficheiro temporário SEM abrir janelas bloqueantes
-            caminho_temp = os.path.join(tempfile.gettempdir(), nome_ficheiro)
-            with open(caminho_temp, "wb") as f:
-                f.write(dados_binarios)
+        # O truque: Delegar a abertura da janela para a UI principal (não rebenta a rede!)
+        def _processar_e_guardar():
+            try:
+                _, nome_ficheiro, conteudo_b64 = texto.split(":", 2)
+                dados_binarios = base64.b64decode(conteudo_b64)
 
-            # Agora que já gravámos, perguntamos ao user para copiar do temp para onde ele quer
-            chat_area.insert(tk.END, f"[SISTEMA] Ficheiro '{nome_ficheiro}' recebido!\n")
+                # Extrai a extensão corretamente (ex: .png, .pdf)
+                extensao = os.path.splitext(nome_ficheiro)[1].lower()
 
-            if messagebox.askyesno("Download", f"Ficheiro '{nome_ficheiro}' recebido. Queres guardar?"):
-                caminho_destino = filedialog.asksaveasfilename(initialfile=nome_ficheiro)
-                if caminho_destino:
-                    shutil.copy2(caminho_temp, caminho_destino)
-                    chat_area.insert(tk.END, f"[SISTEMA] Guardado em: {caminho_destino}\n")
+                # Abre a janela já com a extensão forçada
+                caminho_salvar = filedialog.asksaveasfilename(
+                    initialfile=nome_ficheiro,
+                    defaultextension=extensao,
+                    filetypes=[(f"Ficheiro {extensao}", f"*{extensao}"), ("Todos os Ficheiros", "*.*")]
+                )
 
-        except Exception as e:
-            chat_area.insert(tk.END, f"[SISTEMA] Erro: {e}\n")
+                # Só se tu clicares em "Guardar" é que o ficheiro vai para o disco
+                if caminho_salvar:
+                    with open(caminho_salvar, "wb") as f:
+                        f.write(dados_binarios)
+                    chat_area.insert(tk.END, f"[SISTEMA] Guardado com sucesso em: {caminho_salvar}\n")
+                else:
+                    chat_area.insert(tk.END, "[SISTEMA] Download ignorado. Nada foi gravado.\n")
 
-        chat_area.yview(tk.END)
+                chat_area.yview(tk.END)
+            except Exception as e:
+                chat_area.insert(tk.END, f"[SISTEMA] Erro ao gravar: {e}\n")
+                chat_area.yview(tk.END)
+
+        # Chama a função de forma segura
+        janela.after(0, _processar_e_guardar)
         return
 
-    # ... (o resto da tua função receber_mensagem_do_servidor continua igual)
-
-    # 2. TRATA AS NOTIFICAÇÕES DE LINKS CLICÁVEIS
+    # 2. TRATA DOS LINKS AZUIS CLICÁVEIS NO CHAT
     if "[SISTEMA] Ficheiro recebido:" in texto:
         try:
             partes = texto.split("Ficheiro recebido: ")[1]
@@ -73,7 +82,6 @@ def receber_mensagem_do_servidor(texto):
         chat_area.insert(tk.END, f"{texto}\n")
 
     chat_area.yview(tk.END)
-
 
 def descarregar_ficheiro(nome_ficheiro):
     """Pede diretamente o stream ao servidor."""

@@ -233,9 +233,9 @@ def tratar_cliente(conn, addr):
                                                  f"Enviado '{nome_seguro}' em B64 para {nome_utilizador}")
                         else:
                             conn.sendall("[SISTEMA]: Erro: Ficheiro não encontrado no servidor.\n".encode('utf-8'))
+                        ultimo_contacto = time.time()  # <--- METE ISTO AQUI!
                     except Exception as e:
-                        registar_evento_rede("ERRO_DOWNLOAD",
-                                             f"Falha ao processar download de {nome_utilizador}: {e}")
+                        registar_evento_rede("ERRO_DOWNLOAD", f"Falha ao processar: {e}")
                     continue
 
                 # Envio normal de mensagens
