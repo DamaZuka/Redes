@@ -2,6 +2,7 @@ import socket
 import ssl
 import threading
 import time
+import datetime  # Importado para gerar timestamps de alta precisão
 
 HOST = '0.0.0.0'
 PORT = 8443
@@ -9,7 +10,6 @@ PORT = 8443
 TIMEOUT_SOCKET_CONV = 5.0
 INTERVALO_HEARTBEAT_LIMITE = 15.0
 
-# Estrutura de rede síncrona para canais
 grupos_canais = {
     "Geral": [],
     "Privado-SOC": []
@@ -18,6 +18,22 @@ lock_canais = threading.Lock()
 
 mapeamento_nomes = {}
 lock_nomes = threading.Lock()
+
+# --- SUBSISTEMA DE AUDITORIA DE INFRAESTRUTURA (SRC - CP5/CP9) ---
+LOCK_LOG = threading.Lock()
+FICHEIRO_LOG_REDE = "auditoria_infraestrutura.log"
+
+
+def registar_evento_rede(categoria, mensagem):
+    """
+    Persiste eventos de rede com carimbo de data/hora de alta precisão.
+    Garante a rastreabilidade e integridade dos registos de segurança.
+    """
+    agora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+    linha_log = f"[{agora}] [{categoria}] {mensagem}\n"
+    with LOCK_LOG:
+        with open(FICHEIRO_LOG_REDE, "a", encoding="utf-8") as f:
+            f.write(linha_log)
 
 
 class RateLimiterTokenBucket:
@@ -52,10 +68,8 @@ def obter_limitador(ip):
 
 
 def rotear_mensagem_grupo(canal, pacote_bytes, socket_origem):
-    """SRC - Camada de Transporte: Transmite os bytes para os nós do canal."""
     with lock_canais:
         if canal in grupos_canais:
-            # Criamos uma cópia local da lista para evitar deadlocks durante o envio
             destinatarios = list(grupos_canais[canal])
 
     for cliente_sock in destinatarios:
@@ -67,7 +81,6 @@ def rotear_mensagem_grupo(canal, pacote_bytes, socket_origem):
 
 
 def desvincular_cliente_de_canais(cliente_sock):
-    """Remove o socket de qualquer estrutura ativa de encaminhamento."""
     with lock_canais:
         for canal in grupos_canais:
             if cliente_sock in grupos_canais[canal]:
@@ -82,36 +95,41 @@ def tratar_cliente(conn, addr):
     limiter = obter_limitador(ip_cliente)
     nome_utilizador = f"Anonimo-{addr[1]}"
 
+    # Validação e auditoria do aperto de mão mTLS (CP4)
     try:
         conn.getpeercert()
-        print(f"[AUDITORIA mTLS] Ligação validada por infraestrutura X.509 de: {addr}")
-    except Exception:
-        pass
+        registar_evento_rede("AUTENTICAÇÃO_mTLS", f"Sucesso: Equipamento autenticado via X.509 de {addr}")
+    except Exception as e:
+        registar_evento_rede("ALERTA_MFT", f"Falha ao ler parâmetros criptográficos de {addr}: {e}")
 
     conn.settimeout(TIMEOUT_SOCKET_CONV)
     ultimo_contacto = time.time()
 
-    # Regista o computador no canal Geral logo à entrada
     with lock_canais:
         grupos_canais["Geral"].append(conn)
     canal_atual = "Geral"
+
+    registar_evento_rede("ENTRADA_CANAL", f"Utilizador {nome_utilizador} ({ip_cliente}) entrou na sala 'Geral'")
 
     with conn:
         while True:
             tempo_decorrido = time.time() - ultimo_contacto
             if tempo_decorrido > INTERVALO_HEARTBEAT_LIMITE:
-                print(f"[TIMEOUT] {nome_utilizador} {addr} excedeu o Heartbeat. Desconexão.")
+                registar_evento_rede("TIMEOUT_REDE",
+                                     f"Forçando encerramento: {nome_utilizador} ({ip_cliente}) falhou o Heartbeat.")
                 break
 
             try:
                 dados = conn.recv(1024)
                 if not dados:
+                    registar_evento_rede("DESCONEXÃO_VOLUNTÁRIA",
+                                         f"O utilizador {nome_utilizador} ({ip_cliente}) fechou a sessão.")
                     break
 
                 ultimo_contacto = time.time()
 
                 if not limiter.consumir():
-                    print(f"[DEFESA] Rate Limit excedido para: {nome_utilizador}")
+                    registar_evento_rede("DEFESA_RATE_LIMIT", f"Bloqueio de inundação ativa para o IP: {ip_cliente}")
                     conn.sendall("ERRO: Limite de taxa excedido.".encode('utf-8'))
                     continue
 
@@ -122,32 +140,33 @@ def tratar_cliente(conn, addr):
                         conn.sendall("PONG".encode('utf-8'))
                         continue
 
-                    # COMANDO /nick: Processa e passa ao próximo ciclo (essencial o 'continue')
                     if msg.startswith("/nick "):
                         novo_nome = msg.split(" ", 1)[1].strip()
+                        nome_antigo = nome_utilizador
                         with lock_nomes:
                             mapeamento_nomes[conn] = novo_nome
                             nome_utilizador = novo_nome
-                        print(f"[SISTEMA] {addr} registou o nickname: {nome_utilizador}")
+                        registar_evento_rede("ALTERAÇÃO_IDENTIDADE",
+                                             f"O socket {addr} alterou o nickname de '{nome_antigo}' para '{novo_nome}'")
                         continue
 
-                    # COMANDO /join: Trata a transição de canal de forma limpa
                     if msg.startswith("/join "):
                         alvo = msg.split(" ")[1].strip()
                         with lock_canais:
                             if alvo in grupos_canais:
-                                # Remove apenas dos canais antigos
                                 for c in grupos_canais:
                                     if conn in grupos_canais[c]:
                                         grupos_canais[c].remove(conn)
                                 grupos_canais[alvo].append(conn)
+                                canal_anterior = canal_atual
                                 canal_atual = alvo
                                 conn.sendall(f"[SISTEMA]: Entraste na sala {alvo}".encode('utf-8'))
+                                registar_evento_rede("MUDANÇA_CANAL",
+                                                     f"Utilizador '{nome_utilizador}' transitou de '{canal_anterior}' para '{alvo}'")
                             else:
                                 conn.sendall("[SISTEMA]: Erro: Canal inexistente.".encode('utf-8'))
                         continue
 
-                    # Se chegou aqui, é tráfego normal de mensagens
                     with lock_nomes:
                         exibir_nome = mapeamento_nomes.get(conn, nome_utilizador)
 
@@ -157,17 +176,16 @@ def tratar_cliente(conn, addr):
                     rotear_mensagem_grupo(canal_atual, pacote_saida, conn)
 
                 except UnicodeDecodeError:
-                    print(f"[AVISO] Erro de decodificação de payload de {addr}")
+                    registar_evento_rede("ANOMALIA_PAYLOAD", f"Erro de decodificação de bytes vindos de {addr}")
 
             except socket.timeout:
                 continue
             except Exception as e:
-                print(f"[ERRO] Falha crítica na thread de {nome_utilizador}: {e}")
+                registar_evento_rede("ERRO_SESSÃO", f"Exceção crítica na thread de {nome_utilizador}: {e}")
                 break
 
-    # Limpeza proativa de recursos da sessão morta
     desvincular_cliente_de_canais(conn)
-    print(f"[INFO] Recursos libertados para a sessão de: {nome_utilizador}")
+    registar_evento_rede("LIMPEZA_RECURSOS", f"Sockets e buffers libertados com sucesso para o endpoint {addr}")
 
 
 def iniciar_servidor():
@@ -182,6 +200,8 @@ def iniciar_servidor():
         bind_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         bind_socket.bind(('0.0.0.0', 8443))
         bind_socket.listen(10)
+
+        registar_evento_rede("SISTEMA_START", "Servidor Hub de Alta Disponibilidade TLS 1.3 inicializado com sucesso.")
         print("Servidor Hub Multiutilizador (SRC TLS 1.3) ativo na porta 8443...")
 
         while True:
@@ -193,7 +213,7 @@ def iniciar_servidor():
                 cliente_thread.daemon = True
                 cliente_thread.start()
             except Exception as e:
-                print(f"[ERRO] Falha no handshake: {e}")
+                registar_evento_rede("FALHA_HANDSHAKE", f"Tentativa de conexão abortada durante negociação TLS: {e}")
 
 
 if __name__ == "__main__":
