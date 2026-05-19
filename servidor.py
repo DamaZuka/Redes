@@ -1,27 +1,45 @@
 import socket
+import ssl
 
-# '0.0.0.0' garante que o servidor escuta em todos os interfaces da rede local
+# Configuração
 HOST = '0.0.0.0'
 PORT = 8443
 
 
 def iniciar_servidor():
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as servidor_socket:
-        servidor_socket.bind((HOST, PORT))
-        servidor_socket.listen()
-        print(f"Servidor a escutar na porta {PORT}...")
+    # 1. Configurar o contexto SSL (CP4)
+    context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+    context.load_cert_chain(certfile="cert.pem", keyfile="chave.pem")
 
-        # Aceita a conexão do outro PC
-        conexao, endereco = servidor_socket.accept()
+    # 2. Criar o socket base
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as bind_socket:
+        bind_socket.bind((HOST, PORT))
+        bind_socket.listen(5)
+        print(f"Servidor seguro a escutar na porta {PORT}...")
 
-        with conexao:
-            print(f"Ligação estabelecida com sucesso com: {endereco}")
+        # 3. Envolver o socket em SSL (Cria o túnel seguro)
+        with context.wrap_socket(bind_socket, server_side=True) as secure_server:
             while True:
-                dados = conexao.recv(1024)
-                if not dados:
-                    break
-                print(f"[Cliente {endereco}]: {dados.decode('utf-8')}")
-                conexao.sendall("Recebi a tua mensagem!".encode('utf-8'))
+                try:
+                    conn, addr = secure_server.accept()
+                    print(f"Ligação segura aceite de: {addr}")
+
+                    with conn:
+                        while True:
+                            dados = conn.recv(1024)
+                            if not dados:
+                                break
+
+                            # Tratamento de erro de codificação (Robustez - CP8)
+                            try:
+                                msg = dados.decode('utf-8')
+                                print(f"[Cliente {addr}]: {msg}")
+                                conn.sendall("Recebido com seguranca!".encode('utf-8'))
+                            except UnicodeDecodeError:
+                                print(f"[Aviso] Erro ao decodificar pacote de {addr}")
+
+                except Exception as e:
+                    print(f"Erro na ligação: {e}")
 
 
 if __name__ == "__main__":
