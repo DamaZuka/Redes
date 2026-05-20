@@ -99,10 +99,9 @@ def atualizar_identidade_ui(nome):
 def acao_enviar_ficheiro():
     ficheiro = filedialog.askopenfilename()
     if ficheiro:
-        chat_area.insert(tk.END, f"[SISTEMA] A enviar ficheiro: {os.path.basename(ficheiro)}...\n")
         chat_area.yview(tk.END)
         if gestor_rede.enviar_ficheiro(ficheiro):
-            chat_area.insert(tk.END, f"[SISTEMA] Envio concluído com sucesso!\n")
+            pass
         else:
             chat_area.insert(tk.END, "[SISTEMA] Erro ao enviar ficheiro binário.\n")
         chat_area.yview(tk.END)

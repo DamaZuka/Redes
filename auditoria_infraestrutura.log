@@ -574,3 +574,77 @@
 [2026-05-20 00:46:28.297] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-58666
 [2026-05-20 00:52:08.082] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-50549
 [2026-05-20 00:52:08.743] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-50550
+[2026-05-20 00:54:05.043] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 59942)
+[2026-05-20 00:54:05.044] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-59942 ligado.
+[2026-05-20 00:54:22.006] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 59202)
+[2026-05-20 00:54:22.006] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-59202 ligado.
+[2026-05-20 00:54:38.723] [CRIAR_CANAL] Grupo 'FAH' por Anonimo-59202
+[2026-05-20 00:54:48.979] [MUDANÇA_CANAL] 'Anonimo-59202' em 'FAH'
+[2026-05-20 00:54:53.621] [MUDANÇA_CANAL] 'Anonimo-59942' em 'FAH'
+[2026-05-20 00:55:03.285] [RECEÇÃO_FICHEIRO] A receber 'Dec viagem Sra. Maria Fonseca.pdf' de Anonimo-59202
+[2026-05-20 00:55:03.358] [FIM_RECEÇÃO] Guardado com sucesso: 'Dec viagem Sra. Maria Fonseca.pdf'
+[2026-05-20 00:55:12.447] [DOWNLOAD_CONCLUÍDO] Enviado 'Dec viagem Sra. Maria Fonseca.pdf' em B64 para Anonimo-59942
+[2026-05-20 02:15:11.172] [TIMEOUT_REDE] Forçando encerramento: Anonimo-59942
+[2026-05-20 02:15:11.174] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-59942
+[2026-05-20 02:15:26.182] [TIMEOUT_REDE] Forçando encerramento: Anonimo-59202
+[2026-05-20 02:15:26.183] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-59202
+[2026-05-20 02:17:54.161] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 52105)
+[2026-05-20 02:17:54.161] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-52105 ligado.
+[2026-05-20 02:18:00.040] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 52107)
+[2026-05-20 02:18:00.040] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-52107 ligado.
+[2026-05-20 02:18:22.756] [CRIAR_CANAL] Grupo 'V' por Anonimo-52107
+[2026-05-20 02:18:33.895] [MUDANÇA_CANAL] 'Anonimo-52107' em 'V'
+[2026-05-20 02:18:38.027] [VIOLAÇÃO_ACESSO] Negado Anonimo-52105 em 'V'
+[2026-05-20 02:18:59.756] [CRIAR_CANAL] Grupo 'C' por Anonimo-52107
+[2026-05-20 02:19:02.855] [MUDANÇA_CANAL] 'Anonimo-52107' em 'C'
+[2026-05-20 02:19:06.319] [MUDANÇA_CANAL] 'Anonimo-52105' em 'C'
+[2026-05-20 02:19:13.642] [RECEÇÃO_FICHEIRO] A receber 'Dec viagem Sra. Maria Fonseca.pdf' de Anonimo-52105
+[2026-05-20 02:19:13.644] [FIM_RECEÇÃO] Guardado com sucesso: 'Dec viagem Sra. Maria Fonseca.pdf'
+[2026-05-20 02:23:04.709] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 59088)
+[2026-05-20 02:23:04.709] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-59088 ligado.
+[2026-05-20 02:23:09.961] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 59089)
+[2026-05-20 02:23:09.961] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-59089 ligado.
+[2026-05-20 02:23:26.031] [CRIAR_CANAL] Grupo 'O' por Anonimo-59089
+[2026-05-20 02:23:28.858] [MUDANÇA_CANAL] 'Anonimo-59089' em 'O'
+[2026-05-20 02:23:32.368] [MUDANÇA_CANAL] 'Anonimo-59088' em 'O'
+[2026-05-20 02:23:37.255] [RECEÇÃO_FICHEIRO] A receber 'Dec viagem Sra. Maria Fonseca.pdf' de Anonimo-59088
+[2026-05-20 02:23:37.258] [FIM_RECEÇÃO] Guardado com sucesso: 'Dec viagem Sra. Maria Fonseca.pdf'
+[2026-05-20 02:23:47.624] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-59088
+[2026-05-20 02:23:48.647] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-59089
+[2026-05-20 02:27:21.842] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 50063)
+[2026-05-20 02:27:21.842] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50063 ligado.
+[2026-05-20 02:27:34.897] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 50065)
+[2026-05-20 02:27:34.898] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50065 ligado.
+[2026-05-20 02:27:40.778] [CRIAR_CANAL] Grupo 'A' por Anonimo-50065
+[2026-05-20 02:27:47.476] [MUDANÇA_CANAL] 'Anonimo-50065' em 'A'
+[2026-05-20 02:28:03.877] [MUDANÇA_CANAL] 'Anonimo-50063' em 'A'
+[2026-05-20 02:28:29.256] [RECEÇÃO_FICHEIRO] A receber 'Dec viagem Sra. Maria Fonseca.pdf' de Anonimo-50065
+[2026-05-20 02:28:29.258] [FIM_RECEÇÃO] Guardado com sucesso: 'Dec viagem Sra. Maria Fonseca.pdf'
+[2026-05-20 02:28:47.803] [RECEÇÃO_FICHEIRO] A receber 'grafico_comparativo_modelos_2' de Anonimo-50063
+[2026-05-20 02:28:47.806] [FIM_RECEÇÃO] Guardado com sucesso: 'grafico_comparativo_modelos_2'
+[2026-05-20 02:28:53.251] [DOWNLOAD_CONCLUÍDO] Enviado 'Dec viagem Sra. Maria Fonseca.pdf' em B64 para Anonimo-50065
+[2026-05-20 02:29:02.894] [DOWNLOAD_CONCLUÍDO] Enviado 'Dec viagem Sra. Maria Fonseca.pdf' em B64 para Anonimo-50065
+[2026-05-20 02:29:10.651] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-50063
+[2026-05-20 02:29:14.138] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-50065
+[2026-05-20 02:29:58.809] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 50074)
+[2026-05-20 02:29:58.809] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50074 ligado.
+[2026-05-20 02:30:08.384] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 50076)
+[2026-05-20 02:30:08.385] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50076 ligado.
+[2026-05-20 02:30:13.635] [CRIAR_CANAL] Grupo 'E' por Anonimo-50076
+[2026-05-20 02:30:16.941] [MUDANÇA_CANAL] 'Anonimo-50076' em 'E'
+[2026-05-20 02:30:25.106] [MUDANÇA_CANAL] 'Anonimo-50074' em 'E'
+[2026-05-20 02:30:30.335] [RECEÇÃO_FICHEIRO] A receber 'Dec viagem Sra. Maria Fonseca.pdf' de Anonimo-50074
+[2026-05-20 02:30:30.336] [FIM_RECEÇÃO] Guardado com sucesso: 'Dec viagem Sra. Maria Fonseca.pdf'
+[2026-05-20 02:31:19.026] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 61334)
+[2026-05-20 02:31:19.029] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-61334 ligado.
+[2026-05-20 02:31:28.963] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 61335)
+[2026-05-20 02:31:28.963] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-61335 ligado.
+[2026-05-20 02:31:33.483] [CRIAR_CANAL] Grupo 'E' por Anonimo-61335
+[2026-05-20 02:31:36.014] [MUDANÇA_CANAL] 'Anonimo-61335' em 'E'
+[2026-05-20 02:31:42.795] [MUDANÇA_CANAL] 'Anonimo-61334' em 'E'
+[2026-05-20 02:31:49.132] [RECEÇÃO_FICHEIRO] A receber 'Dec viagem Sra. Maria Fonseca.pdf' de Anonimo-61334
+[2026-05-20 02:31:49.133] [FIM_RECEÇÃO] Guardado com sucesso: 'Dec viagem Sra. Maria Fonseca.pdf'
+[2026-05-20 03:11:28.535] [TIMEOUT_REDE] Forçando encerramento: Anonimo-61335
+[2026-05-20 03:11:28.537] [TIMEOUT_REDE] Forçando encerramento: Anonimo-61334
+[2026-05-20 03:11:28.558] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-61334
+[2026-05-20 03:11:28.537] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-61335
