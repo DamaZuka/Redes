@@ -673,3 +673,26 @@
 [2026-05-20 10:48:54.071] [RECEÇÃO_FICHEIRO] A receber 'PAIA-RelatorioFinalIntermedio_123562 (1).pdf' de Anonimo-53246
 [2026-05-20 10:48:54.074] [FIM_RECEÇÃO] Guardado com sucesso: 'PAIA-RelatorioFinalIntermedio_123562 (1).pdf'
 [2026-05-20 10:48:58.341] [DOWNLOAD_CONCLUÍDO] Enviado 'PAIA-RelatorioFinalIntermedio_123562 (1).pdf' em B64 para Anonimo-50832
+[2026-05-20 10:50:27.655] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 59642)
+[2026-05-20 10:50:27.655] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-59642 ligado.
+[2026-05-20 10:50:40.211] [CRIAR_CANAL] Grupo 'FAH2' por Anonimo-50832
+[2026-05-20 10:50:44.557] [MUDANÇA_CANAL] 'Anonimo-50832' em 'FAH2'
+[2026-05-20 10:50:51.754] [MUDANÇA_CANAL] 'Anonimo-59642' em 'FAH2'
+[2026-05-20 10:51:00.028] [MUDANÇA_CANAL] 'Anonimo-53246' em 'FAH'
+[2026-05-20 10:51:09.392] [MUDANÇA_CANAL] 'Anonimo-53246' em 'FAH2'
+[2026-05-20 10:51:21.331] [RECEÇÃO_FICHEIRO] A receber 'CV_André_Pinheiro.pdf' de Anonimo-59642
+[2026-05-20 10:51:21.379] [FIM_RECEÇÃO] Guardado com sucesso: 'CV_André_Pinheiro.pdf'
+[2026-05-20 10:51:25.161] [DOWNLOAD_CONCLUÍDO] Enviado 'CV_André_Pinheiro.pdf' em B64 para Anonimo-53246
+[2026-05-20 11:09:25.564] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-53246
+[2026-05-20 11:09:26.604] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-50832
+[2026-05-20 11:09:29.911] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-59642
+[2026-05-20 11:24:56.660] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 55390)
+[2026-05-20 11:24:56.671] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-55390 ligado.
+[2026-05-20 11:25:07.081] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 49673)
+[2026-05-20 11:25:07.082] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-49673 ligado.
+[2026-05-20 11:25:17.677] [CRIAR_CANAL] Grupo 'FAH3' por Anonimo-49673
+[2026-05-20 11:25:25.013] [MUDANÇA_CANAL] 'Anonimo-49673' em 'FAH3'
+[2026-05-20 11:25:31.147] [MUDANÇA_CANAL] 'Anonimo-55390' em 'FAH3'
+[2026-05-20 11:26:33.393] [AUTO_KICK] Grupo FAH3 fechado (sem quorum).
+[2026-05-20 11:26:49.079] [MUDANÇA_CANAL] 'Anonimo-49673' em 'FAH3'
+[2026-05-20 11:26:54.767] [MUDANÇA_CANAL] 'Anonimo-55390' em 'FAH3'

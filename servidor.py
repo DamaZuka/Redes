@@ -12,6 +12,7 @@ TIMEOUT_SOCKET_CONV = 5.0
 INTERVALO_HEARTBEAT_LIMITE = 15.0
 
 grupos_canais = {}
+nomes_clientes = {}
 acl_canais = {}
 
 # RLock em vez de Lock para o servidor não congelar no JOIN
@@ -62,16 +63,20 @@ def obter_limitador_cliente(identificador_socket):
 def rotear_mensagem_grupo(canal, pacote_bytes, socket_origem):
     with lock_canais:
         if canal in grupos_canais:
+            # Se o socket tentar mandar msg mas já levou auto-kick, bloqueia!
+            if socket_origem is not None and socket_origem not in grupos_canais[canal]:
+                return False
             destinatarios = list(grupos_canais[canal])
         else:
-            return
+            return False
+
     for cliente_sock in destinatarios:
         if cliente_sock != socket_origem:
             try:
                 cliente_sock.sendall(pacote_bytes)
             except Exception:
                 pass
-
+    return True
 
 def desvincular_cliente_de_canais(cliente_sock):
     with lock_canais:
@@ -87,6 +92,7 @@ def tratar_cliente(conn, addr):
     limiter = obter_limitador_cliente(id_sessao)
 
     nome_utilizador = f"Anonimo-{porta_cliente}"
+    nomes_clientes[conn] = nome_utilizador
 
     try:
         conn.getpeercert()
@@ -172,11 +178,49 @@ def tratar_cliente(conn, addr):
                                 canal_atual = nome_sala
                                 conn.sendall(f"[SISTEMA]: Entraste no grupo privado '{nome_sala}'.\n".encode('utf-8'))
                                 registar_evento_rede("MUDANÇA_CANAL", f"'{nome_utilizador}' em '{nome_sala}'")
+                                msg_aviso = f"[SISTEMA]: {nome_utilizador} entrou no grupo.\n".encode('utf-8')
+                                rotear_mensagem_grupo(canal_atual, msg_aviso, conn)
                             else:
                                 conn.sendall("[SISTEMA]: ERRO: Sem permissão para este grupo.\n".encode('utf-8'))
                                 registar_evento_rede("VIOLAÇÃO_ACESSO", f"Negado {nome_utilizador} em '{nome_sala}'")
                         else:
                             conn.sendall("[SISTEMA]: Erro: Esse grupo não existe.\n".encode('utf-8'))
+                    continue
+
+                # --- COMANDO: LEAVE ---
+                if msg == "LEAVE":
+                    if canal_atual:
+                        nome_sala = canal_atual
+
+                        with lock_canais:
+                            if conn in grupos_canais.get(nome_sala, []):
+                                grupos_canais[nome_sala].remove(conn)
+
+                            sobrantes = grupos_canais.get(nome_sala, [])
+                            integrantes_nomes = [nomes_clientes.get(c, "Desconhecido") for c in sobrantes]
+
+                            # Vê se a sala era só para 2 (criador + 1 na ACL)
+                            criado_para_dois = (len(acl_canais.get(nome_sala, [])) == 2)
+
+                            if criado_para_dois and len(sobrantes) == 1:
+                                # AUTO-KICK DO ÚLTIMO GAJO
+                                ultimo_sock = sobrantes[0]
+                                ultimo_sock.sendall(
+                                    f"[SISTEMA]: {nome_utilizador} saiu. Foste removido do grupo por segurança.\n".encode(
+                                        'utf-8'))
+                                grupos_canais[nome_sala].remove(ultimo_sock)
+                                registar_evento_rede("AUTO_KICK", f"Grupo {nome_sala} fechado (sem quorum).")
+                            elif len(sobrantes) > 0:
+                                # AVISA OS QUE SOBRAM
+                                lista_str = ", ".join(integrantes_nomes)
+                                aviso = f"[SISTEMA]: {nome_utilizador} saiu. Integrantes atuais: {lista_str}\n".encode(
+                                    'utf-8')
+                                rotear_mensagem_grupo(nome_sala, aviso, None)
+
+                        conn.sendall(f"[SISTEMA]: Saíste do grupo '{nome_sala}'.\n".encode('utf-8'))
+                        canal_atual = None
+                    else:
+                        conn.sendall("[SISTEMA]: Não estás em nenhum grupo para sair.\n".encode('utf-8'))
                     continue
 
                 # --- COMANDO: FILE (RECEBER DO CLIENTE) ---
@@ -205,9 +249,9 @@ def tratar_cliente(conn, addr):
                         if canal_atual:
                             # Notifica a sala toda (MENOS quem enviou) c/ a formatação [Grupo] Nome:
                             mensagem_grupo = f"[{canal_atual}] {nome_utilizador}: FILE_LINK_{nome_seguro} (Tamanho: {tamanho} bytes)\n"
-
+                            sucesso = rotear_mensagem_grupo(canal_atual, mensagem_grupo.encode('utf-8'), conn)
                             # Passamos 'conn' p/ o servidor NÃO mandar isto de volta ao gajo q enviou
-                            rotear_mensagem_grupo(canal_atual, mensagem_grupo.encode('utf-8'), conn)
+
 
                             # Responde SÓ ao gajo que enviou com a tag [Tu]:
                             mensagem_remetente = f"[Tu]: FILE_LINK_{nome_seguro} (Tamanho: {tamanho} bytes)\n"
@@ -245,15 +289,18 @@ def tratar_cliente(conn, addr):
                         registar_evento_rede("ERRO_DOWNLOAD", f"Falha ao processar: {e}")
                     continue
 
-                # Envio normal de mensagens
+                    # Envio normal de mensagens
                 if canal_atual:
                     ultimo_contacto = time.time()
-                    print(f"[{canal_atual}][{nome_utilizador}]: {msg}")
                     pacote_saida = f"[{canal_atual}] {nome_utilizador}: {msg}\n".encode('utf-8')
-                    rotear_mensagem_grupo(canal_atual, pacote_saida, conn)
+
+                    sucesso = rotear_mensagem_grupo(canal_atual, pacote_saida, conn)
+                    if not sucesso:
+                        conn.sendall(
+                            "[SISTEMA]: Acesso negado. O grupo foi desfeito ou foste expulso.\n".encode('utf-8'))
+                        canal_atual = None
                 else:
                     conn.sendall("[SISTEMA]: Cria ou junta-te a um grupo primeiro.\n".encode('utf-8'))
-
             except socket.timeout:
                 continue
             except Exception:

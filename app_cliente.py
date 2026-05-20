@@ -8,6 +8,7 @@ from rede_cliente import ClienteRedeSegura
 
 HOST = '192.168.1.97'
 PORT = 8443
+grupo_atual = None
 
 
 def lidar_com_queda_de_rede():
@@ -20,6 +21,10 @@ def lidar_com_queda_de_rede():
 
 
 def receber_mensagem_do_servidor(texto):
+    global grupo_atual
+    if "Foste removido do grupo" in texto or "Saíste do grupo" in texto:
+        grupo_atual = None
+
     # 1. INTERCETA O DOWNLOAD DIRETO PARA A RAM
     if texto.startswith("FILE_DATA:"):
 
@@ -44,7 +49,6 @@ def receber_mensagem_do_servidor(texto):
                     with open(caminho_salvar, "wb") as f:
                         f.write(dados_binarios)
                     chat_area.insert(tk.END, f"[SISTEMA] Guardado com sucesso em: {caminho_salvar}\n")
-
 
                 chat_area.yview(tk.END)
             except Exception as e:
@@ -90,6 +94,7 @@ def receber_mensagem_do_servidor(texto):
 
     chat_area.yview(tk.END)
 
+
 def descarregar_ficheiro(nome_ficheiro):
     """Pede diretamente o stream ao servidor."""
     chat_area.yview(tk.END)
@@ -102,6 +107,7 @@ def atualizar_identidade_ui(nome):
     chat_area.yview(tk.END)
 
 
+# --- FUNÇÃO DOS FICHEIROS QUE TINHA DESAPARECIDO ---
 def acao_enviar_ficheiro():
     ficheiro = filedialog.askopenfilename()
     if ficheiro:
@@ -114,12 +120,32 @@ def acao_enviar_ficheiro():
 
 
 def acao_enviar():
+    global grupo_atual
     msg = entry.get().strip()
+
     if msg:
-        if msg.startswith("CREATE:") or msg.startswith("JOIN:"):
+        if msg.startswith("CREATE:"):
+            # Apanha o nome da sala (CREATE:nome_sala:users)
+            partes = msg.split(":")
+            if len(partes) >= 2:
+                grupo_atual = partes[1].strip()
             chat_area.insert(tk.END, f"[Comando]: {msg}\n")
+
+        elif msg.startswith("JOIN:"):
+            grupo_atual = msg.split(":", 1)[1].strip()
+            chat_area.insert(tk.END, f"[Comando]: {msg}\n")
+
+        elif msg == "LEAVE":
+            grupo_atual = None
+            chat_area.insert(tk.END, f"[Comando]: LEAVE\n")
+
         else:
-            chat_area.insert(tk.END, f"[Tu]: {msg}\n")
+            # Aqui faz a magia visual que pediste
+            if grupo_atual:
+                chat_area.insert(tk.END, f"[{grupo_atual}] Tu: {msg}\n")
+            else:
+                chat_area.insert(tk.END, f"[Tu]: {msg}\n")
+
         chat_area.yview(tk.END)
 
         if gestor_rede.enviar_carga(msg):
