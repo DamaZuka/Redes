@@ -648,3 +648,28 @@
 [2026-05-20 03:11:28.537] [TIMEOUT_REDE] Forçando encerramento: Anonimo-61334
 [2026-05-20 03:11:28.558] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-61334
 [2026-05-20 03:11:28.537] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-61335
+[2026-05-20 10:44:52.331] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 60749)
+[2026-05-20 10:44:52.332] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-60749 ligado.
+[2026-05-20 10:45:03.041] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 60536)
+[2026-05-20 10:45:03.051] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-60536 ligado.
+[2026-05-20 10:45:26.609] [CRIAR_CANAL] Grupo 'FAH' por Anonimo-60749
+[2026-05-20 10:45:30.086] [MUDANÇA_CANAL] 'Anonimo-60749' em 'FAH'
+[2026-05-20 10:45:36.264] [MUDANÇA_CANAL] 'Anonimo-60536' em 'FAH'
+[2026-05-20 10:45:43.881] [RECEÇÃO_FICHEIRO] A receber 'Dec viagem Sra. Maria Fonseca.pdf' de Anonimo-60536
+[2026-05-20 10:45:43.883] [FIM_RECEÇÃO] Guardado com sucesso: 'Dec viagem Sra. Maria Fonseca.pdf'
+[2026-05-20 10:45:47.872] [DOWNLOAD_CONCLUÍDO] Enviado 'Dec viagem Sra. Maria Fonseca.pdf' em B64 para Anonimo-60749
+[2026-05-20 10:47:05.838] [RECEÇÃO_FICHEIRO] A receber 'Entregável 1 (5)_2.pdf' de Anonimo-60536
+[2026-05-20 10:47:05.840] [FIM_RECEÇÃO] Guardado com sucesso: 'Entregável 1 (5)_2.pdf'
+[2026-05-20 10:47:10.059] [DOWNLOAD_CONCLUÍDO] Enviado 'Entregável 1 (5)_2.pdf' em B64 para Anonimo-60536
+[2026-05-20 10:47:15.348] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-60536
+[2026-05-20 10:47:17.674] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-60749
+[2026-05-20 10:48:15.647] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 53246)
+[2026-05-20 10:48:15.649] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-53246 ligado.
+[2026-05-20 10:48:24.397] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 50832)
+[2026-05-20 10:48:24.408] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50832 ligado.
+[2026-05-20 10:48:30.178] [CRIAR_CANAL] Grupo 'FAH' por Anonimo-50832
+[2026-05-20 10:48:34.325] [MUDANÇA_CANAL] 'Anonimo-50832' em 'FAH'
+[2026-05-20 10:48:44.612] [MUDANÇA_CANAL] 'Anonimo-53246' em 'FAH'
+[2026-05-20 10:48:54.071] [RECEÇÃO_FICHEIRO] A receber 'PAIA-RelatorioFinalIntermedio_123562 (1).pdf' de Anonimo-53246
+[2026-05-20 10:48:54.074] [FIM_RECEÇÃO] Guardado com sucesso: 'PAIA-RelatorioFinalIntermedio_123562 (1).pdf'
+[2026-05-20 10:48:58.341] [DOWNLOAD_CONCLUÍDO] Enviado 'PAIA-RelatorioFinalIntermedio_123562 (1).pdf' em B64 para Anonimo-50832

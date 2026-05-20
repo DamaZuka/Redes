@@ -203,11 +203,18 @@ def tratar_cliente(conn, addr):
                         registar_evento_rede("FIM_RECEÇÃO", f"Guardado com sucesso: '{nome_seguro}'")
 
                         if canal_atual:
-                            # Notifica a sala toda com o padrão correto que o teu app_cliente espera intercetar
-                            mensagem_aviso = f"[SISTEMA] Ficheiro recebido: {nome_seguro} (Tamanho: {tamanho} bytes)"
-                            rotear_mensagem_grupo(canal_atual, mensagem_aviso.encode('utf-8'), None)
+                            # Notifica a sala toda (MENOS quem enviou) c/ a formatação [Grupo] Nome:
+                            mensagem_grupo = f"[{canal_atual}] {nome_utilizador}: FILE_LINK_{nome_seguro} (Tamanho: {tamanho} bytes)\n"
 
-                        conn.sendall(f"[SISTEMA]: Ficheiro '{nome_seguro}' carregado com sucesso.\n".encode('utf-8'))
+                            # Passamos 'conn' p/ o servidor NÃO mandar isto de volta ao gajo q enviou
+                            rotear_mensagem_grupo(canal_atual, mensagem_grupo.encode('utf-8'), conn)
+
+                            # Responde SÓ ao gajo que enviou com a tag [Tu]:
+                            mensagem_remetente = f"[Tu]: FILE_LINK_{nome_seguro} (Tamanho: {tamanho} bytes)\n"
+                            conn.sendall(mensagem_remetente.encode('utf-8'))
+                        else:
+                            # Fallback caso alguém consiga mandar ficheiros fora de grupos
+                            conn.sendall(f"[SISTEMA]: FILE_LINK_{nome_seguro} carregado com sucesso.\n".encode('utf-8'))
                     except Exception as e:
                         registar_evento_rede("ERRO_FICHEIRO", f"Falha ao receber: {e}")
                     continue

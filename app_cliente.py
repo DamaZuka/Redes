@@ -19,10 +19,6 @@ def lidar_com_queda_de_rede():
     messagebox.showerror("Erro de Conexão", "Foste desconectado do servidor seguro.")
 
 
-import tempfile
-import shutil
-
-
 def receber_mensagem_do_servidor(texto):
     # 1. INTERCETA O DOWNLOAD DIRETO PARA A RAM
     if texto.startswith("FILE_DATA:"):
@@ -48,8 +44,7 @@ def receber_mensagem_do_servidor(texto):
                     with open(caminho_salvar, "wb") as f:
                         f.write(dados_binarios)
                     chat_area.insert(tk.END, f"[SISTEMA] Guardado com sucesso em: {caminho_salvar}\n")
-                else:
-                    chat_area.insert(tk.END, "[SISTEMA] Download ignorado. Nada foi gravado.\n")
+
 
                 chat_area.yview(tk.END)
             except Exception as e:
@@ -61,31 +56,42 @@ def receber_mensagem_do_servidor(texto):
         return
 
     # 2. TRATA DOS LINKS AZUIS CLICÁVEIS NO CHAT
-    if "[SISTEMA] Ficheiro recebido:" in texto:
+    if "FILE_LINK_" in texto:
         try:
-            partes = texto.split("Ficheiro recebido: ")[1]
-            nome_ficheiro = partes.split(" (Tamanho:")[0].strip()
+            # Separa quem enviou ("prefixo") do ficheiro e tamanho ("resto")
+            prefixo, resto = texto.split("FILE_LINK_", 1)
+            nome_ficheiro = resto.split(" (Tamanho:")[0].strip()
+            resto_tamanho = resto.split(" (Tamanho:")[1]
 
+            # 1. Imprime quem enviou ("[Grupo] AnonimoX:" ou "[Tu]:")
+            chat_area.insert(tk.END, prefixo)
+
+            # 2. Cria o link só no nome do ficheiro
             tag_name = f"link_{nome_ficheiro.replace('.', '_')}"
             idx_inicio = chat_area.index(tk.END + "-1c")
-            chat_area.insert(tk.END, texto + "\n")
+            chat_area.insert(tk.END, nome_ficheiro)
             idx_fim = chat_area.index(tk.END + "-1c")
 
+            # 3. Imprime o tamanho a seguir ao link
+            chat_area.insert(tk.END, f" (Tamanho:{resto_tamanho.rstrip()}\n")
+
+            # Aplica o estilo p ficar azul e clicável
             chat_area.tag_add(tag_name, idx_inicio, idx_fim)
             chat_area.tag_config(tag_name, foreground="blue", underline=True)
             chat_area.tag_bind(tag_name, "<Enter>", lambda e: chat_area.config(cursor="hand2"))
             chat_area.tag_bind(tag_name, "<Leave>", lambda e: chat_area.config(cursor=""))
             chat_area.tag_bind(tag_name, "<Button-1>", lambda e, n=nome_ficheiro: descarregar_ficheiro(n))
         except Exception:
+            # Fallback se houver algum erro a separar a string
             chat_area.insert(tk.END, f"{texto}\n")
     else:
+        # Se for uma mensagem normal
         chat_area.insert(tk.END, f"{texto}\n")
 
     chat_area.yview(tk.END)
 
 def descarregar_ficheiro(nome_ficheiro):
     """Pede diretamente o stream ao servidor."""
-    chat_area.insert(tk.END, f"[SISTEMA] A solicitar download de '{nome_ficheiro}'...\n")
     chat_area.yview(tk.END)
     gestor_rede.enviar_carga(f"GET_FILE:{nome_ficheiro}")
 
