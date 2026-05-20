@@ -696,3 +696,107 @@
 [2026-05-20 11:26:33.393] [AUTO_KICK] Grupo FAH3 fechado (sem quorum).
 [2026-05-20 11:26:49.079] [MUDANÇA_CANAL] 'Anonimo-49673' em 'FAH3'
 [2026-05-20 11:26:54.767] [MUDANÇA_CANAL] 'Anonimo-55390' em 'FAH3'
+[2026-05-20 11:28:00.461] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 59721)
+[2026-05-20 11:28:00.472] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-59721 ligado.
+[2026-05-20 11:28:13.368] [CRIAR_CANAL] Grupo 'AMIGOS' por Anonimo-49673
+[2026-05-20 11:28:22.264] [MUDANÇA_CANAL] 'Anonimo-49673' em 'AMIGOS'
+[2026-05-20 11:28:26.291] [MUDANÇA_CANAL] 'Anonimo-59721' em 'AMIGOS'
+[2026-05-20 11:28:34.837] [MUDANÇA_CANAL] 'Anonimo-55390' em 'AMIGOS'
+[2026-05-20 11:28:52.281] [MUDANÇA_CANAL] 'Anonimo-55390' em 'FAH3'
+[2026-05-20 11:29:05.344] [MUDANÇA_CANAL] 'Anonimo-49673' em 'FAH3'
+[2026-05-20 11:29:30.280] [MUDANÇA_CANAL] 'Anonimo-49673' em 'AMIGOS'
+[2026-05-20 11:30:17.202] [MUDANÇA_CANAL] 'Anonimo-55390' em 'AMIGOS'
+[2026-05-20 11:40:51.153] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-55390
+[2026-05-20 11:40:51.851] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-49673
+[2026-05-20 11:41:10.658] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 50374)
+[2026-05-20 11:41:10.658] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50374 ligado.
+[2026-05-20 11:41:18.153] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 56000)
+[2026-05-20 11:41:18.153] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-56000 ligado.
+[2026-05-20 11:41:26.282] [CRIAR_CANAL] Grupo 'FAH' por Anonimo-56000
+[2026-05-20 11:41:29.529] [MUDANÇA_CANAL] 'Anonimo-56000' em 'FAH'
+[2026-05-20 11:41:37.033] [MUDANÇA_CANAL] 'Anonimo-50374' em 'FAH'
+[2026-05-20 11:41:58.178] [CRIAR_CANAL] Grupo 'G' por Anonimo-50374
+[2026-05-20 11:42:10.047] [AUTO_KICK] Grupo FAH fechado (sem quorum).
+[2026-05-20 11:42:20.226] [MUDANÇA_CANAL] 'Anonimo-50374' em 'G'
+[2026-05-20 11:55:10.464] [TIMEOUT_REDE] Forçando encerramento: Anonimo-56000
+[2026-05-20 11:55:10.466] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-56000
+[2026-05-20 11:55:10.466] [TIMEOUT_REDE] Forçando encerramento: Anonimo-50374
+[2026-05-20 11:55:10.479] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-50374
+[2026-05-20 12:28:28.945] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 64252)
+[2026-05-20 12:28:28.945] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-64252 ligado.
+[2026-05-20 12:28:38.701] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 56362)
+[2026-05-20 12:28:38.701] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-56362 ligado.
+[2026-05-20 12:28:44.002] [CRIAR_CANAL] Grupo 'FAH' por Anonimo-56362
+[2026-05-20 12:28:47.049] [MUDANÇA_CANAL] 'Anonimo-56362' em 'FAH'
+[2026-05-20 12:28:58.918] [MUDANÇA_CANAL] 'Anonimo-64252' em 'FAH'
+[2026-05-20 12:29:23.949] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 50458)
+[2026-05-20 12:29:23.949] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50458 ligado.
+[2026-05-20 12:29:35.161] [CRIAR_CANAL] Grupo 'MIX' por Anonimo-64252
+[2026-05-20 12:29:42.519] [AUTO_KICK] Grupo FAH dissolvido.
+[2026-05-20 12:29:50.798] [MUDANÇA_CANAL] 'Anonimo-64252' em 'MIX'
+[2026-05-20 12:29:55.133] [MUDANÇA_CANAL] 'Anonimo-56362' em 'MIX'
+[2026-05-20 12:30:01.503] [MUDANÇA_CANAL] 'Anonimo-50458' em 'MIX'
+[2026-05-20 12:30:16.603] [AUTO_KICK] Grupo MIX dissolvido.
+[2026-05-20 12:31:01.983] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-56362
+[2026-05-20 12:31:03.138] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-64252
+[2026-05-20 12:31:04.377] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-50458
+[2026-05-20 16:07:31.164] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('10.192.31.212', 59339)
+[2026-05-20 16:07:31.165] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-59339 ligado.
+[2026-05-20 16:07:39.055] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('10.192.31.212', 59341)
+[2026-05-20 16:07:39.069] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-59341 ligado.
+[2026-05-20 16:07:58.954] [CRIAR_CANAL] Grupo 'FAH' por Anonimo-59341
+[2026-05-20 16:08:04.109] [MUDANÇA_CANAL] 'Anonimo-59341' em 'FAH'
+[2026-05-20 16:08:08.227] [MUDANÇA_CANAL] 'Anonimo-59339' em 'FAH'
+[2026-05-20 16:08:14.722] [RECEÇÃO_FICHEIRO] A receber 'Dec viagem Sra. Maria Fonseca.pdf' de Anonimo-59339
+[2026-05-20 16:08:14.724] [FIM_RECEÇÃO] Guardado com sucesso: 'Dec viagem Sra. Maria Fonseca.pdf'
+[2026-05-20 16:08:35.536] [AUTO_KICK] Grupo FAH dissolvido.
+[2026-05-20 16:09:16.760] [CRIAR_CANAL] Grupo '2' por Anonimo-59341
+[2026-05-20 16:09:19.398] [MUDANÇA_CANAL] 'Anonimo-59341' em '2'
+[2026-05-20 16:09:22.447] [MUDANÇA_CANAL] 'Anonimo-59339' em '2'
+[2026-05-20 16:09:25.247] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:25.387] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:25.509] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:25.644] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:25.796] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:25.928] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:26.071] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:26.207] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:26.346] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:26.473] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:26.610] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:26.882] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:27.024] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:27.185] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:27.331] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:27.491] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:27.621] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:27.788] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:27.931] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:28.073] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:28.219] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:28.511] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:28.658] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:28.799] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:28.954] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:29.090] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:29.224] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:09:29.364] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-59339
+[2026-05-20 16:10:57.955] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-59341
+[2026-05-20 16:10:58.887] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-59339
+[2026-05-20 23:58:16.430] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 54509)
+[2026-05-20 23:58:16.432] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-54509 ligado.
+[2026-05-20 23:58:22.317] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 56508)
+[2026-05-20 23:58:22.317] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-56508 ligado.
+[2026-05-21 00:08:13.026] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 49856)
+[2026-05-21 00:08:13.026] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-49856 ligado.
+[2026-05-21 00:08:54.436] [CRIAR_CANAL] Grupo 'FAH' por Anonimo-56508
+[2026-05-21 00:08:59.097] [MUDANÇA_CANAL] 'Anonimo-56508' em 'FAH'
+[2026-05-21 00:09:12.168] [MUDANÇA_CANAL] 'Anonimo-54509' em 'FAH'
+[2026-05-21 00:09:22.704] [MUDANÇA_CANAL] 'Anonimo-49856' em 'FAH'
+[2026-05-21 00:09:35.467] [AUTO_KICK] Grupo FAH dissolvido.
+[2026-05-21 00:10:06.682] [CRIAR_CANAL] Grupo 'GUGA' por Anonimo-54509
+[2026-05-21 00:10:11.412] [MUDANÇA_CANAL] 'Anonimo-54509' em 'GUGA'
+[2026-05-21 00:10:22.819] [AUTO_KICK] Grupo GUGA dissolvido.
+[2026-05-21 00:10:41.437] [CRIAR_CANAL] Grupo 'GUGA' por Anonimo-54509
+[2026-05-21 00:10:44.989] [MUDANÇA_CANAL] 'Anonimo-54509' em 'GUGA'
+[2026-05-21 00:10:52.160] [MUDANÇA_CANAL] 'Anonimo-49856' em 'GUGA'

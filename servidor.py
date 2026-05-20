@@ -171,18 +171,27 @@ def tratar_cliente(conn, addr):
                     nome_sala = msg.split(":", 1)[1].strip()
 
                     with lock_canais:
+                        # O tal truque infalível para ver se o socket tá nalgum grupo ativo
+                        esta_em_grupo = any(conn in membros for membros in grupos_canais.values())
+                        if esta_em_grupo:
+                            conn.sendall(
+                                "[SISTEMA]: Erro: Já estás num grupo. Dá 'LEAVE' primeiro!\n".encode('utf-8'))
+                            continue
+
                         if nome_sala in acl_canais:
                             if nome_utilizador in acl_canais[nome_sala]:
                                 desvincular_cliente_de_canais(conn)
                                 grupos_canais[nome_sala].append(conn)
                                 canal_atual = nome_sala
-                                conn.sendall(f"[SISTEMA]: Entraste no grupo privado '{nome_sala}'.\n".encode('utf-8'))
+                                conn.sendall(
+                                    f"[SISTEMA]: Entraste no grupo privado '{nome_sala}'.\n".encode('utf-8'))
                                 registar_evento_rede("MUDANÇA_CANAL", f"'{nome_utilizador}' em '{nome_sala}'")
                                 msg_aviso = f"[SISTEMA]: {nome_utilizador} entrou no grupo.\n".encode('utf-8')
                                 rotear_mensagem_grupo(canal_atual, msg_aviso, conn)
                             else:
                                 conn.sendall("[SISTEMA]: ERRO: Sem permissão para este grupo.\n".encode('utf-8'))
-                                registar_evento_rede("VIOLAÇÃO_ACESSO", f"Negado {nome_utilizador} em '{nome_sala}'")
+                                registar_evento_rede("VIOLAÇÃO_ACESSO",
+                                                     f"Negado {nome_utilizador} em '{nome_sala}'")
                         else:
                             conn.sendall("[SISTEMA]: Erro: Esse grupo não existe.\n".encode('utf-8'))
                     continue
@@ -193,36 +202,30 @@ def tratar_cliente(conn, addr):
                         nome_sala = canal_atual
 
                         with lock_canais:
+                            # 1. Tira o gajo que deu LEAVE do grupo
                             if conn in grupos_canais.get(nome_sala, []):
                                 grupos_canais[nome_sala].remove(conn)
 
+                            # 2. Vê quantos sobram
                             sobrantes = grupos_canais.get(nome_sala, [])
-                            integrantes_nomes = [nomes_clientes.get(c, "Desconhecido") for c in sobrantes]
 
-                            # Vê se a sala era só para 2 (criador + 1 na ACL)
-                            criado_para_dois = (len(acl_canais.get(nome_sala, [])) == 2)
-
-                            if criado_para_dois and len(sobrantes) == 1:
-                                # AUTO-KICK DO ÚLTIMO GAJO
-                                ultimo_sock = sobrantes[0]
-                                ultimo_sock.sendall(
-                                    f"[SISTEMA]: {nome_utilizador} saiu. Foste removido do grupo por segurança.\n".encode(
-                                        'utf-8'))
-                                grupos_canais[nome_sala].remove(ultimo_sock)
-                                registar_evento_rede("AUTO_KICK", f"Grupo {nome_sala} fechado (sem quorum).")
-                            elif len(sobrantes) > 0:
-                                # AVISA OS QUE SOBRAM
+                            if len(sobrantes) < 2:
+                                # Se sobrar só 1 (ou nenhum), chama a TUA nova função p/ fechar a tasca!
+                                processar_saida_e_kick(nome_sala, nome_utilizador)
+                            else:
+                                # Se ainda sobrarem 2 ou mais pessoas, o grupo continua vivo, só avisa
+                                integrantes_nomes = [nomes_clientes.get(c, "Desconhecido") for c in sobrantes]
                                 lista_str = ", ".join(integrantes_nomes)
                                 aviso = f"[SISTEMA]: {nome_utilizador} saiu. Integrantes atuais: {lista_str}\n".encode(
                                     'utf-8')
                                 rotear_mensagem_grupo(nome_sala, aviso, None)
 
+                        # Confirma a saída ao gajo que deu LEAVE e limpa o estado dele
                         conn.sendall(f"[SISTEMA]: Saíste do grupo '{nome_sala}'.\n".encode('utf-8'))
                         canal_atual = None
                     else:
                         conn.sendall("[SISTEMA]: Não estás em nenhum grupo para sair.\n".encode('utf-8'))
                     continue
-
                 # --- COMANDO: FILE (RECEBER DO CLIENTE) ---
                 if msg.startswith("FILE:"):
                     try:
@@ -312,6 +315,33 @@ def tratar_cliente(conn, addr):
             del limitadores_clientes[id_sessao]
     registar_evento_rede("LIMPEZA_RECURSOS", f"Recursos libertados para {nome_utilizador}")
 
+
+# No bloco do LEAVE ou onde processas o AUTO_KICK no servidor.py:
+
+def processar_saida_e_kick(nome_sala, nome_utilizador_que_saiu):
+    with lock_canais:
+        if nome_sala in grupos_canais:
+            membros = grupos_canais[nome_sala]
+
+            # SE A REGRA É: Se ficar menos que X pessoas, todos saem
+            # (Exemplo: se ficarem menos de 2, fechamos tudo)
+            if len(membros) < 2:
+                for sock in list(membros):
+                    try:
+                        # Manda o aviso
+                        sock.sendall(
+                            f"[SISTEMA]: Grupo '{nome_sala}' fechado por falta de integrantes. Foste removido.\n".encode(
+                                'utf-8'))
+                        # --- AQUI É QUE A MÁGICA ACONTECE ---
+                        # Precisas de uma forma de avisar a thread que a variável canal_atual deve ser None
+                        # Como estás dentro da thread do cliente, podes simplesmente remover da lista
+                        grupos_canais[nome_sala].remove(sock)
+                    except:
+                        pass
+                # Remove o canal todo
+                del grupos_canais[nome_sala]
+                del acl_canais[nome_sala]
+                registar_evento_rede("AUTO_KICK", f"Grupo {nome_sala} dissolvido.")
 
 def iniciar_servidor():
     context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
