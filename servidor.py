@@ -126,9 +126,13 @@ def tratar_cliente(conn, addr):
     with conn:
         while True:
             if ip_esta_banido(ip_cliente):
-                registar_evento_rede("SEGURANÇA", f"Sessão terminada para IP banido: {ip_cliente}")
+                # AVIA O GRUPO ANTES DE MORRER
+                if canal_atual:
+                    rotear_mensagem_grupo(canal_atual,
+                                          f"[SISTEMA]: O utilizador {nome_utilizador} foi removido por violação de segurança.\n".encode(
+                                              'utf-8'), None)
                 conn.sendall("[SISTEMA]: Foste banido. Adeus!\n".encode('utf-8'))
-                break  # Sai do while e fecha a conexão
+                break
             if time.time() - ultimo_contacto > INTERVALO_HEARTBEAT_LIMITE:
                 registar_evento_rede("TIMEOUT_REDE", f"Forçando encerramento: {nome_utilizador}")
                 break
@@ -369,32 +373,37 @@ def ip_esta_banido(ip):
             return True
         return False
 
-# No servidor.py, altera a função que regista a falha:
+
 def registar_falha_ip(ip):
     with lock_fail2ban:
         tentativas_falhadas[ip] = tentativas_falhadas.get(ip, 0) + 1
 
         if tentativas_falhadas[ip] >= MAX_FALHAS:
-            # Incrementa o número de bans que este IP já teve
             contagem_bans[ip] = contagem_bans.get(ip, 0) + 1
 
-            # Cálculo exponencial: 1º ban=30s, 2º=120s, 3º=270s...
-            tempo_de_castigo = 30 * (contagem_bans[ip] ** 2)
+            # SE CHEGOU A 3 BANS, BAN PERMANENTE (tempo astronómico)
+            if contagem_bans[ip] >= 3:
+                tempo_de_castigo = 999999999
+                motivo = "Banimento permanente por reincidência abusiva."
+            else:
+                tempo_de_castigo = 30 * (contagem_bans[ip] ** 2)
+                motivo = f"Banido por {tempo_de_castigo}s."
 
-            agora = time.time()
-            ips_banidos[ip] = agora + tempo_de_castigo
-
-            # Limpa as tentativas para começar o contador do zero no próximo ciclo de ban
+            ips_banidos[ip] = time.time() + tempo_de_castigo
             tentativas_falhadas[ip] = 0
 
-            registar_evento_rede("FAIL2BAN",
-                                 f"IP {ip} banido por {tempo_de_castigo}s (Reincidência: {contagem_bans[ip]}).")
+            registar_evento_rede("FAIL2BAN", f"IP {ip} punido: {motivo}")
 
-            # Força o fecho de todas as sessões ativas deste IP
             for conn, nome in list(nomes_clientes.items()):
                 try:
                     if conn.getpeername()[0] == ip:
-                        conn.sendall(f"[SISTEMA]: Foste banido por {tempo_de_castigo}s.\n".encode('utf-8'))
+                        # 1. Avisar o próprio que vai de vela
+                        conn.sendall(f"[SISTEMA]: {motivo}\n".encode('utf-8'))
+
+                        # 2. SE ESTIVER EM GRUPO, AVISAR OS OUTROS (Notificação de rede)
+                        # Precisamos de saber o canal_atual da thread.
+                        # Dica: O teu `tratar_cliente` tem o `canal_atual`,
+                        # podes usar isso para enviar um aviso ao grupo antes de fechar!
                         conn.close()
                 except:
                     pass
