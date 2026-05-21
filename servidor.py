@@ -159,8 +159,25 @@ def tratar_cliente(conn, addr):
 
                 if len(ultimos_envios_locais) > 5 or not limiter.consumir():
                     registar_evento_rede("DEFESA_RATE_LIMIT", f"Inundação de: {nome_utilizador}")
-                    registar_falha_ip(ip_cliente)  # <--- SOMA UM STRIKE PELO SPAM!
-                    conn.sendall("[SISTEMA]: Limite de taxa excedido. Pacote descartado.\n".encode('utf-8'))
+                    registar_falha_ip(ip_cliente)  # Soma o strike
+
+                    # VERIFICA SE LEVOU O ÚLTIMO STRIKE E FOI BANIDO AGORA MESMO:
+                    if ip_esta_banido(ip_cliente):
+                        if canal_atual:
+                            rotear_mensagem_grupo(canal_atual,
+                                                  f"[{canal_atual}] SISTEMA: {nome_utilizador} foi expulso da rede por flooding.\n".encode(
+                                                      'utf-8'), conn)
+                        try:
+                            conn.sendall("[SISTEMA]: Foste banido por abusos na rede. Adeus!\n".encode('utf-8'))
+                        except:
+                            pass
+                        break  # Quebra o loop e vai direto limpar os recursos com segurança!
+
+                    # Se ainda não foi banido (apenas avisos 1 e 2), manda o descarte
+                    try:
+                        conn.sendall("[SISTEMA]: Limite de taxa excedido. Pacote descartado.\n".encode('utf-8'))
+                    except:
+                        pass
                     continue
 
                 # --- COMANDO: CREATE ---
@@ -381,7 +398,7 @@ def registar_falha_ip(ip):
         if tentativas_falhadas[ip] >= MAX_FALHAS:
             contagem_bans[ip] = contagem_bans.get(ip, 0) + 1
 
-            # SE CHEGOU A 3 BANS, BAN PERMANENTE (tempo astronómico)
+            # 3 BANS = PERMANENTE (Tempo astronómico)
             if contagem_bans[ip] >= 3:
                 tempo_de_castigo = 999999999
                 motivo = "Banimento permanente por reincidência abusiva."
@@ -393,20 +410,6 @@ def registar_falha_ip(ip):
             tentativas_falhadas[ip] = 0
 
             registar_evento_rede("FAIL2BAN", f"IP {ip} punido: {motivo}")
-
-            for conn, nome in list(nomes_clientes.items()):
-                try:
-                    if conn.getpeername()[0] == ip:
-                        # 1. Avisar o próprio que vai de vela
-                        conn.sendall(f"[SISTEMA]: {motivo}\n".encode('utf-8'))
-
-                        # 2. SE ESTIVER EM GRUPO, AVISAR OS OUTROS (Notificação de rede)
-                        # Precisamos de saber o canal_atual da thread.
-                        # Dica: O teu `tratar_cliente` tem o `canal_atual`,
-                        # podes usar isso para enviar um aviso ao grupo antes de fechar!
-                        conn.close()
-                except:
-                    pass
 
 def iniciar_servidor():
     context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
