@@ -168,6 +168,27 @@ def tratar_cliente(conn, addr):
                     conn.sendall("PONG\n".encode('utf-8'))
                     continue
 
+                # --- VERIFICAÇÃO DE MUTE (Aplicada antes de processar qualquer mensagem) ---
+                with lock_fail2ban:
+                    is_muted = False
+                    restante = 0
+                    if ip_cliente in ips_mutados:
+                        agora = time.time()
+                        if agora < ips_mutados[ip_cliente]:
+                            is_muted = True
+                            restante = int(ips_mutados[ip_cliente] - agora)
+                        else:
+                            del ips_mutados[ip_cliente]  # O período de castigo terminou
+
+                if is_muted:
+                    try:
+                        conn.sendall(
+                            f"[SISTEMA]: Mensagem não enviada! Ainda estás banido temporariamente (faltam {restante} segundos).\n".encode(
+                                'utf-8'))
+                    except:
+                        pass
+                    continue  # Aborta o resto do processamento desta mensagem, mas mantém o socket aberto
+
                 # --- RATE LIMITING E FAIL2BAN ---
                 agora_envio = time.time()
                 ultimos_envios_locais = [t for t in ultimos_envios_locais if agora_envio - t < 1.5]
@@ -222,29 +243,6 @@ def tratar_cliente(conn, addr):
                         pass
                     continue
 
-                # --- VERIFICAÇÃO DE MUTE (Aplicada antes de processar qualquer mensagem) ---
-                with lock_fail2ban:
-                    is_muted = False
-                    restante = 0
-                    if ip_cliente in ips_mutados:
-                        agora = time.time()
-                        if agora < ips_mutados[ip_cliente]:
-                            is_muted = True
-                            restante = int(ips_mutados[ip_cliente] - agora)
-                        else:
-                            del ips_mutados[ip_cliente]  # O período de castigo terminou
-
-                if is_muted:
-                    try:
-                        conn.sendall(
-                            f"[SISTEMA]: Mensagem não enviada! Ainda estás banido temporariamente (faltam {restante} segundos).\n".encode(
-                                'utf-8'))
-                    except:
-                        pass
-                    continue  # Aborta o resto do processamento desta mensagem, mas mantém o socket aberto
-
-                    # --- COMANDO: CREATE ---
-                    # (A partir daqui mantém-se o resto do teu código normal com o CREATE, JOIN, LEAVE, etc.)
 
                 # --- COMANDO: CREATE ---
                 if msg.startswith("CREATE:"):

@@ -1263,3 +1263,24 @@
 [2026-05-21 11:40:25.005] [AUTO_KICK] Grupo A dissolvido.
 [2026-05-21 11:40:25.117] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-54139
 [2026-05-21 11:40:48.813] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-51545
+[2026-05-21 11:52:36.842] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 56946)
+[2026-05-21 11:52:36.857] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-56946 ligado.
+[2026-05-21 11:52:53.690] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 54193)
+[2026-05-21 11:52:53.690] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-54193 ligado.
+[2026-05-21 11:53:09.344] [CRIAR_CANAL] Grupo 'A' por Anonimo-54193
+[2026-05-21 11:53:11.682] [MUDANÇA_CANAL] 'Anonimo-54193' em 'A'
+[2026-05-21 11:53:15.448] [MUDANÇA_CANAL] 'Anonimo-56946' em 'A'
+[2026-05-21 11:53:22.774] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54193
+[2026-05-21 11:53:22.920] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54193
+[2026-05-21 11:53:23.203] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54193
+[2026-05-21 11:53:23.509] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54193
+[2026-05-21 11:53:23.634] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54193
+[2026-05-21 11:53:23.636] [FAIL2BAN] IP 192.168.1.191 mutado por 30s.
+[2026-05-21 11:53:23.798] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54193
+[2026-05-21 11:53:23.946] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54193
+[2026-05-21 11:53:34.271] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54193
+[2026-05-21 11:53:34.433] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54193
+[2026-05-21 11:53:46.378] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54193
+[2026-05-21 11:53:46.396] [FAIL2BAN] IP 192.168.1.191 mutado por 60s.
+[2026-05-21 11:57:48.738] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-56946
+[2026-05-21 11:57:51.754] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-54193
