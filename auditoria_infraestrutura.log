@@ -1284,3 +1284,99 @@
 [2026-05-21 11:53:46.396] [FAIL2BAN] IP 192.168.1.191 mutado por 60s.
 [2026-05-21 11:57:48.738] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-56946
 [2026-05-21 11:57:51.754] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-54193
+[2026-05-21 11:58:20.706] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 51462)
+[2026-05-21 11:58:20.706] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-51462 ligado.
+[2026-05-21 11:58:37.119] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 54207)
+[2026-05-21 11:58:37.119] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-54207 ligado.
+[2026-05-21 11:58:43.667] [CRIAR_CANAL] Grupo 'A' por Anonimo-51462
+[2026-05-21 11:58:47.793] [MUDANÇA_CANAL] 'Anonimo-51462' em 'A'
+[2026-05-21 11:58:51.886] [VIOLAÇÃO_ACESSO] Negado Anonimo-54207 em 'A'
+[2026-05-21 11:59:12.908] [CRIAR_CANAL] Grupo 'B' por Anonimo-51462
+[2026-05-21 11:59:24.224] [AUTO_KICK] Grupo A dissolvido.
+[2026-05-21 11:59:27.866] [MUDANÇA_CANAL] 'Anonimo-51462' em 'B'
+[2026-05-21 11:59:31.961] [MUDANÇA_CANAL] 'Anonimo-54207' em 'B'
+[2026-05-21 11:59:35.434] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54207
+[2026-05-21 11:59:35.718] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54207
+[2026-05-21 11:59:35.832] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54207
+[2026-05-21 11:59:35.973] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54207
+[2026-05-21 11:59:36.136] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54207
+[2026-05-21 11:59:36.136] [FAIL2BAN] IP 192.168.1.191 mutado por 30s.
+[2026-05-21 18:10:26.329] [TIMEOUT_REDE] Forçando encerramento: Anonimo-51462
+[2026-05-21 18:10:26.332] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-51462
+[2026-05-21 18:10:41.350] [TIMEOUT_REDE] Forçando encerramento: Anonimo-54207
+[2026-05-21 18:10:41.352] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-54207
+[2026-05-21 19:24:22.263] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 60562)
+[2026-05-21 19:24:22.277] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-60562 ligado.
+[2026-05-21 21:22:06.481] [TIMEOUT_REDE] Forçando encerramento: Anonimo-60562
+[2026-05-21 21:22:06.487] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-60562
+[2026-05-21 22:10:52.977] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 61907)
+[2026-05-21 22:10:52.979] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-61907 ligado.
+[2026-05-21 22:11:01.296] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 65243)
+[2026-05-21 22:11:01.301] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-65243 ligado.
+[2026-05-21 22:11:19.006] [CRIAR_E_ENTRAR] 'Anonimo-61907' criou e entrou em 'OI'
+[2026-05-21 22:11:28.466] [MUDANÇA_CANAL] 'Anonimo-65243' em 'OI'
+[2026-05-21 22:11:35.434] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-65243
+[2026-05-21 22:11:35.529] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-65243
+[2026-05-21 22:11:35.718] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-65243
+[2026-05-21 22:11:36.116] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-65243
+[2026-05-21 22:11:36.268] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-65243
+[2026-05-21 22:11:36.268] [FAIL2BAN] IP 192.168.1.97 mutado por 30s.
+[2026-05-21 22:22:30.845] [DESCONEXÃO_JANELA] Utilizador Anonimo-61907 fechou a aplicação.
+[2026-05-21 22:22:30.849] [AUTO_KICK] Grupo OI dissolvido.
+[2026-05-21 22:22:30.850] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-61907
+[2026-05-21 22:22:31.725] [DESCONEXÃO_JANELA] Utilizador Anonimo-65243 fechou a aplicação.
+[2026-05-21 22:22:31.727] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-65243
+[2026-05-21 22:22:52.695] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 51841)
+[2026-05-21 22:22:52.695] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-51841 ligado.
+[2026-05-21 22:22:58.988] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 51842)
+[2026-05-21 22:22:58.988] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-51842 ligado.
+[2026-05-21 22:23:16.130] [CRIAR_E_ENTRAR] 'Anonimo-51842' criou e entrou em 'A'
+[2026-05-21 22:23:21.797] [MUDANÇA_CANAL] 'Anonimo-51841' em 'A'
+[2026-05-21 22:23:30.792] [DESCONEXÃO_JANELA] Utilizador Anonimo-51841 fechou a aplicação.
+[2026-05-21 22:23:30.794] [AUTO_KICK] Grupo A dissolvido.
+[2026-05-21 22:23:30.795] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-51841
+[2026-05-21 22:23:55.649] [DESCONEXÃO_JANELA] Utilizador Anonimo-51842 fechou a aplicação.
+[2026-05-21 22:23:55.649] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-51842
+[2026-05-21 22:24:05.205] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 64855)
+[2026-05-21 22:24:05.205] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-64855 ligado.
+[2026-05-21 22:24:12.387] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 64857)
+[2026-05-21 22:24:12.391] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-64857 ligado.
+[2026-05-21 22:24:19.317] [CRIAR_E_ENTRAR] 'Anonimo-64857' criou e entrou em 'A'
+[2026-05-21 22:24:28.109] [MUDANÇA_CANAL] 'Anonimo-64855' em 'A'
+[2026-05-21 22:26:03.469] [RECEÇÃO_FICHEIRO] A receber 'CP8-Gestão e Segurança de Redes.pdf' de Anonimo-64857
+[2026-05-21 22:26:03.479] [FIM_RECEÇÃO] Guardado com sucesso: 'CP8-Gestão e Segurança de Redes.pdf'
+[2026-05-21 22:26:05.062] [DOWNLOAD_CONCLUÍDO] Enviado 'CP8-Gestão e Segurança de Redes.pdf' em B64 para Anonimo-64855
+[2026-05-21 22:39:28.846] [DESCONEXÃO_JANELA] Utilizador Anonimo-64857 fechou a aplicação.
+[2026-05-21 22:39:28.854] [AUTO_KICK] Grupo A dissolvido.
+[2026-05-21 22:39:28.857] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-64857
+[2026-05-21 22:40:20.421] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 59757)
+[2026-05-21 22:40:20.423] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-59757 ligado.
+[2026-05-21 22:40:31.777] [DESCONEXÃO_JANELA] Utilizador Anonimo-59757 fechou a aplicação.
+[2026-05-21 22:40:31.784] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-59757
+[2026-05-21 22:40:33.047] [DESCONEXÃO_JANELA] Utilizador Anonimo-64855 fechou a aplicação.
+[2026-05-21 22:40:33.056] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-64855
+[2026-05-21 22:40:48.036] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 59759)
+[2026-05-21 22:40:48.036] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-59759 ligado.
+[2026-05-21 22:40:55.044] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 59761)
+[2026-05-21 22:40:55.049] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-59761 ligado.
+[2026-05-21 22:41:02.024] [CRIAR_E_ENTRAR] 'Anonimo-59761' criou e entrou em 'GRUPINHO'
+[2026-05-21 22:41:21.323] [MUDANÇA_CANAL] 'Anonimo-59759' em 'GRUPINHO'
+[2026-05-21 22:47:47.738] [DESCONEXÃO_JANELA] Utilizador Anonimo-59761 fechou a aplicação.
+[2026-05-21 22:48:09.780] [DESCONEXÃO_JANELA] Utilizador Anonimo-59759 fechou a aplicação.
+[2026-05-21 22:49:17.056] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 54311)
+[2026-05-21 22:49:17.058] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-54311 ligado.
+[2026-05-21 22:49:22.240] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 54312)
+[2026-05-21 22:49:22.240] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-54312 ligado.
+[2026-05-21 22:49:40.762] [CRIAR_E_ENTRAR] 'Anonimo-54312' criou e entrou em 'AMIGOSSSS'
+[2026-05-21 22:49:57.342] [MUDANÇA_CANAL] 'Anonimo-54311' em 'AMIGOSSSS'
+[2026-05-21 22:50:15.921] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54312
+[2026-05-21 22:50:16.204] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54312
+[2026-05-21 22:50:16.472] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54312
+[2026-05-21 22:50:16.613] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54312
+[2026-05-21 22:50:16.762] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54312
+[2026-05-21 22:50:16.764] [FAIL2BAN] IP 192.168.1.97 mutado por 30s.
+[2026-05-21 22:50:23.482] [DESCONEXÃO_JANELA] Utilizador Anonimo-54312 fechou a aplicação.
+[2026-05-21 22:50:23.484] [AUTO_KICK] Grupo AMIGOSSSS dissolvido.
+[2026-05-21 22:50:23.486] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-54312
+[2026-05-21 22:50:31.982] [DESCONEXÃO_JANELA] Utilizador Anonimo-54311 fechou a aplicação.
+[2026-05-21 22:50:31.984] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-54311
