@@ -126,12 +126,25 @@ def tratar_cliente(conn, addr):
     with conn:
         while True:
             if ip_esta_banido(ip_cliente):
-                # AVIA O GRUPO ANTES DE MORRER
                 if canal_atual:
-                    rotear_mensagem_grupo(canal_atual,
-                                          f"[SISTEMA]: O utilizador {nome_utilizador} foi removido por violação de segurança.\n".encode(
-                                              'utf-8'), None)
-                conn.sendall("[SISTEMA]: Foste banido. Adeus!\n".encode('utf-8'))
+                    nome_sala = canal_atual
+                    canal_atual = None
+                    # Remove o gajo do canal
+                    with lock_canais:
+                        if conn in grupos_canais.get(nome_sala, []):
+                            grupos_canais[nome_sala].remove(conn)
+
+                    rotear_mensagem_grupo(nome_sala,
+                                          f"[SISTEMA]: {nome_utilizador} foi removido pelo servidor.\n".encode('utf-8'),
+                                          None)
+                    # Força a limpeza da sala! Se ficar < 2, fecha a tasca.
+                    processar_saida_e_kick(nome_sala, nome_utilizador)
+
+                try:
+                    conn.sendall("[SISTEMA]: O teu IP está banido. Sessão terminada.\n".encode('utf-8'))
+                    time.sleep(0.1)  # Dá tempo ao pacote TCP para chegar antes de cortar!
+                except:
+                    pass
                 break
             if time.time() - ultimo_contacto > INTERVALO_HEARTBEAT_LIMITE:
                 registar_evento_rede("TIMEOUT_REDE", f"Forçando encerramento: {nome_utilizador}")
@@ -159,21 +172,39 @@ def tratar_cliente(conn, addr):
 
                 if len(ultimos_envios_locais) > 5 or not limiter.consumir():
                     registar_evento_rede("DEFESA_RATE_LIMIT", f"Inundação de: {nome_utilizador}")
-                    registar_falha_ip(ip_cliente)  # Soma o strike
 
-                    # VERIFICA SE LEVOU O ÚLTIMO STRIKE E FOI BANIDO AGORA MESMO:
-                    if ip_esta_banido(ip_cliente):
+                    # Chama a função e vê se este foi o strike final
+                    foi_banido, tempo_castigo = registar_falha_ip(ip_cliente)
+
+                    if foi_banido:
                         if canal_atual:
-                            rotear_mensagem_grupo(canal_atual,
-                                                  f"[{canal_atual}] SISTEMA: {nome_utilizador} foi expulso da rede por flooding.\n".encode(
-                                                      'utf-8'), conn)
+                            nome_sala = canal_atual
+                            canal_atual = None
+                            with lock_canais:
+                                if conn in grupos_canais.get(nome_sala, []):
+                                    grupos_canais[nome_sala].remove(conn)
+
+                            rotear_mensagem_grupo(nome_sala,
+                                                  f"[SISTEMA]: {nome_utilizador} foi expulso por flooding.\n".encode(
+                                                      'utf-8'), None)
+                            processar_saida_e_kick(nome_sala,
+                                                   nome_utilizador)  # Fecha o grupo se a outra pessoa ficar sozinha!
+
                         try:
-                            conn.sendall("[SISTEMA]: Foste banido por abusos na rede. Adeus!\n".encode('utf-8'))
+                            # Escolhe a mensagem dependendo do tempo de castigo
+                            if tempo_castigo > 999999:
+                                conn.sendall(
+                                    "[SISTEMA]: Foste banido PERMANENTEMENTE por abusos na rede.\n".encode('utf-8'))
+                            else:
+                                conn.sendall(
+                                    f"[SISTEMA]: Foste banido por {tempo_castigo}s devido a abusos na rede.\n".encode(
+                                        'utf-8'))
+
+                            time.sleep(0.1)  # O truque de ouro para a mensagem não dar "Ligação perdida"
                         except:
                             pass
-                        break  # Quebra o loop e vai direto limpar os recursos com segurança!
+                        break
 
-                    # Se ainda não foi banido (apenas avisos 1 e 2), manda o descarte
                     try:
                         conn.sendall("[SISTEMA]: Limite de taxa excedido. Pacote descartado.\n".encode('utf-8'))
                     except:
@@ -398,18 +429,19 @@ def registar_falha_ip(ip):
         if tentativas_falhadas[ip] >= MAX_FALHAS:
             contagem_bans[ip] = contagem_bans.get(ip, 0) + 1
 
-            # 3 BANS = PERMANENTE (Tempo astronómico)
+            # Se for a 3ª vez, leva ban "eterno"
             if contagem_bans[ip] >= 3:
-                tempo_de_castigo = 999999999
-                motivo = "Banimento permanente por reincidência abusiva."
+                tempo = 999999999
             else:
-                tempo_de_castigo = 30 * (contagem_bans[ip] ** 2)
-                motivo = f"Banido por {tempo_de_castigo}s."
+                tempo = 30 * (contagem_bans[ip] ** 2)
 
-            ips_banidos[ip] = time.time() + tempo_de_castigo
+            ips_banidos[ip] = time.time() + tempo
             tentativas_falhadas[ip] = 0
 
-            registar_evento_rede("FAIL2BAN", f"IP {ip} punido: {motivo}")
+            registar_evento_rede("FAIL2BAN", f"IP {ip} banido por {tempo}s (Reincidência: {contagem_bans[ip]}).")
+            return True, tempo  # Avisa que foi banido e o tempo
+
+        return False, 0
 
 def iniciar_servidor():
     context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
