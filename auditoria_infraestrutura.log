@@ -1249,3 +1249,17 @@
 [2026-05-21 11:32:35.084] [FAIL2BAN] IP 192.168.1.191 punido: Banido por 30s.
 [2026-05-21 11:32:35.084] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-54113
 [2026-05-21 11:37:41.263] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-49217
+[2026-05-21 11:39:46.373] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 51545)
+[2026-05-21 11:39:46.373] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-51545 ligado.
+[2026-05-21 11:39:53.260] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 54139)
+[2026-05-21 11:39:53.262] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-54139 ligado.
+[2026-05-21 11:40:10.361] [CRIAR_CANAL] Grupo 'A' por Anonimo-54139
+[2026-05-21 11:40:13.027] [MUDANÇA_CANAL] 'Anonimo-54139' em 'A'
+[2026-05-21 11:40:17.495] [MUDANÇA_CANAL] 'Anonimo-51545' em 'A'
+[2026-05-21 11:40:22.361] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54139
+[2026-05-21 11:40:22.541] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54139
+[2026-05-21 11:40:25.005] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-54139
+[2026-05-21 11:40:25.005] [FAIL2BAN] IP 192.168.1.191 banido por 30s (Reincidência: 1).
+[2026-05-21 11:40:25.005] [AUTO_KICK] Grupo A dissolvido.
+[2026-05-21 11:40:25.117] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-54139
+[2026-05-21 11:40:48.813] [LIMPEZA_RECURSOS] Recursos libertados para Anonimo-51545
