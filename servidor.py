@@ -4,6 +4,7 @@ import threading
 import time
 import datetime
 import os
+import re
 
 HOST = '0.0.0.0'
 PORT = 8443
@@ -34,6 +35,11 @@ lock_fail2ban = threading.Lock()
 conexoes_por_ip = {}
 lock_conexoes = threading.Lock()
 MAX_CONEXOES_POR_IP = 3 # Limite de conexões simultâneas para o mesmo IP
+
+def string_e_segura(texto):
+    # Apenas permite caracteres alfanuméricos e underscores, entre 1 e 32 caracteres
+    # Isto barra quebras de linha, espaços, caminhos de ficheiros e lixo
+    return bool(re.match(r"^\w{1,32}$", texto))
 
 def registar_evento_rede(categoria, message):
     agora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
@@ -256,11 +262,25 @@ def tratar_cliente(conn, addr):
                             pass
                         continue
 
-                    # --- COMANDO: CREATEJ (Criar e entrar automaticamente) ---
+                    # --- COMANDO: CREATEJ ---
                     if msg.startswith("CREATEJ:"):
                         try:
                             _, nome_sala, convidados = msg.split(":", 2)
+                            nome_sala = nome_sala.strip()
+
+                            # [Step 5] Validar se o nome da sala é seguro
+                            if not string_e_segura(nome_sala):
+                                conn.sendall(
+                                    "[SISTEMA]: Erro: Nome de grupo inválido. Usa apenas letras, números e '_'.\n".encode(
+                                        'utf-8'))
+                                continue
+
                             lista_autorizados = [u.strip() for u in convidados.split(",")]
+                            # Validar também se os nomes dos convidados são seguros
+                            if not all(string_e_segura(u) for u in lista_autorizados if u != nome_utilizador):
+                                conn.sendall("[SISTEMA]: Erro: Nome de convidado inválido.\n".encode('utf-8'))
+                                continue
+
                             lista_autorizados.append(nome_utilizador)
 
                             with lock_canais:
@@ -289,6 +309,10 @@ def tratar_cliente(conn, addr):
                     # --- COMANDO: JOIN ---
                     if msg.startswith("JOIN:"):
                         nome_sala = msg.split(":", 1)[1].strip()
+
+                        if not string_e_segura(nome_sala):
+                            conn.sendall("[SISTEMA]: Erro: Nome de grupo malformado.\n".encode('utf-8'))
+                            continue
 
                         with lock_canais:
                             # Verifica se já está num grupo
