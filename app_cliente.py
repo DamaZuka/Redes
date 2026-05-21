@@ -124,8 +124,8 @@ def acao_enviar():
     msg = entry.get().strip()
 
     if msg:
-        if msg.startswith("CREATE:"):
-            # Apanha o nome da sala (CREATE:nome_sala:users)
+        if msg.startswith("CREATEJ:"):
+            # Apanha o nome da sala (CREATEJ:nome_sala:users)
             partes = msg.split(":")
             if len(partes) >= 2:
                 grupo_atual = partes[1].strip()
