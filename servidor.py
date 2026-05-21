@@ -30,6 +30,11 @@ ips_banidos_permanentes = set() # Guarda os IPs efetivamente banidos: { '192.168
 MAX_FALHAS = 5               # Ajustado para 5 infrações para acionar uma penalização
 lock_fail2ban = threading.Lock()
 
+# Controlo de concorrência por IP
+conexoes_por_ip = {}
+lock_conexoes = threading.Lock()
+MAX_CONEXOES_POR_IP = 3 # Limite de conexões simultâneas para o mesmo IP
+
 def registar_evento_rede(categoria, message):
     agora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
     linha_log = f"[{agora}] [{categoria}] {message}\n"
@@ -37,6 +42,8 @@ def registar_evento_rede(categoria, message):
         with open(FICHEIRO_LOG_REDE, "a", encoding="utf-8") as f:
             f.write(linha_log)
 
+# Limite máximo de tamanho de ficheiro (15 MB em bytes)
+MAX_FILE_SIZE = 15 * 1024 * 1024
 
 class RateLimiterTokenBucket:
     def __init__(self, capacidade, taxa_reposicao):
@@ -357,14 +364,26 @@ def tratar_cliente(conn, addr):
                             _, nome_ficheiro, tamanho = msg.split(":")
                             tamanho = int(tamanho)
 
+                            # [Step 3] VALIDAÇÃO DE TAMANHO (Disk Filling)
+                            if tamanho > MAX_FILE_SIZE:
+                                registar_evento_rede("ALERTA_STORAGE",
+                                                     f"Upload recusado: {nome_utilizador} tentou enviar {tamanho} bytes (Máximo: {MAX_FILE_SIZE})")
+                                conn.sendall(
+                                    "[SISTEMA]: Erro: O ficheiro excede o tamanho máximo permitido pelo servidor.\n".encode(
+                                        'utf-8'))
+                                continue  # Aborta o processamento deste comando e limpa o buffer
+
+                            # [Step 2] Limpeza de Path Traversal (o que já tinhas)
                             nome_seguro = os.path.basename(nome_ficheiro)
                             nome_final_disco = f"recibido_{nome_seguro}"
 
-                            registar_evento_rede("RECEÇÃO_FICHEIRO", f"A receber '{nome_seguro}' de {nome_utilizador}")
+                            registar_evento_rede("RECEÇÃO_FICHEIRO",
+                                                 f"A receber '{nome_seguro}' de {nome_utilizador} ({tamanho} bytes)")
 
                             with open(nome_final_disco, "wb") as f:
                                 recebido = 0
                                 while recebido < tamanho:
+                                    # O min() garante que não tentas ler mais do que o ficheiro realmente tem
                                     dados_file = conn.recv(min(tamanho - recebido, 4096))
                                     if not dados_file:
                                         break
@@ -435,9 +454,13 @@ def tratar_cliente(conn, addr):
         # --- BLOCO OBRIGATÓRIO DE LIMPEZA ABSOLUTA AO SAIR DO LOOP ---
         if canal_atual:
             nome_sala_abortada = canal_atual
-            with lock_canais:
-                if conn in grupos_canais.get(nome_sala_abortada, []):
-                    grupos_canais[nome_sala_abortada].remove(conn)
+            with lock_conexoes:
+                if ip_cliente in conexoes_por_ip:
+                    conexoes_por_ip[ip_cliente] -= 1
+                    if conexoes_por_ip[ip_cliente] <= 0:
+                        del conexoes_por_ip[ip_cliente]
+
+            registar_evento_rede("LIMPEZA_RECURSOS", f"Recursos totalmente libertados para {nome_utilizador}")
 
             # Avisa os restantes e valida se a sala deve fechar por falta de membros
             rotear_mensagem_grupo(nome_sala_abortada,
@@ -517,24 +540,35 @@ def iniciar_servidor():
 
         while True:
             try:
+                # ... dentro do while True no iniciar_servidor()
                 raw_conn, addr = bind_socket.accept()
                 ip_cliente = addr[0]
 
-                # 1. VERIFICAR A LISTA NEGRA LOGO À ENTRADA
+                # 1. VERIFICAR A LISTA NEGRA
                 if ip_esta_banido(ip_cliente):
-                    raw_conn.close()  # Fecha a porta na cara sem gastar recursos
-                    continue  # Volta a ficar à espera do próximo gajo
+                    raw_conn.close()
+                    continue
 
-                # 2. SE NÃO TÁ BANIDO, TENTA O mTLS
+                # 2. VERIFICAR LIMITE DE CONEXÕES POR IP
+                with lock_conexoes:
+                    count = conexoes_por_ip.get(ip_cliente, 0)
+                    if count >= MAX_CONEXOES_POR_IP:
+                        registar_evento_rede("ALERTA_DOS", f"Bloqueio de excesso de conexões: {ip_cliente}")
+                        raw_conn.close()
+                        continue
+                    conexoes_por_ip[ip_cliente] = count + 1
+
+                # 3. SE PASSAR, PROSSEGUIR COM O mTLS
                 try:
                     secure_conn = context.wrap_socket(raw_conn, server_side=True)
+                    # Passamos o ip_cliente para podermos decrementar no finally da thread
                     threading.Thread(target=tratar_cliente, args=(secure_conn, addr), daemon=True).start()
                 except Exception as e:
-                    # SE O mTLS FALHAR (ex: tentou entrar com certificado falso), PUNE O IP!
-                    registar_evento_rede("ALERTA_MFT", f"Falha mTLS de {addr}: {e}")
-                    registar_falha_ip(ip_cliente)  # <--- SOMA UM STRIKE AQUI!
+                    # Se falhar, decrementamos logo
+                    with lock_conexoes:
+                        conexoes_por_ip[ip_cliente] -= 1
+                    registar_falha_ip(ip_cliente)
                     raw_conn.close()
-
             except Exception:
                 pass
 
