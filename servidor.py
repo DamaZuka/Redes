@@ -22,6 +22,7 @@ FICHEIRO_LOG_REDE = "auditoria_infraestrutura.log"
 
 # --- SISTEMA DE PROTEÇÃO FAIL2BAN ---
 tentativas_falhadas = {} # Guarda o nr de falhas por IP: { '192.168.1.5': 3 }
+contagem_bans = {}
 ips_banidos = {}         # Guarda até quando o IP tá banido: { '192.168.1.5': timestamp }
 MAX_FALHAS = 3           # Quantas vezes pode falhar antes de levar ban
 TEMPO_BAN = 300          # Tempo de castigo em segundos (5 minutos)
@@ -124,6 +125,10 @@ def tratar_cliente(conn, addr):
 
     with conn:
         while True:
+            if ip_esta_banido(ip_cliente):
+                registar_evento_rede("SEGURANÇA", f"Sessão terminada para IP banido: {ip_cliente}")
+                conn.sendall("[SISTEMA]: Foste banido. Adeus!\n".encode('utf-8'))
+                break  # Sai do while e fecha a conexão
             if time.time() - ultimo_contacto > INTERVALO_HEARTBEAT_LIMITE:
                 registar_evento_rede("TIMEOUT_REDE", f"Forçando encerramento: {nome_utilizador}")
                 break
@@ -364,24 +369,35 @@ def ip_esta_banido(ip):
             return True
         return False
 
-d# No servidor.py, altera a função que regista a falha:
+# No servidor.py, altera a função que regista a falha:
 def registar_falha_ip(ip):
     with lock_fail2ban:
         tentativas_falhadas[ip] = tentativas_falhadas.get(ip, 0) + 1
-        if tentativas_falhadas[ip] >= MAX_FALHAS:
-            agora = time.time()
-            ips_banidos[ip] = agora + TEMPO_BAN
-            registar_evento_rede("FAIL2BAN", f"IP {ip} banido. A forçar encerramento de todas as sessões.")
 
-            # --- ADICIONA ISTO: FORÇA O FECHO DE TODAS AS THREADS DESTE IP ---
+        if tentativas_falhadas[ip] >= MAX_FALHAS:
+            # Incrementa o número de bans que este IP já teve
+            contagem_bans[ip] = contagem_bans.get(ip, 0) + 1
+
+            # Cálculo exponencial: 1º ban=30s, 2º=120s, 3º=270s...
+            tempo_de_castigo = 30 * (contagem_bans[ip] ** 2)
+
+            agora = time.time()
+            ips_banidos[ip] = agora + tempo_de_castigo
+
+            # Limpa as tentativas para começar o contador do zero no próximo ciclo de ban
+            tentativas_falhadas[ip] = 0
+
+            registar_evento_rede("FAIL2BAN",
+                                 f"IP {ip} banido por {tempo_de_castigo}s (Reincidência: {contagem_bans[ip]}).")
+
+            # Força o fecho de todas as sessões ativas deste IP
             for conn, nome in list(nomes_clientes.items()):
-                # Verifica se o IP da conexão é o IP banido
-                if conn.getpeername()[0] == ip:
-                    try:
-                        conn.sendall("[SISTEMA]: Foste banido por comportamento abusivo.\n".encode('utf-8'))
-                        conn.close() # Mata a conexão
-                    except:
-                        pass
+                try:
+                    if conn.getpeername()[0] == ip:
+                        conn.sendall(f"[SISTEMA]: Foste banido por {tempo_de_castigo}s.\n".encode('utf-8'))
+                        conn.close()
+                except:
+                    pass
 
 def iniciar_servidor():
     context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
