@@ -20,6 +20,12 @@ lock_canais = threading.RLock()
 LOCK_LOG = threading.Lock()
 FICHEIRO_LOG_REDE = "auditoria_infraestrutura.log"
 
+# --- SISTEMA DE PROTEÇÃO FAIL2BAN ---
+tentativas_falhadas = {} # Guarda o nr de falhas por IP: { '192.168.1.5': 3 }
+ips_banidos = {}         # Guarda até quando o IP tá banido: { '192.168.1.5': timestamp }
+MAX_FALHAS = 3           # Quantas vezes pode falhar antes de levar ban
+TEMPO_BAN = 300          # Tempo de castigo em segundos (5 minutos)
+lock_fail2ban = threading.Lock() # Para não dar barraca com concorrência de threads
 
 def registar_evento_rede(categoria, message):
     agora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
@@ -144,6 +150,7 @@ def tratar_cliente(conn, addr):
 
                 if len(ultimos_envios_locais) > 5 or not limiter.consumir():
                     registar_evento_rede("DEFESA_RATE_LIMIT", f"Inundação de: {nome_utilizador}")
+                    registar_falha_ip(ip_cliente)  # <--- SOMA UM STRIKE PELO SPAM!
                     conn.sendall("[SISTEMA]: Limite de taxa excedido. Pacote descartado.\n".encode('utf-8'))
                     continue
 
@@ -343,6 +350,39 @@ def processar_saida_e_kick(nome_sala, nome_utilizador_que_saiu):
                 del acl_canais[nome_sala]
                 registar_evento_rede("AUTO_KICK", f"Grupo {nome_sala} dissolvido.")
 
+def ip_esta_banido(ip):
+    with lock_fail2ban:
+        agora = time.time()
+        if ip in ips_banidos:
+            # Se o castigo já passou, tira o gajo da lista negra
+            if agora > ips_banidos[ip]:
+                del ips_banidos[ip]
+                if ip in tentativas_falhadas:
+                    del tentativas_falhadas[ip]
+                return False
+            # Se ainda tá no castigo...
+            return True
+        return False
+
+d# No servidor.py, altera a função que regista a falha:
+def registar_falha_ip(ip):
+    with lock_fail2ban:
+        tentativas_falhadas[ip] = tentativas_falhadas.get(ip, 0) + 1
+        if tentativas_falhadas[ip] >= MAX_FALHAS:
+            agora = time.time()
+            ips_banidos[ip] = agora + TEMPO_BAN
+            registar_evento_rede("FAIL2BAN", f"IP {ip} banido. A forçar encerramento de todas as sessões.")
+
+            # --- ADICIONA ISTO: FORÇA O FECHO DE TODAS AS THREADS DESTE IP ---
+            for conn, nome in list(nomes_clientes.items()):
+                # Verifica se o IP da conexão é o IP banido
+                if conn.getpeername()[0] == ip:
+                    try:
+                        conn.sendall("[SISTEMA]: Foste banido por comportamento abusivo.\n".encode('utf-8'))
+                        conn.close() # Mata a conexão
+                    except:
+                        pass
+
 def iniciar_servidor():
     context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
     context.minimum_version = ssl.TLSVersion.TLSv1_3
@@ -355,13 +395,28 @@ def iniciar_servidor():
         bind_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         bind_socket.bind(('0.0.0.0', 8443))
         bind_socket.listen(10)
-        print("Servidor Hub ativo na porta 8443...")
+        print("Servidor Hub ativo na porta 8443...") #todo meter porta dinamica
 
         while True:
             try:
                 raw_conn, addr = bind_socket.accept()
-                secure_conn = context.wrap_socket(raw_conn, server_side=True)
-                threading.Thread(target=tratar_cliente, args=(secure_conn, addr), daemon=True).start()
+                ip_cliente = addr[0]
+
+                # 1. VERIFICAR A LISTA NEGRA LOGO À ENTRADA
+                if ip_esta_banido(ip_cliente):
+                    raw_conn.close()  # Fecha a porta na cara sem gastar recursos
+                    continue  # Volta a ficar à espera do próximo gajo
+
+                # 2. SE NÃO TÁ BANIDO, TENTA O mTLS
+                try:
+                    secure_conn = context.wrap_socket(raw_conn, server_side=True)
+                    threading.Thread(target=tratar_cliente, args=(secure_conn, addr), daemon=True).start()
+                except Exception as e:
+                    # SE O mTLS FALHAR (ex: tentou entrar com certificado falso), PUNE O IP!
+                    registar_evento_rede("ALERTA_MFT", f"Falha mTLS de {addr}: {e}")
+                    registar_falha_ip(ip_cliente)  # <--- SOMA UM STRIKE AQUI!
+                    raw_conn.close()
+
             except Exception:
                 pass
 
