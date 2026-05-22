@@ -5,6 +5,7 @@ import time
 import datetime
 import os
 import re
+import random
 
 HOST = '0.0.0.0'
 PORT = 8443
@@ -115,7 +116,8 @@ def tratar_cliente(conn, addr):
     id_sessao = (ip_cliente, porta_cliente)
     limiter = obter_limitador_cliente(id_sessao)
 
-    nome_utilizador = f"Anonimo-{porta_cliente}"
+
+    nome_utilizador = f"Anonimo-{random.randint(1000, 9999)}"
     nomes_clientes[conn] = nome_utilizador
 
     try:
@@ -226,6 +228,14 @@ def tratar_cliente(conn, addr):
                                 del ips_mutados[ip_cliente]
 
                     if is_muted:
+                        if canal_atual:
+                            with lock_canais:
+                                # Se o canal foi apagado da lista global (pq o outro saiu/caiu)
+                                if canal_atual not in grupos_canais:
+                                    conn.sendall(
+                                        f"[SISTEMA]: O grupo '{canal_atual}' foi dissolvido por falta de integrantes.\n".encode(
+                                            'utf-8'))
+                                    canal_atual = None  # Liberta-te do grupo imediatamente!
                         try:
                             conn.sendall(
                                 f"[SISTEMA]: Mensagem não enviada! Ainda estás banido temporariamente (faltam {restante} segundos).\n".encode(
@@ -277,7 +287,7 @@ def tratar_cliente(conn, addr):
 
                                 if canal_atual:
                                     rotear_mensagem_grupo(canal_atual,
-                                                          f"[SISTEMA]: O utilizador {nome_utilizador} foi silenciado por {tempo_castigo}s por spammar.\n".encode(
+                                                          f"[SISTEMA]: O utilizador {nome_utilizador} foi silenciado por {tempo_castigo}s devido a flood na rede.\n".encode(
                                                               'utf-8'), conn)
                                 continue
 
@@ -510,6 +520,7 @@ def tratar_cliente(conn, addr):
                     registar_evento_rede("ERRO_REDE_INTERNO", f"Erro na leitura de {nome_utilizador}: {e}")
                     break
     finally:
+        desvincular_cliente_de_canais(conn)
         # --- BLOCO OBRIGATÓRIO DE LIMPEZA ABSOLUTA AO SAIR DO LOOP ---
         if canal_atual:
             nome_sala_abortada = canal_atual

@@ -102,12 +102,16 @@ def descarregar_ficheiro(nome_ficheiro):
 
 
 def atualizar_identidade_ui(nome):
-    janela.title(f"Chat Seguro - Logado como: {nome}")
+    janela.title(f"Bem vindo, {nome}!")
     chat_area.insert(tk.END, f"[SISTEMA] Identidade confirmada: {nome}\n")
+    chat_area.insert(tk.END, "--- GUIA DE COMANDOS ---\n")
+    chat_area.insert(tk.END, "• CREATEJ:NomeSala:User1,User2  -> Criar e entrar num grupo\n")
+    chat_area.insert(tk.END, "• JOIN:NomeSala                -> Entrar num grupo existente\n")
+    chat_area.insert(tk.END, "• LEAVE                        -> Sair do grupo atual\n")
+    chat_area.insert(tk.END, "------------------------\n")
     chat_area.yview(tk.END)
 
 
-# --- FUNÇÃO DOS FICHEIROS QUE TINHA DESAPARECIDO ---
 def acao_enviar_ficheiro():
     ficheiro = filedialog.askopenfilename()
     if ficheiro:
