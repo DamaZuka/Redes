@@ -3,7 +3,7 @@ import ssl
 import threading
 import time
 
-
+#
 class ClienteRedeSegura:
     def __init__(self, host, port, callback_erro=None, callback_mensagem=None, callback_nome=None):
         self.host = host
