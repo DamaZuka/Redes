@@ -1393,3 +1393,17 @@
 [2026-05-21 23:08:25.187] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-58154
 [2026-05-21 23:08:25.934] [DESCONEXÃO_JANELA] Utilizador Anonimo-56211 fechou a aplicação.
 [2026-05-21 23:08:25.942] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-56211
+[2026-05-22 17:43:49.142] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 64661)
+[2026-05-22 17:43:49.146] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-64661 ligado.
+[2026-05-22 17:43:54.339] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 64662)
+[2026-05-22 17:43:54.341] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-64662 ligado.
+[2026-05-22 17:48:42.622] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 53314)
+[2026-05-22 17:48:42.623] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-53314 ligado.
+[2026-05-22 17:49:26.658] [DESCONEXÃO_JANELA] Utilizador Anonimo-64662 fechou a aplicação.
+[2026-05-22 17:49:26.662] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-64662
+[2026-05-22 17:49:33.572] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 53322)
+[2026-05-22 17:49:33.572] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-53322 ligado.
+[2026-05-22 17:49:56.037] [DESCONEXÃO_JANELA] Utilizador Anonimo-53314 fechou a aplicação.
+[2026-05-22 17:49:56.046] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53314
+[2026-05-22 17:49:57.134] [DESCONEXÃO_JANELA] Utilizador Anonimo-53322 fechou a aplicação.
+[2026-05-22 17:49:57.149] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53322

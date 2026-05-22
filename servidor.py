@@ -11,6 +11,7 @@ PORT = 8443
 
 TIMEOUT_SOCKET_CONV = 5.0
 INTERVALO_HEARTBEAT_LIMITE = 15.0
+SESSION_TIMEOUT = 1200.0
 
 grupos_canais = {}
 nomes_clientes = {}
@@ -127,9 +128,10 @@ def tratar_cliente(conn, addr):
 
     conn.settimeout(TIMEOUT_SOCKET_CONV)
     ultimo_contacto = time.time()
+    ultima_atividade_real = time.time()
     canal_atual = None
 
-    # Envia o nome com uma quebra de linha para o recv do cliente não bloquear
+   # Envia o nome com uma quebra de linha para o recv do cliente não bloquear
     try:
         conn.sendall(f"SET_NAME:{nome_utilizador}\n".encode('utf-8'))
     except Exception:
@@ -142,6 +144,17 @@ def tratar_cliente(conn, addr):
     try:
         with conn:
             while True:
+                #VERIFICAÇÃO DE INATIVIDADE REAL (20 MINUTOS SEM REGRAS DE PING)
+                if (time.time() - ultima_atividade_real) > SESSION_TIMEOUT:
+                    registar_evento_rede("TIMEOUT_INATIVIDADE",
+                                         f"Utilizador {nome_utilizador} inativo há 20 min. Encerramento forçado.")
+                    try:
+                        conn.sendall(
+                            "[SISTEMA]: Conexão encerrada por inatividade prolongada (20 minutos).\n".encode('utf-8'))
+                        time.sleep(0.1)
+                    except:
+                        pass
+                    break
                 if ip_esta_banido(ip_cliente):
                     if canal_atual:
                         nome_sala = canal_atual
@@ -187,6 +200,7 @@ def tratar_cliente(conn, addr):
                         ultimo_contacto = time.time()
                         conn.sendall("PONG\n".encode('utf-8'))
                         continue
+                    ultima_atividade_real = time.time()
 
                     # --- VERIFICAÇÃO DE MUTE (Prioridade Máxima) ---
                     with lock_fail2ban:
@@ -558,9 +572,10 @@ def iniciar_servidor():
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as bind_socket:
         bind_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        bind_socket.bind(('0.0.0.0', 8443))
+        bind_socket.bind(('0.0.0.0', PORT))
         bind_socket.listen(10)
-        print("Servidor Hub ativo na porta 8443...") #todo meter porta dinamica
+        endereco_configurado, porta_dinamica = bind_socket.getsockname()
+        print(f"Servidor Hub ativo na porta {porta_dinamica}...")
 
         while True:
             try:
