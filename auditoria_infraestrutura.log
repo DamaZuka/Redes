@@ -1433,3 +1433,7 @@
 [2026-05-22 18:02:18.067] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53150
 [2026-05-22 18:04:28.967] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 50250)
 [2026-05-22 18:04:28.973] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50250 ligado.
+[2026-05-22 18:24:29.558] [TIMEOUT_INATIVIDADE] Utilizador Anonimo-50250 inativo há 20 min. Encerramento forçado.
+[2026-05-22 18:24:29.665] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-50250
+[2026-05-22 18:40:17.460] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 58850)
+[2026-05-22 18:40:17.471] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-58850 ligado.

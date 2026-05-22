@@ -141,15 +141,26 @@ def tratar_cliente(conn, addr):
 
     try:
         with conn:
+            aviso_enviado = False
+
             while True:
-                #VERIFICAÇÃO DE INATIVIDADE REAL (20 MINUTOS SEM REGRAS DE PING)
-                if (time.time() - ultima_atividade_real) > SESSION_TIMEOUT:
-                    registar_evento_rede("TIMEOUT_INATIVIDADE",
-                                         f"Utilizador {nome_utilizador} inativo há 20 min. Encerramento forçado.")
+                tempo_decorrido = time.time() - ultima_atividade_real
+
+                # 1. VERIFICAÇÃO DE AVISO (1 minuto antes do fim: 1200 - 60 = 1140 segundos)
+                if (tempo_decorrido >= (SESSION_TIMEOUT - 60)) and not aviso_enviado:
                     try:
                         conn.sendall(
-                            "[SISTEMA]: Conexão encerrada por inatividade prolongada (20 minutos).\n".encode('utf-8'))
-                        time.sleep(0.1)
+                            "[SISTEMA]: Dentro de 1 minuto a sua sessão será encerrada por inatividade prolongada.\n".encode(
+                                'utf-8'))
+                        aviso_enviado = True
+                    except:
+                        pass
+
+                # 2. VERIFICAÇÃO DE TIMEOUT FINAL (20 minutos)
+                if tempo_decorrido > SESSION_TIMEOUT:
+                    registar_evento_rede("TIMEOUT_INATIVIDADE", f"Utilizador {nome_utilizador} inativo há 20 min.")
+                    try:
+                        conn.sendall("[SISTEMA]: Conexão encerrada por inatividade prolongada.\n".encode('utf-8'))
                     except:
                         pass
                     break
