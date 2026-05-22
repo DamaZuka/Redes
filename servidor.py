@@ -38,9 +38,7 @@ lock_conexoes = threading.Lock()
 MAX_CONEXOES_POR_IP = 3 # Limite de conexões simultâneas para o mesmo IP
 
 def string_e_segura(texto):
-    # Apenas permite caracteres alfanuméricos e underscores, entre 1 e 32 caracteres
-    # Isto barra quebras de linha, espaços, caminhos de ficheiros e lixo
-    return bool(re.match(r"^\w{1,32}$", texto))
+    return bool(re.match(r"^[a-zA-Z0-9_\-]{1,32}$", texto))
 
 def registar_evento_rede(categoria, message):
     agora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
@@ -289,13 +287,22 @@ def tratar_cliente(conn, addr):
                                         'utf-8'))
                                 continue
 
-                            lista_autorizados = [u.strip() for u in convidados.split(",")]
-                            # Validar também se os nomes dos convidados são seguros
-                            if not all(string_e_segura(u) for u in lista_autorizados if u != nome_utilizador):
-                                conn.sendall("[SISTEMA]: Erro: Nome de convidado inválido.\n".encode('utf-8'))
+                            # 1. Faz o split
+                            convidados_raw = [u.strip() for u in convidados.split(",")]
+
+                            # 2. Garante que não temos entradas vazias (ex: CREATEJ:Sala:User1,,User2)
+                            lista_autorizados = [u for u in convidados_raw if u]
+
+                            # 3. Valida TODOS sem exceção (é mais seguro validar o teu próprio nome também)
+                            if not all(string_e_segura(u) for u in lista_autorizados):
+                                conn.sendall(
+                                    "[SISTEMA]: Erro: Nome de um dos convidados (ou o teu) é inválido.\n".encode(
+                                        'utf-8'))
                                 continue
 
-                            lista_autorizados.append(nome_utilizador)
+                            # 4. Adiciona o utilizador se não estiver na lista (evita duplicados)
+                            if nome_utilizador not in lista_autorizados:
+                                lista_autorizados.append(nome_utilizador)
 
                             with lock_canais:
                                 if nome_sala not in acl_canais:

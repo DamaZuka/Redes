@@ -1407,3 +1407,29 @@
 [2026-05-22 17:49:56.046] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53314
 [2026-05-22 17:49:57.134] [DESCONEXÃO_JANELA] Utilizador Anonimo-53322 fechou a aplicação.
 [2026-05-22 17:49:57.149] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53322
+[2026-05-22 17:55:44.266] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 52411)
+[2026-05-22 17:55:44.269] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-52411 ligado.
+[2026-05-22 17:55:49.325] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 52412)
+[2026-05-22 17:55:49.325] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-52412 ligado.
+[2026-05-22 17:57:51.957] [DESCONEXÃO_JANELA] Utilizador Anonimo-52412 fechou a aplicação.
+[2026-05-22 17:57:51.961] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-52412
+[2026-05-22 17:57:54.448] [DESCONEXÃO_JANELA] Utilizador Anonimo-52411 fechou a aplicação.
+[2026-05-22 17:57:54.453] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-52411
+[2026-05-22 17:58:05.968] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 63772)
+[2026-05-22 17:58:05.971] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-63772 ligado.
+[2026-05-22 17:58:12.591] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 63773)
+[2026-05-22 17:58:12.593] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-63773 ligado.
+[2026-05-22 17:58:35.849] [DESCONEXÃO_JANELA] Utilizador Anonimo-63773 fechou a aplicação.
+[2026-05-22 17:58:35.853] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-63773
+[2026-05-22 17:58:36.936] [DESCONEXÃO_JANELA] Utilizador Anonimo-63772 fechou a aplicação.
+[2026-05-22 17:58:36.938] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-63772
+[2026-05-22 18:01:42.703] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 53150)
+[2026-05-22 18:01:42.703] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-53150 ligado.
+[2026-05-22 18:01:50.654] [CRIAR_E_ENTRAR] 'Anonimo-53150' criou e entrou em 'A'
+[2026-05-22 18:02:07.728] [RECEÇÃO_FICHEIRO] A receber 'IJEEE-V10I10P102.pdf' de Anonimo-53150 (990860 bytes)
+[2026-05-22 18:02:07.732] [FIM_RECEÇÃO] Guardado com sucesso: 'IJEEE-V10I10P102.pdf'
+[2026-05-22 18:02:15.871] [AUTO_KICK] Grupo A dissolvido.
+[2026-05-22 18:02:18.058] [DESCONEXÃO_JANELA] Utilizador Anonimo-53150 fechou a aplicação.
+[2026-05-22 18:02:18.067] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53150
+[2026-05-22 18:04:28.967] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 50250)
+[2026-05-22 18:04:28.973] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50250 ligado.
