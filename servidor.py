@@ -46,6 +46,8 @@ def registar_evento_rede(categoria, message):
     with LOCK_LOG:
         with open(FICHEIRO_LOG_REDE, "a", encoding="utf-8") as f:
             f.write(linha_log)
+            f.flush()  # Limpa o buffer do Python
+            os.fsync(f.fileno())
 
 # Limite máximo de tamanho de ficheiro (15 MB em bytes)
 MAX_FILE_SIZE = 15 * 1024 * 1024
@@ -294,7 +296,7 @@ def tratar_cliente(conn, addr):
                             # [Step 5] Validar se o nome da sala é seguro
                             if not string_e_segura(nome_sala):
                                 conn.sendall(
-                                    "[SISTEMA]: Erro: Nome de grupo inválido. Usa apenas letras, números e '_'.\n".encode(
+                                    "[SISTEMA]: Erro: Nome de grupo inválido. Usa apenas letras, números, héfens e underlines.\n".encode(
                                         'utf-8'))
                                 continue
 
@@ -447,6 +449,7 @@ def tratar_cliente(conn, addr):
                                     recebido += len(dados_file)
 
                             registar_evento_rede("FIM_RECEÇÃO", f"Guardado com sucesso: '{nome_seguro}'")
+                            time.sleep(0.2)
 
                             if canal_atual:
                                 mensagem_grupo = f"[{canal_atual}] {nome_utilizador}: FILE_LINK_{nome_seguro} (Tamanho: {tamanho} bytes)\n"
