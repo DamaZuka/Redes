@@ -60,13 +60,13 @@ class ClienteRedeSegura:
         buffer_dados = ""
         while self.ligado:
             try:
-                # Aumentamos o chunk de leitura para 8192 para ser mais eficiente
+                #chunk de leitura
                 dados = self.socket_seguro.recv(8192)
                 if not dados:
                     self._notificar_queda()
                     break
 
-                # Junta os bytes acabados de chegar ao nosso buffer acumulado
+                # Junta os bytes acabados de chegar ao buffer acumulado
                 # O errors='ignore' previne crashes se o TCP cortar um acento a meio
                 buffer_dados += dados.decode('utf-8', errors='ignore')
 

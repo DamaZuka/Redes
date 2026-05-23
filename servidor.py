@@ -28,8 +28,8 @@ FICHEIRO_LOG_REDE = "auditoria_infraestrutura.log"
 # --- SISTEMA DE PROTEÇÃO FAIL2BAN ---
 tentativas_falhadas = {}
 contagem_bans = {}
-ips_mutados = {}             # Guarda até quando o IP está silenciado (mute): { '192.168.1.5': timestamp }
-ips_banidos_permanentes = set() # Guarda os IPs efetivamente banidos: { '192.168.1.5' }
+ips_mutados = {}             # Guarda até quando o IP está silenciado (mute)
+ips_banidos_permanentes = set() # Guarda os IPs efetivamente banidos:
 MAX_FALHAS = 5               # Ajustado para 5 infrações para acionar uma penalização
 lock_fail2ban = threading.Lock()
 
@@ -150,7 +150,7 @@ def tratar_cliente(conn, addr):
             while True:
                 tempo_decorrido = time.time() - ultima_atividade_real
 
-                # 1. VERIFICAÇÃO DE AVISO (1 minuto antes do fim: 1200 - 60 = 1140 segundos)
+                #VERIFICAÇÃO DE AVISO (1 minuto antes do fim: 1200 - 60 = 1140 segundos)
                 if (tempo_decorrido >= (SESSION_TIMEOUT - 60)) and not aviso_enviado:
                     try:
                         conn.sendall(
@@ -160,7 +160,7 @@ def tratar_cliente(conn, addr):
                     except:
                         pass
 
-                # 2. VERIFICAÇÃO DE TIMEOUT FINAL (20 minutos)
+                #VERIFICAÇÃO DE TIMEOUT FINAL (20 minutos)
                 if tempo_decorrido > SESSION_TIMEOUT:
                     registar_evento_rede("TIMEOUT_INATIVIDADE", f"Utilizador {nome_utilizador} inativo há 20 min.")
                     try:
@@ -215,7 +215,7 @@ def tratar_cliente(conn, addr):
                         continue
                     ultima_atividade_real = time.time()
 
-                    # --- VERIFICAÇÃO DE MUTE (Prioridade Máxima) ---
+                    #VERIFICAÇÃO DE MUTE
                     with lock_fail2ban:
                         is_muted = False
                         restante = 0
@@ -244,7 +244,7 @@ def tratar_cliente(conn, addr):
                             pass
                         continue
 
-                    # --- RATE LIMITING E FAIL2BAN ---
+                    #RATE LIMITING E FAIL2BAN
                     agora_envio = time.time()
                     ultimos_envios_locais = [t for t in ultimos_envios_locais if agora_envio - t < 1.5]
                     ultimos_envios_locais.append(agora_envio)
@@ -297,13 +297,13 @@ def tratar_cliente(conn, addr):
                             pass
                         continue
 
-                    # --- COMANDO: CREATEJ ---
+                    #COMANDO: CREATEJ (CREATE + JOIN)
                     if msg.startswith("CREATEJ:"):
                         try:
                             _, nome_sala, convidados = msg.split(":", 2)
                             nome_sala = nome_sala.strip()
 
-                            # [Step 5] Validar se o nome da sala é seguro
+                            #Validar se o nome da sala é seguro
                             if not string_e_segura(nome_sala):
                                 conn.sendall(
                                     "[SISTEMA]: Erro: Nome de grupo inválido. Usa apenas letras, números, héfens e underlines.\n".encode(
@@ -313,17 +313,17 @@ def tratar_cliente(conn, addr):
                             # 1. Faz o split
                             convidados_raw = [u.strip() for u in convidados.split(",")]
 
-                            # 2. Garante que não temos entradas vazias (ex: CREATEJ:Sala:User1,,User2)
+                            # 2. Garante que não existem entradas vazias
                             lista_autorizados = [u for u in convidados_raw if u]
 
-                            # 3. Valida TODOS sem exceção (é mais seguro validar o teu próprio nome também)
+                            # 3. Valida TODOS
                             if not all(string_e_segura(u) for u in lista_autorizados):
                                 conn.sendall(
                                     "[SISTEMA]: Erro: Nome de um dos convidados (ou o teu) é inválido.\n".encode(
                                         'utf-8'))
                                 continue
 
-                            # 4. Adiciona o utilizador se não estiver na lista (evita duplicados)
+                            #Adiciona o utilizador se não estiver na lista (evita duplicados)
                             if nome_utilizador not in lista_autorizados:
                                 lista_autorizados.append(nome_utilizador)
 
@@ -350,7 +350,7 @@ def tratar_cliente(conn, addr):
                             conn.sendall("[SISTEMA]: Erro. Usa: CREATEJ:NomeSala:User1,User2\n".encode('utf-8'))
                         continue
 
-                    # --- COMANDO: JOIN ---
+                    #COMANDO: JOIN
                     if msg.startswith("JOIN:"):
                         nome_sala = msg.split(":", 1)[1].strip()
 
@@ -372,7 +372,7 @@ def tratar_cliente(conn, addr):
                                     grupos_canais[nome_sala].append(conn)
                                     canal_atual = nome_sala
 
-                                    # --- LISTAR QUEM ESTÁ LÁ (Segurança e Consciência de Contexto) ---
+                                    #LISTAR QUEM ESTÁ LÁ
                                     membros = grupos_canais[nome_sala]
                                     outros = [nomes_clientes.get(m, "Desconhecido") for m in membros if m != conn]
 
@@ -400,7 +400,7 @@ def tratar_cliente(conn, addr):
                                 conn.sendall("[SISTEMA]: Erro: Esse grupo não existe.\n".encode('utf-8'))
                         continue
 
-                    # --- COMANDO: LEAVE ---
+                    #COMANDO: LEAVE
                     if msg == "LEAVE":
                         if canal_atual:
                             nome_sala = canal_atual
@@ -426,13 +426,13 @@ def tratar_cliente(conn, addr):
                             conn.sendall("[SISTEMA]: Não estás em nenhum grupo para sair.\n".encode('utf-8'))
                         continue
 
-                    # --- COMANDO: FILE ---
+                    # COMANDO: FILE
                     if msg.startswith("FILE:"):
                         try:
                             _, nome_ficheiro, tamanho = msg.split(":")
                             tamanho = int(tamanho)
 
-                            # [Step 3] VALIDAÇÃO DE TAMANHO (Disk Filling)
+                            # VALIDAÇÃO DE TAMANHO (Disk Filling)
                             if tamanho > MAX_FILE_SIZE:
                                 registar_evento_rede("ALERTA_STORAGE",
                                                      f"Upload recusado: {nome_utilizador} tentou enviar {tamanho} bytes (Máximo: {MAX_FILE_SIZE})")
@@ -441,7 +441,7 @@ def tratar_cliente(conn, addr):
                                         'utf-8'))
                                 continue  # Aborta o processamento deste comando e limpa o buffer
 
-                            # [Step 2] Limpeza de Path Traversal (o que já tinhas)
+                            #Limpeza de Path Traversal
                             nome_seguro = os.path.basename(nome_ficheiro)
                             nome_final_disco = f"recibido_{nome_seguro}"
 
@@ -451,7 +451,7 @@ def tratar_cliente(conn, addr):
                             with open(nome_final_disco, "wb") as f:
                                 recebido = 0
                                 while recebido < tamanho:
-                                    # O min() garante que não tentas ler mais do que o ficheiro realmente tem
+                                    # O min() garante que não se tenta ler mais do que o ficheiro realmente tem
                                     dados_file = conn.recv(min(tamanho - recebido, 4096))
                                     if not dados_file:
                                         break
@@ -473,7 +473,7 @@ def tratar_cliente(conn, addr):
                             registar_evento_rede("ERRO_FICHEIRO", f"Falha ao receber: {e}")
                         continue
 
-                    # --- COMANDO: GET_FILE ---
+                    #COMANDO: GET_FILE
                     if msg.startswith("GET_FILE:"):
                         try:
                             import base64
@@ -521,7 +521,7 @@ def tratar_cliente(conn, addr):
                     break
     finally:
         desvincular_cliente_de_canais(conn)
-        # --- BLOCO OBRIGATÓRIO DE LIMPEZA ABSOLUTA AO SAIR DO LOOP ---
+
         if canal_atual:
             nome_sala_abortada = canal_atual
             with lock_conexoes:
@@ -553,8 +553,6 @@ def processar_saida_e_kick(nome_sala, nome_utilizador=None):
         if nome_sala in grupos_canais:
             membros = grupos_canais[nome_sala]
 
-            # SE A REGRA É: Se ficar menos que X pessoas, todos saem
-            # (Exemplo: se ficarem menos de 2, fechamos tudo)
             if len(membros) < 2:
                 for sock in list(membros):
                     try:
@@ -563,12 +561,10 @@ def processar_saida_e_kick(nome_sala, nome_utilizador=None):
                             f"[SISTEMA]: Grupo '{nome_sala}' fechado por falta de integrantes. Foste removido.\n".encode(
                                 'utf-8'))
 
-                        # Precisas de uma forma de avisar a thread que a variável canal_atual deve ser None
-                        # Como estás dentro da thread do cliente, podes simplesmente remover da lista
                         grupos_canais[nome_sala].remove(sock)
                     except:
                         pass
-                # Remove o canal todo
+                # Remove o canal
                 del grupos_canais[nome_sala]
                 del acl_canais[nome_sala]
                 registar_evento_rede("AUTO_KICK", f"Grupo {nome_sala} dissolvido.")
@@ -611,16 +607,16 @@ def iniciar_servidor():
 
         while True:
             try:
-                # ... dentro do while True no iniciar_servidor()
+
                 raw_conn, addr = bind_socket.accept()
                 ip_cliente = addr[0]
 
-                # 1. VERIFICAR A LISTA NEGRA
+                #VERIFICAR A LISTA NEGRA
                 if ip_esta_banido(ip_cliente):
                     raw_conn.close()
                     continue
 
-                # 2. VERIFICAR LIMITE DE CONEXÕES POR IP
+                #VERIFICAR LIMITE DE CONEXÕES POR IP
                 with lock_conexoes:
                     count = conexoes_por_ip.get(ip_cliente, 0)
                     if count >= MAX_CONEXOES_POR_IP:
@@ -629,13 +625,13 @@ def iniciar_servidor():
                         continue
                     conexoes_por_ip[ip_cliente] = count + 1
 
-                # 3. SE PASSAR, PROSSEGUIR COM O mTLS
+                # sE PASSAR, PROSSEGUIR COM O mTLS
                 try:
                     secure_conn = context.wrap_socket(raw_conn, server_side=True)
-                    # Passamos o ip_cliente para podermos decrementar no finally da thread
+                    # é passado o ip_cliente para se poder decrementar no finally da thread
                     threading.Thread(target=tratar_cliente, args=(secure_conn, addr), daemon=True).start()
                 except Exception as e:
-                    # Se falhar, decrementamos logo
+
                     with lock_conexoes:
                         conexoes_por_ip[ip_cliente] -= 1
                     registar_falha_ip(ip_cliente)

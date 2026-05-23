@@ -25,16 +25,16 @@ def receber_mensagem_do_servidor(texto):
     if "Foste removido do grupo" in texto or "Saíste do grupo" in texto:
         grupo_atual = None
 
-    # 1. INTERCETA O DOWNLOAD DIRETO PARA A RAM
+    # INTERCETA O DOWNLOAD DIRETO PARA A RAM
     if texto.startswith("FILE_DATA:"):
 
-        # O truque: Delegar a abertura da janela para a UI principal (não rebenta a rede!)
+
         def _processar_e_guardar():
             try:
                 _, nome_ficheiro, conteudo_b64 = texto.split(":", 2)
                 dados_binarios = base64.b64decode(conteudo_b64)
 
-                # Extrai a extensão corretamente (ex: .png, .pdf)
+                #Extrai a extensão corretamente
                 extensao = os.path.splitext(nome_ficheiro)[1].lower()
 
                 # Abre a janela já com a extensão forçada
@@ -44,7 +44,7 @@ def receber_mensagem_do_servidor(texto):
                     filetypes=[(f"Ficheiro {extensao}", f"*{extensao}"), ("Todos os Ficheiros", "*.*")]
                 )
 
-                # Só se tu clicares em "Guardar" é que o ficheiro vai para o disco
+
                 if caminho_salvar:
                     with open(caminho_salvar, "wb") as f:
                         f.write(dados_binarios)
@@ -55,11 +55,10 @@ def receber_mensagem_do_servidor(texto):
                 chat_area.insert(tk.END, f"[SISTEMA] Erro ao gravar: {e}\n")
                 chat_area.yview(tk.END)
 
-        # Chama a função de forma segura
         janela.after(0, _processar_e_guardar)
         return
 
-    # 2. TRATA DOS LINKS AZUIS CLICÁVEIS NO CHAT
+    #TRATA DOS LINKS AZUIS CLICÁVEIS NO CHAT,
     if "FILE_LINK_" in texto:
         try:
             # Separa quem enviou ("prefixo") do ficheiro e tamanho ("resto")
@@ -67,16 +66,16 @@ def receber_mensagem_do_servidor(texto):
             nome_ficheiro = resto.split(" (Tamanho:")[0].strip()
             resto_tamanho = resto.split(" (Tamanho:")[1]
 
-            # 1. Imprime quem enviou ("[Grupo] AnonimoX:" ou "[Tu]:")
+            # Imprime quem enviou ("[Grupo] AnonimoX:" ou "[Tu]:")
             chat_area.insert(tk.END, prefixo)
 
-            # 2. Cria o link só no nome do ficheiro
+            # Cria o link só no nome do ficheiro
             tag_name = f"link_{nome_ficheiro.replace('.', '_')}"
             idx_inicio = chat_area.index(tk.END + "-1c")
             chat_area.insert(tk.END, nome_ficheiro)
             idx_fim = chat_area.index(tk.END + "-1c")
 
-            # 3. Imprime o tamanho a seguir ao link
+            # Imprime o tamanho a seguir ao link
             chat_area.insert(tk.END, f" (Tamanho:{resto_tamanho.rstrip()}\n")
 
             # Aplica o estilo p ficar azul e clicável
@@ -102,8 +101,8 @@ def descarregar_ficheiro(nome_ficheiro):
 
 
 def atualizar_identidade_ui(nome):
-    janela.title(f"Bem vindo, {nome}!")
-    chat_area.insert(tk.END, f"[SISTEMA] Identidade confirmada: {nome}\n")
+    janela.title(f"Chat Seguro - Logado como {nome}")
+    chat_area.insert(tk.END, f"[SISTEMA] Bem-vindo {nome}!\n")
     chat_area.insert(tk.END, "--- GUIA DE COMANDOS ---\n")
     chat_area.insert(tk.END, "• CREATEJ:NomeSala:User1,User2  -> Criar e entrar num grupo\n")
     chat_area.insert(tk.END, "• JOIN:NomeSala                -> Entrar num grupo existente\n")
@@ -129,7 +128,7 @@ def acao_enviar():
 
     if msg:
         if msg.startswith("CREATEJ:"):
-            # Apanha o nome da sala (CREATEJ:nome_sala:users)
+            # Apanha o nome da sala
             partes = msg.split(":")
             if len(partes) >= 2:
                 grupo_atual = partes[1].strip()
@@ -144,7 +143,7 @@ def acao_enviar():
             chat_area.insert(tk.END, f"[Comando]: LEAVE\n")
 
         else:
-            # Aqui faz a magia visual que pediste
+
             if grupo_atual:
                 chat_area.insert(tk.END, f"[{grupo_atual}] Tu: {msg}\n")
             else:
@@ -159,7 +158,7 @@ def acao_enviar():
             chat_area.yview(tk.END)
 
 
-# --- Inicialização ---
+#Inicialização
 gestor_rede = ClienteRedeSegura(
     host=HOST,
     port=PORT,

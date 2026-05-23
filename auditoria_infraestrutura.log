@@ -1437,3 +1437,229 @@
 [2026-05-22 18:24:29.665] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-50250
 [2026-05-22 18:40:17.460] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 58850)
 [2026-05-22 18:40:17.471] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-58850 ligado.
+[2026-05-22 18:47:20.467] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 53467)
+[2026-05-22 18:47:20.468] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-53467 ligado.
+[2026-05-22 18:50:48.587] [AUTO_KICK] Grupo A dissolvido.
+[2026-05-22 18:51:16.795] [DESCONEXÃO_JANELA] Utilizador Anonimo-58850 fechou a aplicação.
+[2026-05-22 18:51:16.800] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-58850
+[2026-05-22 18:51:23.987] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 61936)
+[2026-05-22 18:51:23.987] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-61936 ligado.
+[2026-05-22 18:51:25.087] [DESCONEXÃO_JANELA] Utilizador Anonimo-53467 fechou a aplicação.
+[2026-05-22 18:51:25.088] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53467
+[2026-05-22 18:51:25.090] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53467
+[2026-05-22 18:51:30.719] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 53489)
+[2026-05-22 18:51:30.721] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-53489 ligado.
+[2026-05-22 18:52:12.726] [CRIAR_E_ENTRAR] 'Anonimo-61936' criou e entrou em 'Grupo'
+[2026-05-22 18:52:23.097] [MUDANÇA_CANAL] 'Anonimo-53489' em 'Grupo'
+[2026-05-22 18:54:54.721] [RECEÇÃO_FICHEIRO] A receber 'CP8-Gestão e Segurança de Redes.pdf' de Anonimo-53489 (810768 bytes)
+[2026-05-22 18:54:55.638] [FIM_RECEÇÃO] Guardado com sucesso: 'CP8-Gestão e Segurança de Redes.pdf'
+[2026-05-22 18:55:10.241] [DOWNLOAD_CONCLUÍDO] Enviado 'CP8-Gestão e Segurança de Redes.pdf' em B64 para Anonimo-61936
+[2026-05-22 18:55:40.933] [TIMEOUT_REDE] Forçando encerramento (Heartbeat expirado): Anonimo-53489
+[2026-05-22 18:55:40.933] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53489
+[2026-05-22 18:55:40.933] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53489
+[2026-05-22 19:01:29.491] [DESCONEXÃO_JANELA] Utilizador Anonimo-61936 fechou a aplicação.
+[2026-05-22 19:01:29.505] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-61936
+[2026-05-22 19:01:29.507] [AUTO_KICK] Grupo Grupo dissolvido.
+[2026-05-22 19:01:29.510] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-61936
+[2026-05-22 19:01:44.496] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 53322)
+[2026-05-22 19:01:44.504] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-53322 ligado.
+[2026-05-22 19:08:50.435] [DESCONEXÃO_JANELA] Utilizador Anonimo-53840 fechou a aplicação.
+[2026-05-22 19:08:50.438] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53840
+[2026-05-22 19:08:55.542] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 53861)
+[2026-05-22 19:08:55.542] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-53861 ligado.
+[2026-05-22 19:21:28.029] [CRIAR_E_ENTRAR] 'Anonimo-53322' criou e entrou em 'A'
+[2026-05-22 19:22:08.139] [DESCONEXÃO_JANELA] Utilizador Anonimo-53322 fechou a aplicação.
+[2026-05-22 19:22:08.141] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53322
+[2026-05-22 19:22:08.143] [AUTO_KICK] Grupo A dissolvido.
+[2026-05-22 19:22:08.145] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53322
+------------------------------------------------------------------------------------------------------
+[2026-05-22 19:27:34.664] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 52672)
+[2026-05-22 19:27:34.681] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-52672 ligado.
+[2026-05-22 19:27:41.499] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 53972)
+[2026-05-22 19:27:41.500] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-53972 ligado.
+[2026-05-22 19:28:28.379] [CRIAR_E_ENTRAR] 'Anonimo-53972' criou e entrou em 'Projeto_SRC'
+[2026-05-22 19:28:45.131] [MUDANÇA_CANAL] 'Anonimo-52672' em 'Projeto_SRC'
+[2026-05-22 19:29:35.030] [RECEÇÃO_FICHEIRO] A receber 'CP8-Gestão e Segurança de Redes.pdf' de Anonimo-53972 (810768 bytes)
+[2026-05-22 19:29:35.332] [FIM_RECEÇÃO] Guardado com sucesso: 'CP8-Gestão e Segurança de Redes.pdf'
+[2026-05-22 19:29:50.736] [DOWNLOAD_CONCLUÍDO] Enviado 'CP8-Gestão e Segurança de Redes.pdf' em B64 para Anonimo-52672
+[2026-05-22 19:30:52.643] [TIMEOUT_REDE] Forçando encerramento (Heartbeat expirado): Anonimo-53972
+[2026-05-22 19:30:52.643] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53972
+[2026-05-22 19:30:52.658] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53972
+[2026-05-22 19:32:05.460] [DESCONEXÃO_JANELA] Utilizador Anonimo-52672 fechou a aplicação.
+[2026-05-22 19:32:05.477] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-52672
+[2026-05-22 19:32:05.477] [AUTO_KICK] Grupo Projeto_SRC dissolvido.
+[2026-05-22 19:32:05.477] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-52672
+[2026-05-22 19:35:11.729] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 50383)
+[2026-05-22 19:35:11.738] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50383 ligado.
+[2026-05-22 19:35:27.170] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 53854)
+[2026-05-22 19:35:27.183] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-53854 ligado.
+[2026-05-22 19:35:36.160] [CRIAR_E_ENTRAR] 'Anonimo-50383' criou e entrou em 'A'
+[2026-05-22 19:35:42.026] [MUDANÇA_CANAL] 'Anonimo-53854' em 'A'
+[2026-05-22 19:35:47.265] [DESCONEXÃO_JANELA] Utilizador Anonimo-50383 fechou a aplicação.
+[2026-05-22 19:35:47.265] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-50383
+[2026-05-22 19:35:47.277] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-50383
+[2026-05-22 19:36:06.387] [DESCONEXÃO_JANELA] Utilizador Anonimo-53854 fechou a aplicação.
+[2026-05-22 19:36:06.408] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53854
+[2026-05-22 19:36:06.412] [AUTO_KICK] Grupo A dissolvido.
+[2026-05-22 19:36:06.419] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-53854
+[2026-05-22 19:39:34.087] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 57972)
+[2026-05-22 19:39:34.091] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-57972 ligado.
+[2026-05-22 19:39:36.989] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 50405)
+[2026-05-22 19:39:37.015] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50405 ligado.
+[2026-05-22 19:40:04.603] [CRIAR_E_ENTRAR] 'Anonimo-50405' criou e entrou em 'A'
+[2026-05-22 19:40:22.853] [MUDANÇA_CANAL] 'Anonimo-57972' em 'A'
+[2026-05-22 19:40:26.392] [DESCONEXÃO_JANELA] Utilizador Anonimo-50405 fechou a aplicação.
+[2026-05-22 19:40:26.408] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-50405
+[2026-05-22 19:40:26.417] [AUTO_KICK] Grupo A dissolvido.
+[2026-05-22 19:40:26.423] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-50405
+[2026-05-22 19:40:31.245] [DESCONEXÃO_JANELA] Utilizador Anonimo-57972 fechou a aplicação.
+[2026-05-22 19:40:31.254] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-57972
+[2026-05-22 19:40:31.258] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-57972
+[2026-05-22 20:34:28.348] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 50754)
+[2026-05-22 20:34:28.360] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50754 ligado.
+[2026-05-22 20:34:46.277] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 50545)
+[2026-05-22 20:34:46.294] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50545 ligado.
+[2026-05-22 20:35:06.405] [CRIAR_E_ENTRAR] 'Anonimo-50754' criou e entrou em 'A'
+[2026-05-22 20:35:12.350] [MUDANÇA_CANAL] 'Anonimo-50545' em 'A'
+[2026-05-22 20:35:17.587] [DESCONEXÃO_JANELA] Utilizador Anonimo-50545 fechou a aplicação.
+[2026-05-22 20:35:17.603] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-50545
+[2026-05-22 20:35:17.603] [AUTO_KICK] Grupo A dissolvido.
+[2026-05-22 20:35:17.617] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-50545
+[2026-05-22 20:35:29.538] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 50547)
+[2026-05-22 20:35:29.538] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50547 ligado.
+[2026-05-22 20:36:16.742] [CRIAR_E_ENTRAR] 'Anonimo-50547' criou e entrou em 'Projeto_SRC'
+[2026-05-22 20:36:26.076] [MUDANÇA_CANAL] 'Anonimo-50754' em 'Projeto_SRC'
+[2026-05-22 20:36:35.894] [DESCONEXÃO_JANELA] Utilizador Anonimo-50547 fechou a aplicação.
+[2026-05-22 20:36:35.910] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-50547
+[2026-05-22 20:36:35.920] [AUTO_KICK] Grupo Projeto_SRC dissolvido.
+[2026-05-22 20:36:35.931] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-50547
+[2026-05-22 20:36:49.531] [DESCONEXÃO_JANELA] Utilizador Anonimo-50754 fechou a aplicação.
+[2026-05-22 20:36:49.542] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-50754
+[2026-05-22 20:36:49.544] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-50754
+[2026-05-22 20:37:41.957] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 65347)
+[2026-05-22 20:37:41.971] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-65347 ligado.
+[2026-05-22 20:38:44.264] [CRIAR_E_ENTRAR] 'Anonimo-65347' criou e entrou em 'Projeto_SRC'
+[2026-05-22 20:38:49.237] [AUTO_KICK] Grupo Projeto_SRC dissolvido.
+[2026-05-22 20:40:10.622] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 50563)
+[2026-05-22 20:40:10.622] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-50563 ligado.
+[2026-05-22 20:40:33.062] [CRIAR_E_ENTRAR] 'Anonimo-65347' criou e entrou em 'Projeto_SRC'
+[2026-05-22 20:40:53.548] [MUDANÇA_CANAL] 'Anonimo-50563' em 'Projeto_SRC'
+[2026-05-22 20:41:08.971] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-50563
+[2026-05-22 20:41:09.229] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-50563
+[2026-05-22 20:41:09.503] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-50563
+[2026-05-22 20:41:09.750] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-50563
+[2026-05-22 20:41:09.985] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-50563
+[2026-05-22 20:41:09.989] [FAIL2BAN] IP 192.168.1.191 mutado por 30s.
+[2026-05-22 20:41:57.770] [TIMEOUT_REDE] Forçando encerramento (Heartbeat expirado): Anonimo-50563
+[2026-05-22 20:41:57.770] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-50563
+[2026-05-22 20:41:57.786] [AUTO_KICK] Grupo Projeto_SRC dissolvido.
+[2026-05-22 20:41:57.792] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-50563
+[2026-05-22 20:44:58.738] [DESCONEXÃO_JANELA] Utilizador Anonimo-65347 fechou a aplicação.
+[2026-05-22 20:44:58.738] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-65347
+[2026-05-22 20:44:58.738] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-65347
+[2026-05-22 20:45:05.038] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 62421)
+[2026-05-22 20:45:05.042] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-62421 ligado.
+[2026-05-22 20:45:15.658] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 62703)
+[2026-05-22 20:45:15.664] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-62703 ligado.
+[2026-05-22 20:45:39.652] [CRIAR_E_ENTRAR] 'Anonimo-62421' criou e entrou em 'Projeto_SRC'
+[2026-05-22 20:45:51.052] [MUDANÇA_CANAL] 'Anonimo-62703' em 'Projeto_SRC'
+[2026-05-22 20:45:56.654] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-62703
+[2026-05-22 20:45:56.898] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-62703
+[2026-05-22 20:45:57.012] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-62703
+[2026-05-22 20:45:57.240] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-62703
+[2026-05-22 20:45:57.647] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-62703
+[2026-05-22 20:45:57.658] [FAIL2BAN] IP 192.168.1.191 mutado por 60s.
+[2026-05-22 20:46:02.830] [DESCONEXÃO_JANELA] Utilizador Anonimo-62421 fechou a aplicação.
+[2026-05-22 20:46:02.830] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-62421
+[2026-05-22 20:46:02.842] [AUTO_KICK] Grupo Projeto_SRC dissolvido.
+[2026-05-22 20:46:02.847] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-62421
+[2026-05-22 20:50:55.588] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 55390)
+[2026-05-22 20:50:55.609] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-3896 ligado.
+[2026-05-22 20:51:07.325] [DESCONEXÃO_JANELA] Utilizador Anonimo-3896 fechou a aplicação.
+[2026-05-22 20:51:07.341] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-3896
+[2026-05-22 20:53:48.276] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 57975)
+[2026-05-22 20:53:48.293] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-9857 ligado.
+[2026-05-22 20:53:52.726] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 62733)
+[2026-05-22 20:53:52.726] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-8609 ligado.
+[2026-05-22 20:54:27.579] [CRIAR_E_ENTRAR] 'Anonimo-8609' criou e entrou em 'Projeto_SRC'
+[2026-05-22 20:54:50.524] [MUDANÇA_CANAL] 'Anonimo-9857' em 'Projeto_SRC'
+[2026-05-22 20:54:55.260] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-8609
+[2026-05-22 20:54:55.538] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-8609
+[2026-05-22 20:54:55.682] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-8609
+[2026-05-22 20:54:55.812] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-8609
+[2026-05-22 20:54:55.941] [DEFESA_RATE_LIMIT] Inundação de: Anonimo-8609
+[2026-05-22 20:54:55.941] [FAIL2BAN] IP 192.168.1.191 mutado por 30s.
+[2026-05-22 20:55:39.779] [DESCONEXÃO_JANELA] Utilizador Anonimo-9857 fechou a aplicação.
+[2026-05-22 20:55:39.788] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-9857
+[2026-05-22 20:55:39.788] [AUTO_KICK] Grupo Projeto_SRC dissolvido.
+[2026-05-22 20:55:39.793] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-9857
+[2026-05-22 20:59:04.341] [DESCONEXÃO_JANELA] Utilizador Anonimo-8609 fechou a aplicação.
+[2026-05-22 20:59:04.341] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-8609
+[2026-05-22 20:59:53.059] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.191', 62747)
+[2026-05-22 20:59:53.075] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-3272 ligado.
+[2026-05-22 20:59:55.735] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 54576)
+[2026-05-22 20:59:55.739] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-4168 ligado.
+[2026-05-22 21:00:35.250] [CRIAR_E_ENTRAR] 'Anonimo-3272' criou e entrou em 'Projeto_SCR'
+[2026-05-22 21:01:04.756] [MUDANÇA_CANAL] 'Anonimo-4168' em 'Projeto_SCR'
+[2026-05-22 21:01:10.806] [RECEÇÃO_FICHEIRO] A receber 'IJEEE-V10I10P102.pdf' de Anonimo-4168 (990860 bytes)
+[2026-05-22 21:01:10.817] [FIM_RECEÇÃO] Guardado com sucesso: 'IJEEE-V10I10P102.pdf'
+[2026-05-22 21:03:51.245] [DESCONEXÃO_JANELA] Utilizador Anonimo-4168 fechou a aplicação.
+[2026-05-22 21:03:51.247] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-4168
+[2026-05-22 21:03:51.260] [AUTO_KICK] Grupo Projeto_SCR dissolvido.
+[2026-05-22 21:03:51.262] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-4168
+[2026-05-22 21:14:40.768] [DESCONEXÃO_JANELA] Utilizador Anonimo-3272 fechou a aplicação.
+[2026-05-22 21:14:40.772] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-3272
+[2026-05-22 21:14:40.777] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-3272
+[2026-05-22 21:21:20.575] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 58883)
+[2026-05-22 21:21:20.581] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-9251 ligado.
+[2026-05-22 21:21:35.832] [CRIAR_E_ENTRAR] 'Anonimo-9251' criou e entrou em 'A'
+[2026-05-22 21:21:42.346] [RECEÇÃO_FICHEIRO] A receber 'passwd' de Anonimo-9251 (100 bytes)
+[2026-05-22 21:21:43.602] [ERRO_FICHEIRO] Falha ao receber: The read operation timed out
+[2026-05-22 21:22:05.719] [AUTO_KICK] Grupo A dissolvido.
+[2026-05-22 21:22:19.756] [CRIAR_E_ENTRAR] 'Anonimo-9251' criou e entrou em 'GRUPO'
+[2026-05-22 21:22:24.515] [RECEÇÃO_FICHEIRO] A receber 'passwd' de Anonimo-9251 (100 bytes)
+[2026-05-22 21:22:25.609] [ERRO_FICHEIRO] Falha ao receber: The read operation timed out
+[2026-05-22 21:23:26.535] [AUTO_KICK] Grupo GRUPO dissolvido.
+[2026-05-22 21:34:05.217] [DESCONEXÃO_JANELA] Utilizador Anonimo-9251 fechou a aplicação.
+[2026-05-22 21:34:05.220] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-9251
+[2026-05-22 22:47:58.611] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 58449)
+[2026-05-22 22:47:58.623] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-7221 ligado.
+[2026-05-22 22:48:07.664] [DESCONEXÃO_JANELA] Utilizador Anonimo-7221 fechou a aplicação.
+[2026-05-22 22:48:07.676] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-7221
+[2026-05-22 22:52:53.181] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 56246)
+[2026-05-22 22:52:53.195] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-4463 ligado.
+[2026-05-22 22:52:58.611] [DESCONEXÃO_JANELA] Utilizador Anonimo-4463 fechou a aplicação.
+[2026-05-22 22:52:58.611] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-4463
+[2026-05-22 22:54:06.474] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 56248)
+[2026-05-22 22:54:06.489] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-5885 ligado.
+[2026-05-22 23:13:52.202] [TIMEOUT_REDE] Forçando encerramento (Heartbeat expirado): Anonimo-5885
+[2026-05-22 23:13:52.326] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-5885
+[2026-05-22 23:26:48.844] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 61925)
+[2026-05-22 23:26:48.846] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-6429 ligado.
+[2026-05-22 23:38:17.662] [CRIAR_E_ENTRAR] 'Anonimo-6429' criou e entrou em 'A'
+[2026-05-22 23:42:12.646] [DESCONEXÃO_JANELA] Utilizador Anonimo-6429 fechou a aplicação.
+[2026-05-22 23:42:12.654] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-6429
+[2026-05-22 23:42:12.656] [AUTO_KICK] Grupo A dissolvido.
+[2026-05-22 23:42:12.662] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-6429
+[2026-05-22 23:42:15.434] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 54440)
+[2026-05-22 23:42:15.437] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-4519 ligado.
+[2026-05-22 23:42:26.231] [DESCONEXÃO_JANELA] Utilizador Anonimo-4519 fechou a aplicação.
+[2026-05-22 23:42:26.241] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-4519
+[2026-05-22 23:42:30.432] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 50191)
+[2026-05-22 23:42:30.437] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-5691 ligado.
+[2026-05-23 00:02:30.982] [TIMEOUT_INATIVIDADE] Utilizador Anonimo-5691 inativo há 20 min.
+[2026-05-23 00:02:30.992] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-5691
+[2026-05-23 00:16:04.498] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 50871)
+[2026-05-23 00:16:04.500] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-5872 ligado.
+[2026-05-23 00:16:28.443] [CRIAR_E_ENTRAR] 'Anonimo-5872' criou e entrou em 'Projeto_SRC'
+[2026-05-23 00:16:42.258] [ALERTA_STORAGE] Upload recusado: Anonimo-5872 tentou enviar 104913040 bytes (Máximo: 15728640)
+[2026-05-23 00:16:42.516] [ERRO_REDE_INTERNO] Erro na leitura de Anonimo-5872: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:2580)
+[2026-05-23 00:16:42.518] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-5872
+[2026-05-23 00:16:42.520] [AUTO_KICK] Grupo Projeto_SRC dissolvido.
+[2026-05-23 00:16:42.521] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-5872
+[2026-05-23 01:15:40.910] [AUTENTICAÇÃO_mTLS] Sucesso: Equipamento validado de ('192.168.1.97', 52045)
+[2026-05-23 01:15:40.921] [CONEXÃO_ESTABELECIDA] Utilizador Anonimo-1866 ligado.
+[2026-05-23 01:15:57.492] [CRIAR_E_ENTRAR] 'Anonimo-1866' criou e entrou em 'Projeto_SRC'
+[2026-05-23 01:16:01.456] [AUTO_KICK] Grupo Projeto_SRC dissolvido.
+[2026-05-23 01:36:01.504] [TIMEOUT_INATIVIDADE] Utilizador Anonimo-1866 inativo há 20 min.
+[2026-05-23 01:36:01.504] [LIMPEZA_RECURSOS] Recursos totalmente libertados para Anonimo-1866
